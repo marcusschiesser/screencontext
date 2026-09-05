@@ -1,0 +1,4 @@
+// Public source builds do not send analytics unless configured locally.
+POSTHOG_PROJECT_TOKEN =
+
+#include? "Analytics.local.xcconfig"

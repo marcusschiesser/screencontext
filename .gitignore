@@ -1,0 +1,11 @@
+/.build/
+/IntegrationTests/.build/
+/dist/
+/.swiftpm/
+/.env
+/Configuration/Analytics.local.xcconfig
+/.DS_Store
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+DerivedData/
