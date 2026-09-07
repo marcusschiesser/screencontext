@@ -6,7 +6,7 @@ import OSLog
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let logger = Logger(
-        subsystem: "de.marcusschiesser.contextcast",
+        subsystem: "de.marcusschiesser.screencontext",
         category: "application"
     )
     let analytics: AnalyticsConsentController
@@ -21,19 +21,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var workspaceObservers: [NSObjectProtocol] = []
 
     override init() {
-        let analyticsClient: any AnalyticsClient
-        if let projectToken = AnalyticsToken.normalized(
-            Bundle.main.object(forInfoDictionaryKey: "POSTHOG_PROJECT_TOKEN") as? String
-        ) {
-            analyticsClient = PostHogAnalyticsClient(projectToken: projectToken)
-        } else {
-            Logger(
-                subsystem: "de.marcusschiesser.contextcast",
-                category: "analytics"
-            ).warning("PostHog project token is missing; analytics are disabled")
-            analyticsClient = NoOpAnalyticsClient()
-        }
+        // The launch release never initializes a telemetry SDK, even if a local
+        // analytics token or a previously enabled preference is present.
+        let analyticsClient = NoOpAnalyticsClient()
         analytics = AnalyticsConsentController(client: analyticsClient)
+        analytics.setEnabled(false)
         store = RecordingSessionStore(analyticsClient: analyticsClient)
         super.init()
     }

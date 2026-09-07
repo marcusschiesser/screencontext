@@ -3,7 +3,7 @@ set -euo pipefail
 
 MODE="${1:-run}"
 APP_NAME="ScreenContext"
-BUNDLE_ID="de.marcusschiesser.contextcast"
+BUNDLE_ID="de.marcusschiesser.screencontext"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT="$ROOT_DIR/ScreenContext.xcodeproj"
 DERIVED_DATA="$ROOT_DIR/.build/xcode"

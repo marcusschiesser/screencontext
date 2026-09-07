@@ -10,7 +10,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/HaishinKit/HaishinKit.swift.git", exact: "2.2.5"),
-        .package(url: "https://github.com/PostHog/posthog-ios.git", exact: "3.69.8"),
     ],
     targets: [
         .target(
@@ -18,13 +17,12 @@ let package = Package(
             dependencies: [
                 .product(name: "HaishinKit", package: "HaishinKit.swift"),
             ],
-            resources: [.copy("Resources/Templates")]
+            resources: [.copy("Resources/Templates"), .copy("Resources/PrivacyInfo.xcprivacy")]
         ),
         .executableTarget(
             name: "ScreenContext",
             dependencies: [
                 "ScreenContextCore",
-                .product(name: "PostHog", package: "posthog-ios"),
             ],
             resources: [.process("Resources")],
             plugins: [.plugin(name: "LocalizationValidationPlugin")]

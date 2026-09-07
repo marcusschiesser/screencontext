@@ -6,7 +6,7 @@ import OSLog
 
 public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
     private let logger = Logger(
-        subsystem: "de.marcusschiesser.contextcast",
+        subsystem: "de.marcusschiesser.screencontext",
         category: "capture"
     )
     private let recorder: LocalMediaRecorder
@@ -21,7 +21,7 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
 
     public init(
         recorder: LocalMediaRecorder = LocalMediaRecorder(),
-        bundleIdentifier: String = "de.marcusschiesser.contextcast"
+        bundleIdentifier: String = "de.marcusschiesser.screencontext"
     ) {
         self.recorder = recorder
         self.bundleIdentifier = bundleIdentifier
@@ -354,11 +354,11 @@ private enum MicrophoneCaptureError: Error, LocalizedError {
 private final class MicrophoneCaptureSource: NSObject, AVCaptureAudioDataOutputSampleBufferDelegate, @unchecked Sendable {
     private let session = AVCaptureSession()
     private let sessionQueue = DispatchQueue(
-        label: "de.marcusschiesser.contextcast.capture.microphone.session",
+        label: "de.marcusschiesser.screencontext.capture.microphone.session",
         qos: .userInitiated
     )
     private let sampleQueue = DispatchQueue(
-        label: "de.marcusschiesser.contextcast.capture.microphone.samples",
+        label: "de.marcusschiesser.screencontext.capture.microphone.samples",
         qos: .userInteractive
     )
     private let onSample: @Sendable (CMSampleBuffer) -> Void
@@ -456,11 +456,11 @@ private enum WebcamCaptureError: Error, LocalizedError {
 private final class WebcamCaptureSource: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate, @unchecked Sendable {
     private let session = AVCaptureSession()
     private let sessionQueue = DispatchQueue(
-        label: "de.marcusschiesser.contextcast.capture.webcam.session",
+        label: "de.marcusschiesser.screencontext.capture.webcam.session",
         qos: .userInitiated
     )
     private let sampleQueue = DispatchQueue(
-        label: "de.marcusschiesser.contextcast.capture.webcam.samples",
+        label: "de.marcusschiesser.screencontext.capture.webcam.samples",
         qos: .userInteractive
     )
     private let onSample: @Sendable (CMSampleBuffer) -> Void
@@ -641,8 +641,8 @@ func isCompleteScreenCaptureFrame(
 }
 
 private final class ScreenCaptureOutputBridge: NSObject, SCStreamOutput, SCStreamDelegate, @unchecked Sendable {
-    let videoQueue = DispatchQueue(label: "de.marcusschiesser.contextcast.capture.video", qos: .userInteractive)
-    let audioQueue = DispatchQueue(label: "de.marcusschiesser.contextcast.capture.audio", qos: .userInitiated)
+    let videoQueue = DispatchQueue(label: "de.marcusschiesser.screencontext.capture.video", qos: .userInteractive)
+    let audioQueue = DispatchQueue(label: "de.marcusschiesser.screencontext.capture.audio", qos: .userInitiated)
     private let onSample: @Sendable (CMSampleBuffer, SCStreamOutputType) -> Void
     private let onFatalError: @Sendable (Error) -> Void
     private let lock = NSLock()

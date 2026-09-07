@@ -1,5 +1,5 @@
 {
-  "originHash" : "acf054496fe02532f69602cdbf92e7da0352380b4fab4f3fd93891523fbd75f5",
+  "originHash" : "8ffe6f7a82e841484f1811cde89a8ba809ba01add34d36d4faced84ec356d0a7",
   "pins" : [
     {
       "identity" : "haishinkit.swift",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "8f41c63afb903040b77049ee2efa8c257b8c0d50",
         "version" : "2.6.0"
-      }
-    },
-    {
-      "identity" : "posthog-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/PostHog/posthog-ios.git",
-      "state" : {
-        "revision" : "2f8002409e7c8c8b1f14e3ce716f543831fd941d",
-        "version" : "3.69.8"
       }
     }
   ],

@@ -6,7 +6,7 @@ public actor SystemCaptureAuthorization: CaptureAuthorization {
     private let bundleIdentifier: String
     private var systemAudioIsPrepared = false
 
-    public init(bundleIdentifier: String = "de.marcusschiesser.contextcast") {
+    public init(bundleIdentifier: String = "de.marcusschiesser.screencontext") {
         self.bundleIdentifier = bundleIdentifier
     }
 
@@ -84,7 +84,7 @@ public actor SystemCaptureAuthorization: CaptureAuthorization {
 
 private final class SystemAudioPermissionProbeOutput: NSObject, SCStreamOutput, @unchecked Sendable {
     let queue = DispatchQueue(
-        label: "de.marcusschiesser.contextcast.permission.system-audio",
+        label: "de.marcusschiesser.screencontext.permission.system-audio",
         qos: .userInitiated
     )
 

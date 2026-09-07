@@ -10,7 +10,6 @@
 		B10000000000000000000002 /* ScreenContextCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* ScreenContextCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B10000000000000000000003 /* HaishinKit in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000020 /* HaishinKit */; };
 		B10000000000000000000021 /* ScreenContextCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* ScreenContextCore.framework */; };
-		B10000000000000000000032 /* PostHog in Frameworks */ = {isa = PBXBuildFile; productRef = B10000000000000000000034 /* PostHog */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +46,7 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		B1000000000000000000000D /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (B10000000000000000000003 /* HaishinKit in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
-		B1000000000000000000000E /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (B10000000000000000000001 /* ScreenContextCore.framework in Frameworks */, B10000000000000000000032 /* PostHog in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
+		B1000000000000000000000E /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (B10000000000000000000001 /* ScreenContextCore.framework in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
 		B1000000000000000000000F /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (B10000000000000000000021 /* ScreenContextCore.framework in Frameworks */, ); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
@@ -89,7 +88,7 @@
 			dependencies = (B10000000000000000000023 /* PBXTargetDependency */, );
 			fileSystemSynchronizedGroups = (B10000000000000000000007 /* ScreenContext */, );
 			name = ScreenContext;
-			packageProductDependencies = (B10000000000000000000034 /* PostHog */, );
+			packageProductDependencies = ();
 			productName = ScreenContext;
 			productReference = B10000000000000000000005 /* ScreenContext.app */;
 			productType = "com.apple.product-type.application";
@@ -150,7 +149,7 @@
 			knownRegions = (en, Base, ar, de, es, fr, it, "ja-JP", "ko-KR", ru, tr, vi, "pt-BR", "zh-CN", "zh-TW", );
 			mainGroup = B10000000000000000000010;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (B1000000000000000000001F /* XCRemoteSwiftPackageReference "HaishinKit.swift" */, B10000000000000000000035 /* XCRemoteSwiftPackageReference "posthog-ios" */, );
+			packageReferences = (B1000000000000000000001F /* XCRemoteSwiftPackageReference "HaishinKit.swift" */, );
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B10000000000000000000011 /* Products */;
 			projectDirPath = "";
@@ -200,7 +199,7 @@
 				INFOPLIST_FILE = "ScreenContext-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.marcusschiesser.contextcast";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.marcusschiesser.screencontext";
 				PRODUCT_MODULE_NAME = ScreenContext;
 				PRODUCT_NAME = ScreenContext;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -224,7 +223,7 @@
 				INFOPLIST_FILE = "ScreenContext-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "de.marcusschiesser.contextcast";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.marcusschiesser.screencontext";
 				PRODUCT_MODULE_NAME = ScreenContext;
 				PRODUCT_NAME = ScreenContext;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -232,10 +231,10 @@
 			};
 			name = Release;
 		};
-		B1000000000000000000002A /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; DEFINES_MODULE = YES; DYLIB_INSTALL_NAME_BASE = "@rpath"; ENABLE_TESTABILITY = YES; GENERATE_INFOPLIST_FILE = YES; INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.contextcast.core; PRODUCT_MODULE_NAME = ScreenContextCore; PRODUCT_NAME = ScreenContextCore; SKIP_INSTALL = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_STRICT_CONCURRENCY = complete; }; name = Debug; };
-		B1000000000000000000002B /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; DEFINES_MODULE = YES; DYLIB_INSTALL_NAME_BASE = "@rpath"; GENERATE_INFOPLIST_FILE = YES; INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.contextcast.core; PRODUCT_MODULE_NAME = ScreenContextCore; PRODUCT_NAME = ScreenContextCore; SKIP_INSTALL = YES; SWIFT_STRICT_CONCURRENCY = complete; }; name = Release; };
-		B10000000000000000000030 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.contextcast.tests; PRODUCT_NAME = ScreenContextCoreTests; SWIFT_VERSION = 6.0; }; name = Debug; };
-		B10000000000000000000031 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.contextcast.tests; PRODUCT_NAME = ScreenContextCoreTests; SWIFT_VERSION = 6.0; }; name = Release; };
+		B1000000000000000000002A /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; DEFINES_MODULE = YES; DYLIB_INSTALL_NAME_BASE = "@rpath"; ENABLE_TESTABILITY = YES; GENERATE_INFOPLIST_FILE = YES; INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.screencontext.core; PRODUCT_MODULE_NAME = ScreenContextCore; PRODUCT_NAME = ScreenContextCore; SKIP_INSTALL = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_STRICT_CONCURRENCY = complete; }; name = Debug; };
+		B1000000000000000000002B /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; DEFINES_MODULE = YES; DYLIB_INSTALL_NAME_BASE = "@rpath"; GENERATE_INFOPLIST_FILE = YES; INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks"; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.screencontext.core; PRODUCT_MODULE_NAME = ScreenContextCore; PRODUCT_NAME = ScreenContextCore; SKIP_INSTALL = YES; SWIFT_STRICT_CONCURRENCY = complete; }; name = Release; };
+		B10000000000000000000030 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.screencontext.tests; PRODUCT_NAME = ScreenContextCoreTests; SWIFT_VERSION = 6.0; }; name = Debug; };
+		B10000000000000000000031 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGN_IDENTITY = "-"; CODE_SIGN_STYLE = Manual; GENERATE_INFOPLIST_FILE = YES; PRODUCT_BUNDLE_IDENTIFIER = de.marcusschiesser.screencontext.tests; PRODUCT_NAME = ScreenContextCoreTests; SWIFT_VERSION = 6.0; }; name = Release; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -247,12 +246,10 @@
 
 /* Begin XCRemoteSwiftPackageReference section */
 		B1000000000000000000001F /* XCRemoteSwiftPackageReference "HaishinKit.swift" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/HaishinKit/HaishinKit.swift.git"; requirement = {kind = exactVersion; version = 2.2.5; }; };
-		B10000000000000000000035 /* XCRemoteSwiftPackageReference "posthog-ios" */ = {isa = XCRemoteSwiftPackageReference; repositoryURL = "https://github.com/PostHog/posthog-ios.git"; requirement = {kind = exactVersion; version = 3.69.8; }; };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		B10000000000000000000020 /* HaishinKit */ = {isa = XCSwiftPackageProductDependency; package = B1000000000000000000001F /* XCRemoteSwiftPackageReference "HaishinKit.swift" */; productName = HaishinKit; };
-		B10000000000000000000034 /* PostHog */ = {isa = XCSwiftPackageProductDependency; package = B10000000000000000000035 /* XCRemoteSwiftPackageReference "posthog-ios" */; productName = PostHog; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B10000000000000000000013 /* Project object */;

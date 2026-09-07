@@ -1,94 +1,6 @@
 {
   "sourceLanguage": "en",
   "strings": {
-    "Turning this off stops future collection but does not delete events already received.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Turning this off stops future collection but does not delete events already received."
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يؤدي إيقاف هذا الخيار إلى إيقاف جمع البيانات مستقبلاً، ولكنه لا يحذف الأحداث التي تم استلامها بالفعل."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wenn du dies deaktivierst, werden künftig keine Daten mehr erfasst. Bereits empfangene Ereignisse werden dadurch nicht gelöscht."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desactivar esta opción detiene la recopilación futura, pero no elimina los eventos ya recibidos."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La désactivation de cette option arrête la collecte future, mais ne supprime pas les événements déjà reçus."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Disattivando questa opzione si interrompe la raccolta futura, ma non si eliminano gli eventi già ricevuti."
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "これをオフにすると今後の収集は停止しますが、すでに受信したイベントは削除されません。"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이 옵션을 끄면 향후 수집이 중단되지만 이미 수신한 이벤트는 삭제되지 않습니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desativar esta opção interrompe a coleta futura, mas não exclui os eventos já recebidos."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отключение этого параметра прекращает дальнейший сбор данных, но не удаляет уже полученные события."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bu seçeneği kapatmak gelecekteki veri toplamayı durdurur ancak daha önce alınan olayları silmez."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tắt tùy chọn này sẽ dừng việc thu thập trong tương lai nhưng không xóa các sự kiện đã nhận."
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "关闭此选项会停止今后的收集，但不会删除已收到的事件。"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "關閉此選項會停止日後的收集，但不會刪除已收到的事件。"
-          }
-        }
-      }
-    },
     "%lld of %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -239,63 +151,6 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Xóa mẫu" } },
         "zh-CN": { "stringUnit": { "state": "translated", "value": "删除模板" } },
         "zh-TW": { "stringUnit": { "state": "translated", "value": "刪除範本" } }
-      }
-    },
-    "Feature usage and the complete names and contents of recording-context templates are sent to PostHog.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يتم إرسال استخدام الميزات والأسماء والمحتويات الكاملة لقوالب سياق التسجيل إلى PostHog." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Die Funktionsnutzung sowie die vollständigen Namen und Inhalte der Aufnahmekontext-Vorlagen werden an PostHog gesendet." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Feature usage and the complete names and contents of recording-context templates are sent to PostHog." } },
-        "es": { "stringUnit": { "state": "translated", "value": "El uso de funciones y los nombres y contenidos completos de las plantillas de contexto de grabación se envían a PostHog." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "L’utilisation des fonctionnalités ainsi que les noms et contenus complets des modèles de contexte d’enregistrement sont envoyés à PostHog." } },
-        "it": { "stringUnit": { "state": "translated", "value": "L’utilizzo delle funzionalità e i nomi e contenuti completi dei modelli di contesto della registrazione vengono inviati a PostHog." } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "機能の使用状況と、録画コンテキストテンプレートの完全な名前および内容が PostHog に送信されます。" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "기능 사용 현황과 녹화 컨텍스트 템플릿의 전체 이름 및 내용이 PostHog로 전송됩니다." } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "O uso de recursos e os nomes e conteúdos completos dos modelos de contexto de gravação são enviados ao PostHog." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Данные об использовании функций, а также полные названия и содержимое шаблонов контекста записи отправляются в PostHog." } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Özellik kullanımı ile kayıt bağlamı şablonlarının tam adları ve içerikleri PostHog’a gönderilir." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Thông tin sử dụng tính năng cùng tên và nội dung đầy đủ của mẫu ngữ cảnh bản ghi được gửi đến PostHog." } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "功能使用情况以及录制上下文模板的完整名称和内容将发送到 PostHog。" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "功能使用情況以及錄製內容脈絡範本的完整名稱與內容會傳送至 PostHog。" } }
-      }
-    },
-    "Share usage analytics": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "مشاركة تحليلات الاستخدام" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Nutzungsanalyse teilen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Share usage analytics" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Compartir análisis de uso" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Partager les données d’utilisation" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Condividi analisi di utilizzo" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "使用状況の分析を共有" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "사용 분석 공유" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Compartilhar análise de uso" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Отправлять аналитику использования" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Kullanım analizlerini paylaş" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chia sẻ dữ liệu phân tích sử dụng" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "共享使用情况分析" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "分享使用情況分析" } }
-      }
-    },
-    "Turning this off stops future collection but does not delete events already received by PostHog.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يؤدي إيقاف هذا الخيار إلى إيقاف الجمع مستقبلًا، لكنه لا يحذف الأحداث التي استلمها PostHog بالفعل." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Wenn dies deaktiviert wird, endet die zukünftige Erfassung; bereits von PostHog empfangene Ereignisse werden jedoch nicht gelöscht." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Turning this off stops future collection but does not delete events already received by PostHog." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Desactivar esta opción detiene la recopilación futura, pero no elimina los eventos que PostHog ya recibió." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "La désactivation arrête la collecte future, mais ne supprime pas les événements déjà reçus par PostHog." } },
-        "it": { "stringUnit": { "state": "translated", "value": "La disattivazione interrompe la raccolta futura, ma non elimina gli eventi già ricevuti da PostHog." } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "オフにすると今後の収集は停止しますが、PostHog がすでに受信したイベントは削除されません。" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "이 옵션을 끄면 향후 수집은 중단되지만 PostHog가 이미 수신한 이벤트는 삭제되지 않습니다." } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Desativar esta opção interrompe a coleta futura, mas não exclui eventos já recebidos pelo PostHog." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Отключение остановит дальнейший сбор, но не удалит события, уже полученные PostHog." } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Bunu kapatmak gelecekteki toplamayı durdurur ancak PostHog tarafından daha önce alınan olayları silmez." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Tắt tùy chọn này sẽ dừng việc thu thập trong tương lai nhưng không xóa các sự kiện PostHog đã nhận." } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "关闭此选项会停止今后的收集，但不会删除 PostHog 已收到的事件。" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "關閉此選項會停止日後的收集，但不會刪除 PostHog 已收到的事件。" } }
       }
     },
     "Make sure %@ is installed and try again.": {
@@ -10076,6 +9931,270 @@
           "stringUnit": {
             "state": "translated",
             "value": "繁體中文"
+          }
+        }
+      }
+    },
+    "Analytics are disabled in this release.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analytics are disabled in this release."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحليلات معطّلة في هذا الإصدار."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Analysen sind in dieser Version deaktiviert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los análisis están desactivados en esta versión."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les analyses sont désactivées dans cette version."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le analisi sono disattivate in questa versione."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "As análises estão desativadas nesta versão."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В этой версии аналитика отключена."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu sürümde analizler devre dışıdır."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tính năng phân tích đã bị tắt trong phiên bản này."
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このバージョンでは分析は無効になっています。"
+          }
+        },
+        "ko-KR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "이 버전에서는 분석이 비활성화되어 있습니다."
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此版本已停用分析功能。"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此版本已停用分析功能。"
+          }
+        }
+      }
+    },
+    "Privacy Policy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سياسة الخصوصية"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Datenschutzerklärung"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Política de privacidad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Politique de confidentialité"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informativa sulla privacy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Política de Privacidade"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Политика конфиденциальности"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gizlilik Politikası"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chính sách quyền riêng tư"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "プライバシーポリシー"
+          }
+        },
+        "ko-KR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "개인정보 처리방침"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐私政策"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱私權政策"
+          }
+        }
+      }
+    },
+    "Support": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Support"
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الدعم"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Support"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soporte"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assistance"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assistenza"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suporte"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддержка"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destek"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hỗ trợ"
+          }
+        },
+        "ja-JP": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "サポート"
+          }
+        },
+        "ko-KR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "지원"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支持"
+          }
+        },
+        "zh-TW": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "支援"
           }
         }
       }

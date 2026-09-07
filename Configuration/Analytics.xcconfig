@@ -1,4 +1,3 @@
-// Public source builds do not send analytics unless configured locally.
+// Analytics are disabled for launch. The app does not include a telemetry SDK.
+// Local analytics configuration is intentionally not loaded.
 POSTHOG_PROJECT_TOKEN =
-
-#include? "Analytics.local.xcconfig"

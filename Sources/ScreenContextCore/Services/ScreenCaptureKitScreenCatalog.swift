@@ -13,7 +13,7 @@ public actor ScreenCaptureKitSourceCatalog: CaptureSourceCatalog {
 
     private let bundleIdentifier: String
 
-    public init(bundleIdentifier: String = "de.marcusschiesser.contextcast") {
+    public init(bundleIdentifier: String = "de.marcusschiesser.screencontext") {
         self.bundleIdentifier = bundleIdentifier
     }
 

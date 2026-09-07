@@ -653,7 +653,7 @@ private final class CameraLayerView: NSView {
 
 private final class WebcamPreviewSession: @unchecked Sendable {
     let session = AVCaptureSession()
-    private let queue = DispatchQueue(label: "de.marcusschiesser.contextcast.webcam-preview", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "de.marcusschiesser.screencontext.webcam-preview", qos: .userInitiated)
     private var activeCameraID: String?
 
     func start(cameraID: String?) {

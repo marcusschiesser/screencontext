@@ -9,7 +9,7 @@ import UniformTypeIdentifiers
 
 public actor LocalMediaRecorder: MediaSampleSink {
     private let logger = Logger(
-        subsystem: "de.marcusschiesser.contextcast",
+        subsystem: "de.marcusschiesser.screencontext",
         category: "recorder"
     )
     private var mixer: MediaMixer?
@@ -559,7 +559,7 @@ private struct KeyframePixelBuffer: @unchecked Sendable {
 private actor KeyframeWriter {
     private let imageContext = CIContext()
     private let logger = Logger(
-        subsystem: "de.marcusschiesser.contextcast",
+        subsystem: "de.marcusschiesser.screencontext",
         category: "keyframes"
     )
 

@@ -1,6 +1,7 @@
 /.build/
 /IntegrationTests/.build/
 /dist/
+/docs/app-store/
 /.swiftpm/
 /.env
 /Configuration/Analytics.local.xcconfig

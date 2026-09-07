@@ -121,7 +121,7 @@ public final class RecordingSessionStore {
     )
     @ObservationIgnored private var pendingTranscriptionModelAvailability: TranscriptionModelAvailability = .checking
     @ObservationIgnored private let logger = Logger(
-        subsystem: "de.marcusschiesser.contextcast",
+        subsystem: "de.marcusschiesser.screencontext",
         category: "recording-session"
     )
 

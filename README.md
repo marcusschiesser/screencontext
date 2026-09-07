@@ -1,39 +1,67 @@
 # ScreenContext
 
-<img src="Sources/ScreenContext/Resources/ScreenContextIcon.png" alt="ScreenContext app icon" width="128">
+**Record your screen and voice. Use it as context in your AI workflows.**
 
-**Show your AI what you mean.**
+[![ScreenContext — Turn your screencast into AI context](docs/media/screencontext-readme-hero.png)](https://apps.apple.com/app/id6809044710)
 
-ScreenContext records your screen, voice, and clicks, then turns them into paste-ready context for AI agents. Record a demonstration, explain what matters, and copy the recording context into your AI workflow.
+**[View on the Mac App Store](https://apps.apple.com/app/id6809044710)** · Free · macOS 15+
 
-ScreenContext is a native macOS 15+ screen-recording app written in Swift 6. It captures a selected display or window with ScreenCaptureKit, optionally mixes system audio, microphone audio, and a draggable webcam overlay, and stores an MP4 plus PNG keyframes for the first frame, every click, and the final frame.
+*The App Store release is pending Apple review.*
 
-Completed recordings, click keyframes, and the recording-history catalog are kept together in ScreenContext's sandboxed Application Support directory. The result window shows each recording's timestamp, provides compact previous/next controls for moving through that persisted history, and can delete a recording with its keyframes after confirmation.
+ScreenContext is a native Mac app that brings your screen recording, click keyframes, and microphone transcript together. Show what happened, explain what matters, and copy the context into your AI workflow.
 
-The app deliberately keeps capture focused: there is no separate studio preview, fixed output-aspect preset, live-stream publishing, browser runtime, or external media process. When a window is selected, the webcam positioning preview follows that window and stays within its bounds.
+Use it as your everyday screen recorder, too. Record a screen or window and share the MP4. When you need AI context, it is ready in the same app. No second recorder needed.
 
-Open `ScreenContext.xcodeproj` and run the shared `ScreenContext` scheme with Command-R. Xcode owns the app bundle, resources, privacy descriptions, entitlements, signing, launch, and debugger workflow.
+## From recording to context
 
-Build from the repository root using Xcode 26 or later with the macOS 26 SDK. The app runs on macOS 15 or later; on-device transcription requires macOS 26 and an available speech model for the selected language. Screen recording, microphone, and camera access are requested as needed. There is no App Store download published by this repository yet.
+1. **Choose what to capture.** Select a screen or window, then optionally enable system audio, your microphone, or a webcam overlay.
+2. **Record from the floating HUD.** Walk through a task and explain it as you go. ScreenContext saves the video and captures keyframes at clicks.
+3. **Use the result.** Play back the recording, copy the MP4, or choose a template and copy the prepared context into your AI tool.
 
-To enable product analytics in a local build, create `Configuration/Analytics.local.xcconfig` with `POSTHOG_PROJECT_TOKEN = phc_...`. The local file is ignored by Git. Builds without a token use the no-op analytics client and log a warning. Analytics are anonymous, default on, and can be disabled under General → Share usage analytics; the disclosure there notes that recording-context template names and contents are included.
+## Put your recording to work
 
-For CLI or Codex automation, `./script/build_and_run.sh` is a thin wrapper around `xcodebuild`. Its supported modes remain `--debug`, `--logs`, `--telemetry`, and `--verify`; derived data is stored under `.build/xcode`.
+- **Create an issue.** Demonstrate a bug and use the Create issue template to help your AI tool write reproduction steps and expected versus actual results.
+- **Prepare a product video.** Record a walkthrough and use the Product video template to give your AI workflow source material and instructions for the video.
+- **Create your own workflow.** Write a reusable template with your instructions and placeholders for the recording, keyframes, and transcript. Markdown and SRT formats are also available.
+- **Just record.** Capture a demo, tutorial, or quick explanation and share the video directly.
 
-Run the fast unit suite with `./script/test_unit.sh`. The long media-pipeline regression is intentionally isolated in a nested Swift package; run it separately with `./script/test_integration.sh`. A plain `swift test` from this directory runs only the unit suite. Keep `./script/check_native_only.sh` as the independent repository-policy check that rejects JavaScript, web views, Electron, FFmpeg, and other non-native runtime artifacts.
+ScreenContext prepares the material; your chosen AI tool handles the next step.
 
-### Known validation limitation
+## Local recording, no account
 
-During the ScreenContext rename, all 105 unit tests and the Xcode build, signing, and launch checks passed. The synthetic long-recording integration test failed during finalization with `LocalRecordingError.failedToFinish(nil)`. The same failure reproduced against untouched pre-rename code on the same Mac. Long-recording finalization still needs investigation; the integration suite is not currently a passing release check on that environment.
+Recordings and context stay on your Mac until you choose to share them. No ScreenContext account is required, and analytics are disabled for launch.
 
-## Upgrading from ContextCast
+Screen recording works on **macOS 15 or later**. On-device microphone transcription requires **macOS 26 or later**, a supported language, and the corresponding speech assets. The app requests screen recording, microphone, and camera permissions as needed.
 
-The executable, Xcode project, Swift modules, interface, and icon now use ScreenContext. The bundle identifier `de.marcusschiesser.contextcast`, existing Application Support directory, and preference keys intentionally retain their original values so existing recordings, templates, and settings remain accessible. New recordings use the ScreenContext filename prefix; the library also reads older ContextCast filenames. macOS permission behavior can still depend on code signing when building locally.
+[Privacy policy](docs/privacy.md) · [Support](docs/support.md) · [Report an issue](https://github.com/marcusschiesser/screencontext/issues)
 
-## Contributing and integrations
+## Build from source
 
-Bug reports, focused pull requests, and integration ideas are welcome through [GitHub issues](https://github.com/marcusschiesser/screencontext/issues). Read [design.md](design.md) before changing the interface and run the unit suite and native-only check before submitting a change. For team workflows or paid customization, open an issue describing the integration without including private recordings or credentials.
+Use **Xcode 26 or later**. Open `ScreenContext.xcodeproj`, select the `ScreenContext` scheme, and press **⌘R**. Choose your signing team if prompted.
+
+From the repository root:
+
+```sh
+./script/build_and_run.sh
+```
+
+Run the project checks:
+
+```sh
+./script/test_unit.sh
+./script/test_integration.sh
+./script/check_native_only.sh
+```
+
+The app uses Swift, SwiftUI, and native macOS media APIs. Read [design.md](design.md) before changing the interface. Bug reports and focused pull requests are welcome.
+
+<details>
+<summary>Upgrading from a local ContextCast build</summary>
+
+The app now uses the bundle identifier `de.marcusschiesser.screencontext`. macOS gives it a separate sandbox and permission grants, so recordings and settings from builds using the previous identifier are not automatically migrated. The library still recognizes older ContextCast recording filenames.
+
+</details>
 
 ## License
 
-ScreenContext is licensed under [Apache-2.0](LICENSE). See [NOTICE](NOTICE) and [third-party notices](THIRD_PARTY_NOTICES.md) for attribution. The license does not grant rights to the ScreenContext name or third-party trademarks.
+[Apache-2.0](LICENSE). See [NOTICE](NOTICE) and [third-party notices](THIRD_PARTY_NOTICES.md) for attribution. The license does not grant rights to the ScreenContext name or third-party trademarks.

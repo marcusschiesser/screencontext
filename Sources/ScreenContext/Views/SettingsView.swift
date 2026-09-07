@@ -62,13 +62,19 @@ private struct GeneralSettingsView: View {
             }
 
             Section {
-                Toggle("Share usage analytics", isOn: Binding(
-                    get: { analytics.isEnabled },
-                    set: { analytics.setEnabled($0) }
-                ))
-                Text("Turning this off stops future collection but does not delete events already received.")
+                Text("Analytics are disabled in this release.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                HStack {
+                    Link(destination: AppLinks.privacyPolicy) {
+                        Text("Privacy Policy")
+                    }
+                    Spacer()
+                    Link(destination: AppLinks.support) {
+                        Text("Support")
+                    }
+                }
             }
         }
         .formStyle(.grouped)
