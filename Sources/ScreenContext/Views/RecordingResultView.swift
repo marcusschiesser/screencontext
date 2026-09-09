@@ -12,12 +12,6 @@ struct RecordingResultView: View {
     let contextReturned: @MainActor (Locale) -> Void
     let dismiss: @MainActor () -> Void
     @Environment(\.colorScheme) private var colorScheme
-    @State private var transcriptFormat: TranscriptFormat =
-        ScreenContextTemplateLibrary.decode(Data()).first.map {
-            .template($0.id)
-        } ?? .srt
-    @AppStorage(ScreenContextTemplatePreferenceKey.library)
-    private var templateLibraryData = Data()
     @State private var copyToastMessage: String?
     @State private var copyToastDismissTask: Task<Void, Never>?
     @State private var isConfirmingDeletion = false
@@ -51,14 +45,6 @@ struct RecordingResultView: View {
         .onDisappear {
             copyToastDismissTask?.cancel()
         }
-        .onChange(of: templateLibraryData) {
-            repairTranscriptFormatSelection()
-        }
-        .onChange(of: transcriptFormat) {
-            if let selectedTemplateForAnalytics {
-                analytics.templates.selected(selectedTemplateForAnalytics)
-            }
-        }
         .confirmationDialog(
             "Delete Recording?",
             isPresented: $isConfirmingDeletion
@@ -74,7 +60,7 @@ struct RecordingResultView: View {
                 }
             }
         } message: {
-            Text("This permanently deletes the video and its keyframes.")
+            Text("This permanently deletes the recording.")
         }
         .alert(item: $destinationAlert) { alert in
             Alert(
@@ -82,12 +68,6 @@ struct RecordingResultView: View {
                 message: Text(alert.message),
                 dismissButton: .default(Text("Done"))
             )
-        }
-        .task(id: result.id) {
-            repairTranscriptFormatSelection()
-            guard result.requestedTranscription,
-                  !result.transcriptIsAvailable else { return }
-            await store.refreshTranscriptionModelAvailability(for: result)
         }
         .environment(\.locale, locale)
     }
@@ -147,76 +127,46 @@ struct RecordingResultView: View {
                     )
 
                 VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Label("Recording context", systemImage: "text.quote")
-                            .font(.headline)
+                    Label("Recording context", systemImage: "text.quote")
+                        .font(.headline)
 
-                        Spacer()
-
-                        if showsRecordingContextText {
-                            Picker("Transcript format", selection: $transcriptFormat) {
-                                ForEach(editableScreenContextTemplates) { template in
-                                    Text(verbatim: templateDisplayName(template)) // localization: allow-verbatim user template name
-                                        .tag(TranscriptFormat.template(template.id))
-                                }
-                                Divider()
-                                Text("Markdown").tag(TranscriptFormat.markdown)
-                                Text("SRT").tag(TranscriptFormat.srt)
-                            }
-                            .labelsHidden()
-                            .pickerStyle(.menu)
-                            .frame(width: 150)
+                    ReadOnlyContextTextView(
+                        text: result.context,
+                        accessibilityLabel: String(localized: "Recording context", locale: locale)
+                    )
+                    .frame(maxHeight: .infinity)
+                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                    .overlay(alignment: .topTrailing) {
+                        copyButton(accessibilityLabel: "Copy context", help: "Copy context") {
+                            copyContextToPasteboard()
                         }
+                        .padding(8)
                     }
-
-                    if showsRecordingContextText {
-                        ReadOnlyTranscriptTextView(
-                            text: displayedTranscript,
-                            accessibilityLabel: String(
-                                localized: "Recording context",
-                                locale: locale
-                            ) + " (\(transcriptFormatTitle))"
-                        )
-                        .frame(maxHeight: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-                        .overlay(alignment: .topTrailing) {
-                            copyButton(
-                                accessibilityLabel: "Copy transcript",
-                                help: "Copy the transcript"
-                            ) {
-                                copyTranscriptToPasteboard()
+                    if let application = contextReturnController.destination(for: result.id) {
+                        HStack {
+                            Button {
+                                copyAndReturn(to: application)
+                            } label: {
+                                Label(copyAndReturnTitle(for: application), systemImage: "arrow.uturn.backward")
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
                             }
-                            .padding(8)
-                        }
-                        if let application = contextReturnController.destination(for: result.id) {
-                            HStack {
-                                Button {
-                                    copyAndReturn(to: application)
-                                } label: {
-                                    Label(copyAndReturnTitle(for: application), systemImage: "arrow.uturn.backward")
-                                        .lineLimit(1)
-                                        .truncationMode(.middle)
-                                }
-                                .disabled(isReturningToApplication)
-                                .accessibilityLabel(copyAndReturnTitle(for: application))
-                                .keyboardShortcut("c", modifiers: [.command, .shift])
-                                .help("Copy context and switch back to the original app. Press ⌘V there to paste.")
+                            .disabled(isReturningToApplication)
+                            .accessibilityLabel(copyAndReturnTitle(for: application))
+                            .keyboardShortcut("c", modifiers: [.command, .shift])
+                            .help("Copy context and switch back to the original app. Press ⌘V there to paste.")
 
-                                Spacer(minLength: 8)
+                            Spacer(minLength: 8)
 
-                                Text("Paste with ⌘V")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .fixedSize()
-                            }
+                            Text("Paste with ⌘V")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .fixedSize()
                         }
-                    } else {
-                        unavailableTranscriptView
-                            .frame(maxHeight: .infinity, alignment: .topLeading)
                     }
                 }
                 .padding(14)
-                .frame(height: mediaHeight)
+                .frame(height: 180)
                 .background {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .fill(.regularMaterial)
@@ -265,12 +215,6 @@ struct RecordingResultView: View {
 
             Spacer()
 
-            if result.requestedTranscription {
-                Image(systemName: result.transcriptIsAvailable ? "text.badge.checkmark" : "text.badge.xmark")
-                    .font(.title3)
-                    .foregroundStyle(result.transcriptIsAvailable ? Color.accentColor : .secondary)
-                    .accessibilityLabel("Transcript")
-            }
         }
     }
 
@@ -281,7 +225,7 @@ struct RecordingResultView: View {
             } label: {
                 Label("Delete Recording", systemImage: "trash")
             }
-            .disabled(result.isRetranscribing || isDeletingRecording)
+            .disabled(isDeletingRecording || isReturningToApplication)
 
             Spacer()
             Button("Done", action: dismiss)
@@ -296,125 +240,7 @@ struct RecordingResultView: View {
         store.selectedRecordingResult ?? fallbackResult
     }
 
-    @ViewBuilder
-    private var unavailableTranscriptView: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Label(
-                "Transcription requires a downloaded speech model.",
-                systemImage: "arrow.down.circle"
-            )
-            .foregroundStyle(.secondary)
-
-            switch result.transcriptionModelAvailability {
-            case .checking:
-                ProgressView("Checking transcription model…")
-            case .available:
-                if result.isRetranscribing {
-                    ProgressView("Transcribing recording…")
-                } else {
-                    Button("Retry transcription") {
-                        Task { await store.retryTranscription(for: result) }
-                    }
-                }
-            case .downloadable:
-                Button("Download Model") {
-                    Task { await store.installTranscriptionModel(for: result) }
-                }
-                .buttonStyle(.borderedProminent)
-            case .installing:
-                HStack(spacing: 8) {
-                    ProgressView()
-                        .controlSize(.small)
-                    Text("Installing transcription model…")
-                        .lineLimit(1)
-                }
-            case .unsupported:
-                Text("No downloadable transcription model is available for this language.")
-                    .foregroundStyle(.secondary)
-            case .automaticInstallationUnavailable:
-                Text("Automatic model installation requires macOS 26 or later.")
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-    }
-
-    private var locale: Locale {
-        result.locale
-    }
-
-    private var showsRecordingContextText: Bool {
-        result.transcriptIsAvailable || !result.requestedTranscription
-    }
-
-    private var screenContextTemplates: [ScreenContextTemplate] {
-        ScreenContextTemplateLibrary.decode(templateLibraryData)
-    }
-
-    private var editableScreenContextTemplates: [ScreenContextTemplate] {
-        screenContextTemplates.filter { $0.id != ScreenContextTemplateLibrary.markdownID }
-    }
-
-    private var transcriptFormatTitle: String {
-        switch transcriptFormat {
-        case let .template(id):
-            guard let template = editableScreenContextTemplates.first(where: { $0.id == id })
-                    ?? editableScreenContextTemplates.first else {
-                return String(localized: "SRT", locale: locale)
-            }
-            return templateDisplayName(template)
-        case .markdown:
-            return String(localized: "Markdown", locale: locale)
-        case .srt:
-            return String(localized: "SRT", locale: locale)
-        }
-    }
-
-    private func templateDisplayName(_ template: ScreenContextTemplate) -> String {
-        template.displayName(
-            fallback: String(localized: "New template", locale: locale)
-        )
-    }
-
-    private var displayedTranscript: String {
-        switch transcriptFormat {
-        case let .template(id):
-            guard let template = editableScreenContextTemplates.first(where: { $0.id == id })
-                    ?? editableScreenContextTemplates.first else {
-                return result.transcriptSRT
-            }
-            return ScreenContextTemplateFormatter().format(
-                template: template.body,
-                recordingURL: result.fileURL,
-                keyframes: result.keyframes,
-                srt: result.transcriptSRT
-            )
-        case .markdown:
-            return TranscriptMarkdownFormatter().format(
-                recordingURL: result.fileURL,
-                keyframes: result.keyframes,
-                srt: result.transcriptSRT
-            )
-        case .srt:
-            return result.transcriptSRT
-        }
-    }
-
-    private var selectedTemplateForAnalytics: ScreenContextTemplate? {
-        guard case let .template(id) = transcriptFormat else { return nil }
-        return screenContextTemplates.first(where: { $0.id == id })
-            ?? screenContextTemplates.first
-    }
-
-    private func repairTranscriptFormatSelection() {
-        guard case let .template(id) = transcriptFormat,
-              !editableScreenContextTemplates.contains(where: { $0.id == id }) else {
-            return
-        }
-        transcriptFormat = editableScreenContextTemplates.first.map { .template($0.id) } ?? .srt
-    }
+    private var locale: Locale { store.effectiveLocale }
 
     private func copyVideoToPasteboard(_ fileURL: URL) {
         let item = NSPasteboardItem()
@@ -428,10 +254,10 @@ struct RecordingResultView: View {
     }
 
     @discardableResult
-    private func copyTranscriptToPasteboard(showConfirmation: Bool = true) -> Bool {
+    private func copyContextToPasteboard(showConfirmation: Bool = true) -> Bool {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-        guard pasteboard.setString(displayedTranscript, forType: .string) else {
+        guard pasteboard.setString(result.context, forType: .string) else {
             destinationAlert = RecordingContextDestinationAlert(
                 title: String(localized: "Couldn’t Copy Context", locale: locale),
                 message: String(localized: "Try copying the context again.", locale: locale)
@@ -439,10 +265,7 @@ struct RecordingResultView: View {
             return false
         }
 
-        analytics.capture(.transcriptCopied)
-        if let selectedTemplateForAnalytics {
-            analytics.templates.used(selectedTemplateForAnalytics)
-        }
+        analytics.capture(.contextCopied)
         if showConfirmation {
             showCopyToast(String(localized: "Context copied", locale: locale))
         }
@@ -459,7 +282,7 @@ struct RecordingResultView: View {
 
     private func copyAndReturn(to application: NSRunningApplication) {
         guard !isReturningToApplication,
-              copyTranscriptToPasteboard(showConfirmation: false) else { return }
+              copyContextToPasteboard(showConfirmation: false) else { return }
         isReturningToApplication = true
         Task { @MainActor in
             let didActivate = await contextReturnController.activate(application)
@@ -557,12 +380,6 @@ private struct RecordingSidebarRow: View {
         .padding(.vertical, 3)
         .accessibilityElement(children: .combine)
     }
-}
-
-private enum TranscriptFormat: Hashable {
-    case template(ScreenContextTemplate.ID)
-    case markdown
-    case srt
 }
 
 private struct RecordingPlayerView: NSViewRepresentable {

@@ -67,11 +67,6 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(hudSource.contains(".disabled(store.configurationIsLocked)"))
     }
 
-
-
-
-
-
     func testWebcamLayoutEditorPreservesLiveCaptureGeometry() throws {
         let overlayURL = repositoryRoot
             .appendingPathComponent("Sources/ScreenContext/Panels/WebcamOverlayPanelController.swift")
@@ -97,36 +92,17 @@ final class RepositoryContractTests: XCTestCase {
         let playbackURL = repositoryRoot
             .appendingPathComponent("Sources/ScreenContext/Views/RecordingResultView.swift")
         let source = try String(contentsOf: playbackURL, encoding: .utf8)
-        let settingsURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/Views/ScreenContextTemplateSettingsView.swift")
-        let settingsSource = try String(contentsOf: settingsURL, encoding: .utf8)
         XCTAssertTrue(source.contains("RecordingPlayerView(fileURL: result.fileURL)"))
         XCTAssertTrue(source.contains(".frame(width: 572, height: mediaHeight)"))
         XCTAssertTrue(source.contains("Label(\"Recording context\", systemImage: \"text.quote\")"))
-        XCTAssertTrue(source.contains(".frame(height: mediaHeight)"))
-        XCTAssertTrue(source.contains("result.transcriptIsAvailable || !result.requestedTranscription"))
         XCTAssertTrue(source.contains("player.play()"))
         XCTAssertTrue(source.contains("controlsStyle = .minimal"))
         XCTAssertTrue(source.contains("controlsStyle = .none"))
         XCTAssertTrue(source.contains("accessibilityLabel: \"Copy video\""))
-        XCTAssertTrue(source.contains("Picker(\"Transcript format\""))
-        XCTAssertTrue(source.contains("case template(ScreenContextTemplate.ID)"))
-        XCTAssertTrue(source.contains("case markdown"))
-        XCTAssertTrue(source.contains("case srt"))
-        XCTAssertTrue(source.contains("ForEach(editableScreenContextTemplates)"))
-        XCTAssertTrue(source.contains("Text(\"Markdown\").tag(TranscriptFormat.markdown)"))
-        XCTAssertTrue(source.contains("TranscriptMarkdownFormatter().format"))
-        XCTAssertTrue(source.contains("ScreenContextTemplateFormatter().format"))
-        XCTAssertTrue(source.contains("ScreenContextTemplatePreferenceKey.library"))
         XCTAssertFalse(source.contains("SystemRequestExtractor"))
         XCTAssertFalse(source.contains("Apple Intelligence"))
         XCTAssertTrue(source.contains("@Bindable var store: RecordingSessionStore"))
         XCTAssertTrue(source.contains("let fallbackResult: RecordingResult"))
-        XCTAssertTrue(source.contains("result.transcriptSRT"))
-        XCTAssertTrue(source.contains("result.keyframes"))
-        XCTAssertTrue(source.contains("Button(\"Download Model\")"))
-        XCTAssertTrue(source.contains("await store.installTranscriptionModel(for: result)"))
-        XCTAssertTrue(source.contains("ProgressView(\"Transcribing recording…\")"))
         XCTAssertTrue(source.contains("NavigationSplitView"))
         XCTAssertTrue(source.contains("List(selection: recordingSelection)"))
         XCTAssertTrue(source.contains("ForEach(store.recordingResults.reversed())"))
@@ -140,11 +116,6 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(source.contains("result.recordedAt"))
         XCTAssertTrue(source.contains("Button(role: .destructive)"))
         XCTAssertTrue(source.contains("await store.deleteSelectedRecording()"))
-        XCTAssertTrue(source.contains("This permanently deletes the video and its keyframes."))
-        XCTAssertTrue(source.contains("accessibilityLabel: \"Copy transcript\""))
-        XCTAssertTrue(source.contains("pasteboard.setString(displayedTranscript, forType: .string)"))
-        XCTAssertTrue(settingsSource.contains("List(editableTemplates"))
-        XCTAssertTrue(settingsSource.contains("ScreenContextTemplateLibrary.markdownID"))
         XCTAssertTrue(source.contains("Video copied"))
         XCTAssertTrue(source.contains("Context copied"))
         XCTAssertTrue(source.contains("notification: .announcementRequested"))
@@ -161,11 +132,6 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertFalse(source.contains("ShareLink("))
         XCTAssertFalse(source.contains("VideoPlayer(player:"))
 
-        let transcriptURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/Views/ReadOnlyTranscriptTextView.swift")
-        let transcriptSource = try String(contentsOf: transcriptURL, encoding: .utf8)
-        XCTAssertTrue(transcriptSource.contains("NSScrollView()"))
-        XCTAssertTrue(transcriptSource.contains("hasVerticalScroller = true"))
     }
 
     func testRecordingsLibraryIsAvailableFromMenuBar() throws {
@@ -192,13 +158,12 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(source.contains("func presentSelectedRecording()"))
         XCTAssertTrue(source.contains("localized: \"Recordings\""))
         XCTAssertTrue(source.contains("contentWidth: CGFloat = 860"))
-        XCTAssertTrue(source.contains("locale: result.locale"))
-        XCTAssertFalse(source.contains("locale: store.effectiveLocale"))
+        XCTAssertTrue(source.contains("locale: store.effectiveLocale"))
         XCTAssertTrue(source.contains("WindowPresentation.afterMenuDismissal"))
         XCTAssertTrue(source.contains("visibleFrame.height"))
         XCTAssertTrue(source.contains("defaultMediaHeight"))
         XCTAssertTrue(source.contains("minimumMediaHeight"))
-        XCTAssertTrue(source.contains("overflow / 2"))
+        XCTAssertTrue(source.contains("overflow"))
         XCTAssertTrue(source.contains("window.contentView = hostingView"))
         XCTAssertFalse(source.contains(".resizable"))
         XCTAssertFalse(source.contains("parent?.presentSheet(window)"))
@@ -228,50 +193,6 @@ final class RepositoryContractTests: XCTestCase {
                 "Found retired product identity in \(fileURL.path)"
             )
         }
-    }
-
-    func testTranscriptionUsesOnlySpeechAnalyzerAndRetriesAfterModelDownload() throws {
-        let services = repositoryRoot.appendingPathComponent("Sources/ScreenContextCore/Services")
-        let serviceSource = try swiftSources(under: services)
-            .map { try String(contentsOf: $0, encoding: .utf8) }
-            .joined(separator: "\n")
-        XCTAssertFalse(serviceSource.contains("SFSpeechRecognizer"))
-        XCTAssertFalse(serviceSource.contains("SFSpeechRecognitionTask"))
-        XCTAssertFalse(serviceSource.contains("SFSpeechAudioBufferRecognitionRequest"))
-        XCTAssertTrue(serviceSource.contains("SpeechAnalyzer"))
-        XCTAssertTrue(serviceSource.contains("SpeechTranscriber"))
-        XCTAssertTrue(serviceSource.contains("SpeechTranscriber.installedLocales"))
-        XCTAssertTrue(serviceSource.contains("AssetInventory.reserve(locale: locale)"))
-        XCTAssertTrue(serviceSource.contains("SpeechAssetPreparation.status(for: transcriber)"))
-        XCTAssertTrue(serviceSource.contains("AssetInventory.assetInstallationRequest"))
-        XCTAssertTrue(serviceSource.contains("analyzer.analyzeSequence(from: audioFile)"))
-
-        let liveTranscriberURL = services
-            .appendingPathComponent("ModernOnDeviceSpeechTranscriber.swift")
-        let liveTranscriberSource = try String(
-            contentsOf: liveTranscriberURL,
-            encoding: .utf8
-        )
-        let finishInput = try XCTUnwrap(
-            liveTranscriberSource.range(of: "inputContinuation?.finish()")
-        )
-        let finalizeInput = try XCTUnwrap(
-            liveTranscriberSource.range(of: "finalizeAndFinishThroughEndOfInput()")
-        )
-        let startStreaming = try XCTUnwrap(
-            liveTranscriberSource.range(of: "analyzer.start(inputSequence: inputs.stream)")
-        )
-        XCTAssertLessThan(startStreaming.lowerBound, finishInput.lowerBound)
-        XCTAssertLessThan(finishInput.lowerBound, finalizeInput.lowerBound)
-        XCTAssertFalse(liveTranscriberSource.contains("analyzeSequence(inputs.stream)"))
-        XCTAssertTrue(liveTranscriberSource.contains("AnalyzerInput(buffer: outputBuffer)"))
-        XCTAssertFalse(liveTranscriberSource.contains("bufferStartTime:"))
-
-        let storeURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContextCore/Stores/RecordingSessionStore.swift")
-        let storeSource = try String(contentsOf: storeURL, encoding: .utf8)
-        XCTAssertTrue(storeSource.contains("await retryLastTranscription()"))
-        XCTAssertTrue(storeSource.contains("speechModelManager.transcribeRecording"))
     }
 
     func testRepositoryGuidanceReferencesMacOSUISkills() throws {

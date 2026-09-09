@@ -78,7 +78,7 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
             validIDs.contains(id) ? id : storedRecordings.last?.id
         } ?? storedRecordings.last?.id
         try writeCatalog(StoredCatalog(
-            version: 2,
+            version: 3,
             selectedRecordingID: selectedID,
             recordings: storedRecordings
         ))
@@ -100,7 +100,7 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
 
     private func loadCatalog() throws -> StoredCatalog {
         guard fileManager.fileExists(atPath: catalogURL.path) else {
-            return StoredCatalog(version: 2, selectedRecordingID: nil, recordings: [])
+            return StoredCatalog(version: 3, selectedRecordingID: nil, recordings: [])
         }
         let data = try Data(contentsOf: catalogURL)
         let decoder = JSONDecoder()
@@ -130,35 +130,15 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
             }
             let recordingURL = directory.appendingPathComponent("recording.mp4")
             guard fileManager.fileExists(atPath: recordingURL.path) else { return nil }
-            let keyframes = try fileManager.contentsOfDirectory(
-                at: directory,
-                includingPropertiesForKeys: nil,
-                options: [.skipsHiddenFiles]
-            )
-                .filter { $0.pathExtension.lowercased() == "png" }
-                .sorted { $0.lastPathComponent < $1.lastPathComponent }
-                .map {
-                    StoredKeyframe(
-                        timestamp: Self.timestamp(
-                            fromKeyframeName: $0.deletingPathExtension().lastPathComponent
-                        ),
-                        fileName: $0.lastPathComponent
-                    )
-                }
             return StoredRecording(
                 id: UUID(),
                 directoryName: directory.lastPathComponent,
                 recordingFileName: recordingURL.lastPathComponent,
-                keyframes: keyframes,
                 recordedAt: Self.recordingDate(
                     directoryName: directory.lastPathComponent,
                     recordingURL: recordingURL,
                     fileManager: fileManager
-                ),
-                requestedTranscription: false,
-                transcriptionLocale: TranscriptionLocale(Locale.autoupdatingCurrent),
-                transcriptSRT: "",
-                transcriptIsAvailable: false
+                )
             )
         }
     }
@@ -173,14 +153,7 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
             id: entry.id,
             directoryName: directory.lastPathComponent,
             recordingFileName: entry.fileURL.lastPathComponent,
-            keyframes: entry.keyframes.map {
-                StoredKeyframe(timestamp: $0.timestamp, fileName: $0.fileURL.lastPathComponent)
-            },
-            recordedAt: entry.recordedAt,
-            requestedTranscription: entry.requestedTranscription,
-            transcriptionLocale: entry.transcriptionLocale,
-            transcriptSRT: entry.transcriptSRT,
-            transcriptIsAvailable: entry.transcriptIsAvailable
+            recordedAt: entry.recordedAt
         )
     }
 
@@ -192,17 +165,7 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
         return RecordingHistoryEntry(
             id: stored.id,
             fileURL: directory.appendingPathComponent(stored.recordingFileName),
-            keyframes: stored.keyframes.compactMap { keyframe in
-                guard Self.isSafePathComponent(keyframe.fileName) else { return nil }
-                let fileURL = directory.appendingPathComponent(keyframe.fileName)
-                guard fileManager.fileExists(atPath: fileURL.path) else { return nil }
-                return RecordingKeyframe(timestamp: keyframe.timestamp, fileURL: fileURL)
-            },
-            recordedAt: recordingDate(for: stored),
-            requestedTranscription: stored.requestedTranscription,
-            transcriptionLocale: stored.transcriptionLocale,
-            transcriptSRT: stored.transcriptSRT,
-            transcriptIsAvailable: stored.transcriptIsAvailable
+            recordedAt: recordingDate(for: stored)
         )
     }
 
@@ -245,14 +208,6 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
             ?? Date(timeIntervalSince1970: 0)
     }
 
-    private static func timestamp(fromKeyframeName name: String) -> TimeInterval {
-        guard name.hasPrefix("frame-"),
-              let seconds = Int(name.dropFirst("frame-".count).prefix { $0.isNumber }) else {
-            return 0
-        }
-        return TimeInterval(seconds)
-    }
-
     private static func isSafePathComponent(_ value: String) -> Bool {
         !value.isEmpty
             && value != "."
@@ -272,17 +227,7 @@ private struct StoredRecording: Codable {
     let id: UUID
     let directoryName: String
     let recordingFileName: String
-    let keyframes: [StoredKeyframe]
     let recordedAt: Date?
-    let requestedTranscription: Bool
-    let transcriptionLocale: TranscriptionLocale
-    let transcriptSRT: String
-    let transcriptIsAvailable: Bool
-}
-
-private struct StoredKeyframe: Codable {
-    let timestamp: TimeInterval
-    let fileName: String
 }
 
 actor VolatileRecordingHistoryStore: RecordingHistoryStore {

@@ -5,7 +5,7 @@ description: "Design, build, or substantially change any ScreenContext product s
 
 # ScreenContext design guidance
 
-ScreenContext records a selected screen or window, optional audio and webcam video, clicks, and an on-device transcript, then turns that evidence into paste-ready context for an AI.
+ScreenContext records a selected screen or window, optional audio and webcam video, then turns that evidence into paste-ready context for an AI.
 
 The product name is **ScreenContext**, written as one word with a capital S and C in every locale. Its public promise is **“Show your AI what you mean.”** Use the tagline in the README and promotional material; keep it out of compact controls and settings.
 
@@ -50,7 +50,6 @@ The current reference owners are:
 | Capture and webcam layout | `CaptureSettingsView`, `WebcamOverlayPanelController` | Native Settings forms |
 | Recordings | `RecordingResultView`, `RecordingResultPanelController` | Native sidebar with a narrow, vertically stacked detail |
 | Settings | `SettingsView` | Small tabbed window with grouped native forms |
-| Context templates | `ScreenContextTemplateSettingsView` | Compact list-and-editor layout |
 
 A broad visual change must be judged against these existing surfaces rather than against a generic recording-app reference.
 
@@ -84,7 +83,7 @@ Use material only for objects that genuinely float over other applications or me
 Use the system font and semantic text styles.
 
 - Use monospaced digits for elapsed recording time.
-- Use monospaced text for timecodes, template placeholders, paths, commands, and raw identifiers.
+- Use monospaced text for timecodes, paths, commands, and raw identifiers.
 - Keep headings and controls in sentence case.
 - Use SF Symbols for actions and status.
 - Icon-only compact controls are appropriate in media overlays when they have an accessibility label and help text.
@@ -115,7 +114,7 @@ Start with the dimensions already encoded in the accepted views.
 
 ## Webcam layout
 
-Settings → Recording → Edit Webcam Layout… opens the live WYSIWYG webcam preview over the capture target. Drag to move, drag the border to resize, and use the segmented shape picker. Done closes the editor and returns to Settings. Starting a recording also ends editing. Preserve the user's device, position, size, and mask.
+Settings → Recordings → Edit Webcam Layout… opens the live WYSIWYG webcam preview over the capture target. Drag to move, drag the border to resize, and use the segmented shape picker. Done closes the editor and returns to Settings. Starting a recording also ends editing. Preserve the user's device, position, size, and mask.
 
 ## Recordings window
 
@@ -126,10 +125,10 @@ Keep the accepted native sidebar and narrow detail layout.
 - Present the video first at its established 572-point width.
 - Place the recording-context card below the video rather than beside it.
 - Keep Copy video as a small labeled-for-accessibility overlay button on the video.
-- Keep the transcript/context format picker in the context heading.
+- Show only the recording heading and local video path in the context area.
 - Keep context copying as the small overlay action in the text area.
 - Long context scrolls inside its own view.
-- Keep the header concise: capture-source details on the leading side and compact transcript status on the trailing side.
+- Keep the header concise: the recording date and time.
 - Keep Delete separated from Done and from copy actions.
 - Use a native confirmation dialog.
 - Keep sidebar rows lightweight. The accepted compact accent tile may remain; do not expand rows into cards.
@@ -141,25 +140,13 @@ Do not widen the window to create side-by-side “evidence” panels. Do not add
 Settings are durable preferences, not a product dashboard.
 
 - Use the dedicated macOS Settings scene.
-- Preserve the current General and Recording context tabs.
-- Keep the window near 580 by 440 points.
+- Preserve the Recordings and General tabs.
+- Keep the content area near 620 by 600 points.
 - Use a grouped `Form` with native pickers, toggles, progress indicators, and buttons.
-- Keep the language picker, model status, shortcut toggle, and helper text in one calm flow.
+- Put the global shortcut first in Recordings, followed by capture inputs.
+- Keep the language picker, Privacy Policy, and Support in General.
 - Do not wrap each preference group in additional custom sections or cards without a clear semantic need.
 - Do not add promotional brand elements.
-
-## Recording-context template editor
-
-Preserve the compact list-and-editor structure.
-
-- Keep outer padding owned by the editor surface.
-- Keep the template list selection-driven.
-- Place add, delete, and restore actions beneath the list using small borderless controls.
-- Use monospaced type for the template body.
-- Render placeholder insertion controls as quiet capsule tokens.
-- Preserve keyboard editing and insert at the current selection.
-- Confirm destructive deletion using a native dialog.
-- The empty state action is “Add template.”
 
 ## App icon
 
@@ -192,7 +179,6 @@ Write for a capable person who may not know recording terminology.
 
 - Prefer short action verbs: Choose, Record, Stop, Copy, Retry, Restore, Delete.
 - Use “recording context” for the paste-ready output area.
-- Use “transcript” only for speech text.
 - Use “screen or window” when both are supported.
 - Keep runtime names and filenames truthful.
 - Use ScreenContext in menus, window titles, permission explanations, accessibility labels, translations, and new recording filenames.
@@ -207,7 +193,7 @@ Write for a capable person who may not know recording terminology.
 - Pair color with symbol, text, shape, or position.
 - Respect Increase Contrast, Reduce Transparency, Reduce Motion, and system appearance.
 - Keep native target sizes.
-- Localize every user-facing string except runtime data and template syntax.
+- Localize every user-facing string except runtime data.
 - Test long German and Russian labels, compact CJK strings, and Arabic right-to-left layout.
 - Format dates, times, durations, and numbers using the active locale.
 
@@ -244,9 +230,7 @@ Review significant UI changes in light and dark appearance and with these states
 4. A nonfatal recording warning.
 5. WYSIWYG webcam placement near each capture edge.
 6. Completed recording with video and context.
-7. Unavailable transcription with a recoverable model state.
-8. Several recording-history rows.
-9. Template editing with long names and placeholder insertion.
-10. German, Russian, CJK, and Arabic localization stress.
+7. Several recording-history rows.
+8. German, Russian, CJK, and Arabic localization stress.
 
 The change passes only if the current state and next action remain clear, the app still feels like the accepted compact native utility, and no new decoration is doing work that system controls or spacing already handle.

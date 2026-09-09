@@ -4,20 +4,23 @@ import SwiftUI
 struct CaptureSettingsView: View {
     @Bindable var store: RecordingSessionStore
 
+    let shortcutRecorder: ShortcutRecorder
     let editWebcamLayout: @MainActor () -> Void
 
     var body: some View {
         Form {
-            Section {
-                Text("Press \(store.globalShortcut.displayName) to start recording. Press it again to stop.")
-                    .foregroundStyle(.secondary)
-                if store.phase == .preparing {
-                    ProgressView("Preparing…")
-                } else if store.phase.isRecording || store.phase == .finalizing {
-                    HStack {
-                        Text(store.phase.isRecording ? "Stop Recording" : "Finalizing Recording…")
-                        Spacer()
-                        Text(store.elapsedSeconds.recordingDuration).monospacedDigit()
+            ShortcutSettingsView(store: store, recorder: shortcutRecorder)
+
+            if store.phase.locksConfiguration {
+                Section {
+                    if store.phase == .preparing {
+                        ProgressView("Preparing…")
+                    } else {
+                        HStack {
+                            Text(store.phase.isRecording ? "Stop Recording" : "Finalizing Recording…")
+                            Spacer()
+                            Text(store.elapsedSeconds.recordingDuration).monospacedDigit()
+                        }
                     }
                 }
             }

@@ -27,19 +27,8 @@ public final class RecordingSessionStore {
     public private(set) var latestRecordingResult: RecordingResult?
     public private(set) var recordingResults: [RecordingResult] = []
     public private(set) var selectedRecordingID: RecordingResult.ID?
-    public private(set) var transcriptionModelAvailability: TranscriptionModelAvailability = .checking
 
     public var lastLocalRecordingURL: URL? { latestRecordingResult?.fileURL }
-    public var lastKeyframes: [RecordingKeyframe] { latestRecordingResult?.keyframes ?? [] }
-    public var lastTranscriptSRT: String { latestRecordingResult?.transcriptSRT ?? "" }
-    public var lastTranscriptIsAvailable: Bool { latestRecordingResult?.transcriptIsAvailable ?? false }
-    public var lastRecordingRequestedTranscription: Bool {
-        latestRecordingResult?.requestedTranscription ?? false
-    }
-    public var isRetranscribingLastRecording: Bool {
-        latestRecordingResult?.isRetranscribing ?? false
-    }
-
     public var selectedRecordingResult: RecordingResult? {
         guard let selectedRecordingID else { return latestRecordingResult }
         return recordingResults.first { $0.id == selectedRecordingID }
@@ -79,8 +68,6 @@ public final class RecordingSessionStore {
     public var language: AppLanguage {
         didSet {
             persist()
-            guard language != oldValue, !isLoadingPreferences else { return }
-            scheduleTranscriptionModelAvailabilityRefresh(for: language)
         }
     }
     public private(set) var globalShortcut: GlobalShortcut
@@ -90,17 +77,13 @@ public final class RecordingSessionStore {
     @ObservationIgnored private let preferencesStore: any PreferencesStore
     @ObservationIgnored private let recordingHistoryStore: any RecordingHistoryStore
     @ObservationIgnored private let recordingPipeline: any RecordingPipeline
-    @ObservationIgnored private let transcriptTransformer: any TranscriptTransforming
-    @ObservationIgnored private let speechModelManager: any SpeechModelManaging
     @ObservationIgnored private let analyticsClient: any AnalyticsClient
     @ObservationIgnored private var startTask: Task<Void, Never>?
     @ObservationIgnored private var stopTask: Task<Void, Never>?
     @ObservationIgnored private var eventTask: Task<Void, Never>?
     @ObservationIgnored private var timerTask: Task<Void, Never>?
-    @ObservationIgnored private var keyframeCaptureTasks: [Task<Void, Never>] = []
     @ObservationIgnored private var persistenceTask: Task<Void, Never>?
     @ObservationIgnored private var historyPersistenceTask: Task<Void, Never>?
-    @ObservationIgnored private var modelAvailabilityRefreshTask: Task<Void, Never>?
     @ObservationIgnored private var activeSessionID: UUID?
     @ObservationIgnored private var recordingStartedAt: Date?
     @ObservationIgnored private var pendingRecordingDuration: TimeInterval?
@@ -108,13 +91,6 @@ public final class RecordingSessionStore {
     @ObservationIgnored private var pipelineIsRecording = false
     @ObservationIgnored private var isLoadingPreferences = true
     @ObservationIgnored private var requiresCaptureSourceSelection = false
-    @ObservationIgnored private var pendingTranscriptSRT = ""
-    @ObservationIgnored private var pendingTranscriptIsAvailable = false
-    @ObservationIgnored private var pendingRecordingRequestedTranscription = false
-    @ObservationIgnored private var pendingTranscriptionLocale = TranscriptionLocale(
-        Locale.autoupdatingCurrent
-    )
-    @ObservationIgnored private var pendingTranscriptionModelAvailability: TranscriptionModelAvailability = .checking
     @ObservationIgnored private let logger = Logger(
         subsystem: "de.marcusschiesser.screencontext",
         category: "recording-session"
@@ -133,7 +109,6 @@ public final class RecordingSessionStore {
         captureAuthorization: any CaptureAuthorization = SystemCaptureAuthorization(),
         preferencesStore: any PreferencesStore = UserDefaultsPreferencesStore(),
         recordingPipeline: any RecordingPipeline = ScreenCaptureRecordingPipeline(),
-        transcriptTransformer: any TranscriptTransforming = SRTTranscriptTransformer(),
         analyticsClient: any AnalyticsClient = NoOpAnalyticsClient()
     ) {
         self.init(
@@ -142,8 +117,6 @@ public final class RecordingSessionStore {
             preferencesStore: preferencesStore,
             recordingHistoryStore: FileRecordingHistoryStore(),
             recordingPipeline: recordingPipeline,
-            transcriptTransformer: transcriptTransformer,
-            speechModelManager: SpeechModelManager(),
             analyticsClient: analyticsClient
         )
     }
@@ -154,8 +127,6 @@ public final class RecordingSessionStore {
         preferencesStore: any PreferencesStore,
         recordingHistoryStore: any RecordingHistoryStore = VolatileRecordingHistoryStore(),
         recordingPipeline: any RecordingPipeline,
-        transcriptTransformer: any TranscriptTransforming = SRTTranscriptTransformer(),
-        speechModelManager: any SpeechModelManaging = SpeechModelManager(),
         analyticsClient: any AnalyticsClient = NoOpAnalyticsClient()
     ) {
         self.sourceCatalog = sourceCatalog
@@ -163,8 +134,6 @@ public final class RecordingSessionStore {
         self.preferencesStore = preferencesStore
         self.recordingHistoryStore = recordingHistoryStore
         self.recordingPipeline = recordingPipeline
-        self.transcriptTransformer = transcriptTransformer
-        self.speechModelManager = speechModelManager
         self.analyticsClient = analyticsClient
         let defaults = PreferencesSnapshot.defaults
         selectedCaptureSourceID = defaults.selectedCaptureSourceID
@@ -264,15 +233,13 @@ public final class RecordingSessionStore {
 
     @discardableResult
     public func deleteSelectedRecording() async -> Bool {
-        guard let deletionTarget = selectedRecordingResult,
-              !deletionTarget.isRetranscribing else {
+        guard let deletionTarget = selectedRecordingResult else {
             return false
         }
         let deletionTargetID = deletionTarget.id
 
         await historyPersistenceTask?.value
-        guard let index = recordingResults.firstIndex(where: { $0.id == deletionTargetID }),
-              !recordingResults[index].isRetranscribing else {
+        guard let index = recordingResults.firstIndex(where: { $0.id == deletionTargetID }) else {
             return false
         }
         let result = recordingResults[index]
@@ -443,110 +410,17 @@ public final class RecordingSessionStore {
 
         recordingWillStart?()
         let sessionID = UUID()
-        let transcriptionLocale = language.transcriptionLocale()
         activeSessionID = sessionID
         recordingStartedAt = nil
         pendingRecordingDuration = nil
-        pendingTranscriptSRT = ""
-        pendingTranscriptIsAvailable = false
-        pendingRecordingRequestedTranscription = capturesMicrophone
-        pendingTranscriptionLocale = transcriptionLocale
-        pendingTranscriptionModelAvailability = .checking
         elapsedSeconds = 0
-        keyframeCaptureTasks = []
         phase = .preparing
         logger.info("Recording start requested")
         startTask = Task { [weak self] in
             await self?.runStart(
                 source: source,
-                sessionID: sessionID,
-                transcriptionLocale: transcriptionLocale
+                sessionID: sessionID
             )
-        }
-    }
-
-    public func refreshTranscriptionModelAvailability() async {
-        await refreshTranscriptionModelAvailability(for: language)
-    }
-
-    public func refreshTranscriptionModelAvailability(for result: RecordingResult) async {
-        result.transcriptionModelAvailability = .checking
-        let localeIdentifier = result.transcriptionLocale.identifier
-        let status = await speechModelManager.availability(localeIdentifier: localeIdentifier)
-        guard !Task.isCancelled else { return }
-        result.transcriptionModelAvailability = status
-        guard status == .installing else { return }
-        let terminalStatus = await speechModelManager.availabilityFollowingDownload(
-            localeIdentifier: localeIdentifier
-        )
-        guard !Task.isCancelled else { return }
-        result.transcriptionModelAvailability = terminalStatus
-    }
-
-    public func installTranscriptionModel() async {
-        let requestedLocale = language.transcriptionLocale()
-        transcriptionModelAvailability = .installing
-        do {
-            let status = try await speechModelManager.install(
-                localeIdentifier: requestedLocale.identifier
-            )
-            guard language.transcriptionLocale() == requestedLocale,
-                  !Task.isCancelled else { return }
-            transcriptionModelAvailability = status
-            if status == .available,
-               let result = latestRecordingResult,
-               result.transcriptionLocale == requestedLocale {
-                await retryLastTranscription()
-            }
-        } catch {
-            guard language.transcriptionLocale() == requestedLocale,
-                  !Task.isCancelled else { return }
-            transcriptionModelAvailability = .downloadable
-            warningMessage = error.localizedDescription
-        }
-    }
-
-    public func installTranscriptionModel(for result: RecordingResult) async {
-        result.transcriptionModelAvailability = .installing
-        do {
-            let status = try await speechModelManager.install(
-                localeIdentifier: result.transcriptionLocale.identifier
-            )
-            guard !Task.isCancelled else { return }
-            result.transcriptionModelAvailability = status
-            if status == .available {
-                await retryTranscription(for: result)
-            }
-        } catch {
-            guard !Task.isCancelled else { return }
-            result.transcriptionModelAvailability = .downloadable
-            warningMessage = error.localizedDescription
-        }
-    }
-
-    public func retryLastTranscription() async {
-        guard let result = latestRecordingResult else { return }
-        await retryTranscription(for: result)
-    }
-
-    public func retryTranscription(for result: RecordingResult) async {
-        guard result.requestedTranscription,
-              !result.transcriptIsAvailable,
-              !result.isRetranscribing else { return }
-        result.isRetranscribing = true
-        defer { result.isRetranscribing = false }
-        do {
-            let transcript = try await speechModelManager.transcribeRecording(
-                at: result.fileURL,
-                localeIdentifier: result.transcriptionLocale.identifier
-            )
-            result.transcriptSRT = transcriptTransformer.transform(transcript)
-            result.transcriptIsAvailable = true
-            warningMessage = nil
-            await persistRecordingHistory()
-        } catch {
-            result.transcriptIsAvailable = false
-            warningMessage = error.localizedDescription
         }
     }
 
@@ -602,8 +476,6 @@ public final class RecordingSessionStore {
         eventTask = nil
         timerTask?.cancel()
         timerTask = nil
-        keyframeCaptureTasks.forEach { $0.cancel() }
-        keyframeCaptureTasks = []
         pipelineIsRecording = false
         recordingStartedAt = nil
         pendingRecordingDuration = nil
@@ -646,18 +518,9 @@ public final class RecordingSessionStore {
         warningMessage = "\(name) disconnected. The recording is continuing without it."
     }
 
-    public func captureClickKeyframe() {
-        guard phase.isRecording else { return }
-        let task = Task { [recordingPipeline] in
-            await recordingPipeline.captureKeyframe()
-        }
-        keyframeCaptureTasks.append(task)
-    }
-
     private func runStart(
         source: CaptureSource,
-        sessionID: UUID,
-        transcriptionLocale: TranscriptionLocale
+        sessionID: UUID
     ) async {
         do {
             try Task.checkCancellation()
@@ -668,8 +531,7 @@ public final class RecordingSessionStore {
                 microphoneDeviceID: microphoneDeviceID,
                 capturesWebcam: capturesWebcam,
                 webcamDeviceID: webcamDeviceID,
-                webcamLayout: webcamLayout,
-                transcriptionLocale: transcriptionLocale
+                webcamLayout: webcamLayout
             )
             let events = try await recordingPipeline.start(configuration: configuration)
             pipelineIsRecording = true
@@ -684,8 +546,7 @@ public final class RecordingSessionStore {
                 sourceKind: source.id.kind,
                 systemAudioEnabled: capturesSystemAudio,
                 microphoneEnabled: capturesMicrophone,
-                webcamEnabled: capturesWebcam,
-                transcriptionLanguage: transcriptionLocale.identifier
+                webcamEnabled: capturesWebcam
             ))
             startElapsedTimer(sessionID: sessionID, startedAt: startedAt)
             eventTask = Task { [weak self] in
@@ -693,7 +554,7 @@ public final class RecordingSessionStore {
                     guard let self,
                           !Task.isCancelled,
                           activeSessionID == sessionID else { return }
-                    await handle(event)
+                    handle(event)
                 }
             }
         } catch is CancellationError {
@@ -719,11 +580,6 @@ public final class RecordingSessionStore {
     private func finishRecording() async {
         let artifacts: RecordingArtifacts
         do {
-            let captureTasks = keyframeCaptureTasks
-            keyframeCaptureTasks = []
-            for task in captureTasks {
-                await task.value
-            }
             artifacts = try await recordingPipeline.stop()
             await eventTask?.value
             eventTask = nil
@@ -770,23 +626,14 @@ public final class RecordingSessionStore {
         activeSessionID = nil
         pipelineIsRecording = false
         let result = RecordingResult(
-            fileURL: artifacts.recordingURL,
-            keyframes: artifacts.keyframes,
-            requestedTranscription: pendingRecordingRequestedTranscription,
-            transcriptionLocale: pendingTranscriptionLocale,
-            transcriptSRT: pendingTranscriptSRT,
-            transcriptIsAvailable: pendingTranscriptIsAvailable,
-            transcriptionModelAvailability: pendingTranscriptionModelAvailability
+            fileURL: artifacts.recordingURL
         )
         let duration = pendingRecordingDuration
             ?? recordingStartedAt.map { Date().timeIntervalSince($0) }
             ?? elapsedSeconds
         if !recordingFailureWasCaptured {
             analyticsClient.capture(.recordingCompleted(
-                duration: duration,
-                keyframeCount: artifacts.keyframes.count,
-                transcriptionRequested: pendingRecordingRequestedTranscription,
-                transcriptionAvailable: pendingTranscriptIsAvailable
+                duration: duration
             ))
         }
         recordingStartedAt = nil
@@ -810,15 +657,7 @@ public final class RecordingSessionStore {
                 RecordingResult(
                     id: entry.id,
                     fileURL: entry.fileURL,
-                    keyframes: entry.keyframes,
-                    recordedAt: entry.recordedAt,
-                    requestedTranscription: entry.requestedTranscription,
-                    transcriptionLocale: entry.transcriptionLocale,
-                    transcriptSRT: entry.transcriptSRT,
-                    transcriptIsAvailable: entry.transcriptIsAvailable,
-                    transcriptionModelAvailability: entry.transcriptIsAvailable
-                        ? .available
-                        : .checking
+                    recordedAt: entry.recordedAt
                 )
             }
             latestRecordingResult = recordingResults.last
@@ -872,12 +711,7 @@ public final class RecordingSessionStore {
         RecordingHistoryEntry(
             id: result.id,
             fileURL: result.fileURL,
-            keyframes: result.keyframes,
-            recordedAt: result.recordedAt,
-            requestedTranscription: result.requestedTranscription,
-            transcriptionLocale: result.transcriptionLocale,
-            transcriptSRT: result.transcriptSRT,
-            transcriptIsAvailable: result.transcriptIsAvailable
+            recordedAt: result.recordedAt
         )
     }
 
@@ -889,56 +723,13 @@ public final class RecordingSessionStore {
         if capturesWebcam { await setWebcamEnabled(true) }
     }
 
-    private func handle(_ event: RecordingPipelineEvent) async {
+    private func handle(_ event: RecordingPipelineEvent) {
         switch event {
         case let .optionalInputLost(name):
             warningMessage = "\(name) disconnected. The recording is continuing without it."
         case let .fatal(message):
             handleFatalSystemEvent(message)
-        case .transcriptionAvailable:
-            pendingTranscriptIsAvailable = true
-            pendingTranscriptionModelAvailability = .available
-            if language.transcriptionLocale() == pendingTranscriptionLocale {
-                transcriptionModelAvailability = .available
-            }
-        case let .transcriptionUnavailable(message):
-            pendingTranscriptIsAvailable = false
-            warningMessage = message
-            let transcriptionLocale = pendingTranscriptionLocale
-            let status = await speechModelManager.availability(
-                localeIdentifier: transcriptionLocale.identifier
-            )
-            pendingTranscriptionModelAvailability = status
-            if language.transcriptionLocale() == transcriptionLocale {
-                transcriptionModelAvailability = status
-            }
-        case let .transcript(transcript):
-            if pendingTranscriptIsAvailable {
-                pendingTranscriptSRT = transcriptTransformer.transform(transcript)
-            }
         }
-    }
-
-    private func scheduleTranscriptionModelAvailabilityRefresh(for language: AppLanguage) {
-        modelAvailabilityRefreshTask?.cancel()
-        modelAvailabilityRefreshTask = Task { [weak self] in
-            await self?.refreshTranscriptionModelAvailability(for: language)
-        }
-    }
-
-    private func refreshTranscriptionModelAvailability(for requestedLanguage: AppLanguage) async {
-        guard language == requestedLanguage else { return }
-        transcriptionModelAvailability = .checking
-        let localeIdentifier = requestedLanguage.localeIdentifier
-        let status = await speechModelManager.availability(localeIdentifier: localeIdentifier)
-        guard language == requestedLanguage, !Task.isCancelled else { return }
-        transcriptionModelAvailability = status
-        guard status == .installing else { return }
-        let terminalStatus = await speechModelManager.availabilityFollowingDownload(
-            localeIdentifier: localeIdentifier
-        )
-        guard language == requestedLanguage, !Task.isCancelled else { return }
-        transcriptionModelAvailability = terminalStatus
     }
 
     private func startElapsedTimer(sessionID: UUID, startedAt: Date) {

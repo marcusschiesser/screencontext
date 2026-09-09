@@ -7,28 +7,22 @@ struct SettingsView: View {
     @Bindable var analytics: AnalyticsConsentController
     let shortcutRecorder: ShortcutRecorder
     let editWebcamLayout: @MainActor () -> Void
-    @AppStorage(ScreenContextTemplatePreferenceKey.library)
-    private var templateLibraryData = Data()
 
     var body: some View {
         TabView {
-            CaptureSettingsView(store: store, editWebcamLayout: editWebcamLayout)
+            CaptureSettingsView(
+                store: store,
+                shortcutRecorder: shortcutRecorder,
+                editWebcamLayout: editWebcamLayout
+            )
                 .tabItem {
-                    Label("Recording", systemImage: "record.circle")
+                    Label("Recordings", systemImage: "record.circle")
                 }
 
-            GeneralSettingsView(store: store, analytics: analytics, shortcutRecorder: shortcutRecorder)
+            GeneralSettingsView(store: store)
                 .tabItem {
                     Label("General", systemImage: "gearshape")
                 }
-
-            ScreenContextTemplateSettingsView(
-                libraryData: $templateLibraryData,
-                analytics: analytics.templates
-            )
-            .tabItem {
-                Label("Recording context", systemImage: "text.quote")
-            }
         }
         .frame(width: 620, height: 600)
         .padding()
@@ -59,80 +53,28 @@ struct SettingsView: View {
         .onAppear {
             analytics.capture(.settingsOpened)
         }
-        .onDisappear {
-            analytics.templates.flushPendingUpdate()
-        }
     }
 }
 
 private struct GeneralSettingsView: View {
     @Bindable var store: RecordingSessionStore
-    @Bindable var analytics: AnalyticsConsentController
-    let shortcutRecorder: ShortcutRecorder
 
     var body: some View {
         Form {
-            Section {
-                Picker("Language", selection: $store.language) {
-                    ForEach(AppLanguage.allCases) { language in
-                        Text(language.title).tag(language)
-                    }
+            Picker("Language", selection: $store.language) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.title).tag(language)
                 }
-
-                transcriptionModelStatus
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
-
-            ShortcutSettingsView(store: store, recorder: shortcutRecorder)
-
             Section {
-                Text("Analytics are disabled in this release.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-
                 HStack {
-                    Link(destination: AppLinks.privacyPolicy) {
-                        Text("Privacy Policy")
-                    }
+                    Link(destination: AppLinks.privacyPolicy) { Text("Privacy Policy") }
                     Spacer()
-                    Link(destination: AppLinks.support) {
-                        Text("Support")
-                    }
+                    Link(destination: AppLinks.support) { Text("Support") }
                 }
             }
         }
         .formStyle(.grouped)
-        .task(id: store.language) {
-            await store.refreshTranscriptionModelAvailability()
-        }
-    }
-
-    @ViewBuilder
-    private var transcriptionModelStatus: some View {
-        switch store.transcriptionModelAvailability {
-        case .checking:
-            ProgressView("Checking transcription model…")
-        case .available:
-            Label("The transcription model is ready.", systemImage: "checkmark.circle")
-                .foregroundStyle(.secondary)
-        case .downloadable:
-            HStack {
-                Text("Transcription requires a downloaded speech model.")
-                Spacer()
-                Button("Install Model") {
-                    Task { await store.installTranscriptionModel() }
-                }
-            }
-        case .installing:
-            ProgressView("Installing transcription model…")
-        case .unsupported:
-            Text("No downloadable transcription model is available for this language.")
-                .foregroundStyle(.secondary)
-        case .automaticInstallationUnavailable:
-            Text("Automatic model installation requires macOS 26 or later.")
-                .foregroundStyle(.secondary)
-        }
     }
 }
 

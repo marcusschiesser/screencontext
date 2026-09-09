@@ -46,7 +46,7 @@ final class RecordingResultPanelController {
         presentedResultID = result.id
         window.title = String(
             localized: "Recordings",
-            locale: result.locale
+            locale: store.effectiveLocale
         )
 
         WindowPresentation.afterMenuDismissal { [weak self, result] in
@@ -75,7 +75,7 @@ final class RecordingResultPanelController {
 
         if overflow > 0 {
             let mediaReduction = min(
-                overflow / 2,
+                overflow,
                 mediaHeight - Self.minimumMediaHeight
             )
             mediaHeight -= mediaReduction

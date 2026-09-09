@@ -10,43 +10,33 @@ Use ScreenContext as a normal screen recorder: capture your screen or a window, 
 
 ## Get started
 
-1. Open ScreenContext and choose a screen or window in Settings → Recording.
+1. Open ScreenContext and choose a screen or window in Settings → Recordings.
 2. Enable the audio, microphone, and camera inputs you want to include.
-3. Press Shift–Command–O to start recording. Grant the requested macOS permissions if needed.
+3. Press Control–Command–R to start recording. Grant the requested macOS permissions if needed.
 4. Demonstrate your task, then press the same shortcut to stop.
-5. The latest recording opens automatically. Review the video, choose a recording context format, and copy the material into your workflow.
+5. The latest recording opens automatically. Review the video and copy the recording context into your workflow.
 
 ## I cannot find the controls
 
-Open Settings… from the ScreenContext menu bar icon. Capture inputs are in Recording, and Edit Webcam Layout… opens the live webcam layout editor. Drag to move, drag its border to resize, choose a shape, then click Done. Shift–Command–O toggles recording from any app; elapsed time appears in the menu bar.
+Open Settings… from the ScreenContext menu bar icon. Capture inputs are in Recordings, and Edit Webcam Layout… opens the live webcam layout editor. Drag to move, drag its border to resize, choose a shape, then click Done. Control–Command–R toggles recording from any app; elapsed time appears in the menu bar.
 
 ## My screen or window is missing
 
-Use Refresh Sources in Settings → Recording. Make sure the window is open and check Screen & System Audio Recording access in System Settings → Privacy & Security. Follow any macOS instruction to reopen the app after changing permissions.
+Use Refresh Sources in Settings → Recordings. Make sure the window is open and check Screen & System Audio Recording access in System Settings → Privacy & Security. Follow any macOS instruction to reopen the app after changing permissions.
 
 ## My microphone or camera is unavailable
 
-Check that the desired input is enabled in Settings → Recording, that the device is connected, and that ScreenContext has the corresponding permission in System Settings → Privacy & Security.
-
-## Why is there no transcript?
-
-Recording requires macOS 15 or later. Microphone transcription requires macOS 26 or later, a supported language, and the corresponding speech assets. Enable the microphone and select a transcription language in Settings. A recording without microphone speech may have no transcript.
+Check that the desired input is enabled in Settings → Recordings, that the device is connected, and that ScreenContext has the corresponding permission in System Settings → Privacy & Security.
 
 ## How do I use the result with an AI tool?
 
-Choose a context template or format in the recording window, then copy the context into your prompt. Context can contain local recording and keyframe file paths; attach the relevant files if your AI tool cannot access those paths. AI tools and accounts are separate from ScreenContext.
+Click Copy context in the recording window to copy the recording heading and local video path. Attach the video if your AI tool cannot access local paths. AI tools and accounts are separate from ScreenContext.
 
-## Turn a bug recording into an issue
+For a recording made during the current app session, Copy & Return to [App] (⌘⇧C) copies the context and switches back to the app that was active when you started recording. Press ⌘V there to paste. Recordings reopened after restarting ScreenContext retain regular Copy.
 
-Record the problem and narrate what you expected. Choose Create issue in the recording context menu. Copy the result into your AI workflow so it can use the source material and template instructions to draft or create the issue.
+## Customize the shortcut and language
 
-## Prepare a product video
-
-Record a product walkthrough and choose Product video in the recording context menu. Pass the prepared context and source files to an AI workflow capable of editing video. The template provides instructions for the story, branding, narration, and final video; ScreenContext captures and prepares the source material.
-
-## Create your own workflow with templates
-
-Open Settings → Recording context to create a template. Give it a name, write the instructions for your task, and include the recording, keyframes, and transcript placeholders where needed. Select the saved template in the recording context menu to reuse those instructions with a recording.
+Change Global shortcut at the top of Settings → Recordings. Choose the app language in General, where you can also find Privacy Policy and Support.
 
 ## How do I delete a recording?
 

@@ -1,11 +1,8 @@
 @preconcurrency import AVFoundation
 @preconcurrency import CoreMedia
-@preconcurrency import CoreImage
 import Foundation
 import HaishinKit
-import ImageIO
 import OSLog
-import UniformTypeIdentifiers
 
 public actor LocalMediaRecorder: MediaSampleSink {
     private let recordingsDirectory: URL
@@ -26,13 +23,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
     private var lastVideoTime = CMTime.invalid
     private var lastAudioTime = CMTime.invalid
     private var writerError: (any Error)?
-    private let keyframeWriter = KeyframeWriter()
-    private var writerSessionStartTime = CMTime.invalid
-    private var lastMixedVideoSample: CMSampleBuffer?
-    private var pendingKeyframeCount = 0
-    private var keyframeWriteTasks: [Task<RecordingKeyframe?, Never>] = []
-    private var reservedKeyframeURLs: Set<URL> = []
-    private var capturedStartKeyframe = false
     private var hasReceivedScreenFrame = false
 
     public nonisolated let videoTrackId: UInt8? = UInt8.max
@@ -101,12 +91,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
         lastVideoTime = .invalid
         lastAudioTime = .invalid
         writerError = nil
-        writerSessionStartTime = .invalid
-        lastMixedVideoSample = nil
-        pendingKeyframeCount = 0
-        keyframeWriteTasks = []
-        reservedKeyframeURLs = []
-        capturedStartKeyframe = false
         hasReceivedScreenFrame = false
         try addVideoInput(sourceFormatHint: nil)
         if capturesAudio {
@@ -126,11 +110,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
 
     public func appendAudio(_ sampleBuffer: CMSampleBuffer, track: UInt8) async {
         await mixer?.append(sampleBuffer, track: track)
-    }
-
-    public func captureKeyframe() {
-        guard acceptsOutput else { return }
-        pendingKeyframeCount += 1
     }
 
     public func finish() async throws -> RecordingArtifacts {
@@ -160,12 +139,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
                 throw LocalRecordingError.failedToFinish(writer.error)
             }
 
-            if let lastMixedVideoSample {
-                capturePendingKeyframes(from: lastMixedVideoSample)
-                let stopTimestamp = recordingDuration(through: lastMixedVideoSample)
-                captureKeyframe(from: lastMixedVideoSample, timestamp: stopTimestamp)
-            }
-            let finalizedKeyframes = await finishKeyframeWrites()
             let attributes = try FileManager.default.attributesOfItem(atPath: outputURL.path)
             guard let size = attributes[.size] as? NSNumber, size.int64Value > 0 else {
                 throw LocalRecordingError.emptyRecording
@@ -173,8 +146,7 @@ public actor LocalMediaRecorder: MediaSampleSink {
             resetWriterState()
             logger.info("Local recording finalized at \(outputURL.path, privacy: .private)")
             return RecordingArtifacts(
-                recordingURL: outputURL,
-                keyframes: finalizedKeyframes
+                recordingURL: outputURL
             )
         } catch {
             let diagnosticDescription = String(reflecting: writer.error ?? error)
@@ -208,7 +180,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
             await mixer.removeOutput(self)
         }
         writer?.cancelWriting()
-        await cancelKeyframeWrites()
         resetWriterState()
         if let outputURL {
             try? FileManager.default.removeItem(at: outputURL.deletingLastPathComponent())
@@ -260,7 +231,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
 
     private func appendMixedVideo(_ sampleBuffer: CMSampleBuffer) {
         guard acceptsOutput, writerError == nil, hasReceivedScreenFrame else { return }
-        lastMixedVideoSample = sampleBuffer
         do {
             if videoInput == nil {
                 try addVideoInput(sourceFormatHint: sampleBuffer.formatDescription)
@@ -274,7 +244,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
         } catch {
             writerError = error
         }
-        capturePendingKeyframes(from: sampleBuffer)
     }
 
     private func appendMixedAudio(_ sampleBuffer: CMSampleBuffer) {
@@ -353,16 +322,7 @@ public actor LocalMediaRecorder: MediaSampleSink {
         let firstTime = pendingAudio.first.map {
             CMTimeMinimum(firstVideo.presentationTimeStamp, $0.presentationTimeStamp)
         } ?? firstVideo.presentationTimeStamp
-        writerSessionStartTime = firstTime
         writer.startSession(atSourceTime: firstTime)
-        if !capturedStartKeyframe {
-            capturedStartKeyframe = true
-            captureKeyframe(
-                from: firstVideo,
-                timestamp: recordingDuration(through: firstVideo)
-            )
-        }
-
         let video = pendingVideo
         let audio = pendingAudio
         pendingVideo = []
@@ -403,86 +363,7 @@ public actor LocalMediaRecorder: MediaSampleSink {
         lastVideoTime = .invalid
         lastAudioTime = .invalid
         writerError = nil
-        writerSessionStartTime = .invalid
-        lastMixedVideoSample = nil
-        pendingKeyframeCount = 0
-        keyframeWriteTasks = []
-        reservedKeyframeURLs = []
-        capturedStartKeyframe = false
         hasReceivedScreenFrame = false
-    }
-
-    private func capturePendingKeyframes(from sampleBuffer: CMSampleBuffer) {
-        guard writerSessionStartTime.isValid else { return }
-        let count = pendingKeyframeCount
-        pendingKeyframeCount = 0
-        let timestamp = recordingDuration(through: sampleBuffer)
-        for _ in 0..<count {
-            captureKeyframe(from: sampleBuffer, timestamp: timestamp)
-        }
-    }
-
-    private func captureKeyframe(
-        from sampleBuffer: CMSampleBuffer,
-        timestamp: TimeInterval
-    ) {
-        guard let imageBuffer = sampleBuffer.imageBuffer,
-              let outputURL else {
-            return
-        }
-        let fileURL = makeKeyframeURL(
-            timestamp: timestamp,
-            directory: outputURL.deletingLastPathComponent()
-        )
-        let pixelBuffer = KeyframePixelBuffer(value: imageBuffer)
-        let task = Task { [keyframeWriter] in
-            await keyframeWriter.write(
-                pixelBuffer: pixelBuffer,
-                timestamp: timestamp,
-                fileURL: fileURL
-            )
-        }
-        keyframeWriteTasks.append(task)
-    }
-
-    private func makeKeyframeURL(timestamp: TimeInterval, directory: URL) -> URL {
-        let wholeSeconds = Int(max(0, timestamp).rounded(.down))
-        let baseName = String(format: "frame-%04d", wholeSeconds)
-        var candidate = directory
-            .appendingPathComponent(baseName)
-            .appendingPathExtension("png")
-        var suffix = 2
-        while FileManager.default.fileExists(atPath: candidate.path)
-            || reservedKeyframeURLs.contains(candidate) {
-            candidate = directory
-                .appendingPathComponent("\(baseName)-\(suffix)")
-                .appendingPathExtension("png")
-            suffix += 1
-        }
-        reservedKeyframeURLs.insert(candidate)
-        return candidate
-    }
-
-    private func finishKeyframeWrites() async -> [RecordingKeyframe] {
-        let tasks = keyframeWriteTasks
-        keyframeWriteTasks = []
-        var finalizedKeyframes: [RecordingKeyframe] = []
-        finalizedKeyframes.reserveCapacity(tasks.count)
-        for task in tasks {
-            if let keyframe = await task.value {
-                finalizedKeyframes.append(keyframe)
-            }
-        }
-        return finalizedKeyframes
-    }
-
-    private func cancelKeyframeWrites() async {
-        let tasks = keyframeWriteTasks
-        keyframeWriteTasks = []
-        tasks.forEach { $0.cancel() }
-        for task in tasks {
-            _ = await task.value
-        }
     }
 
     private func discardRecording(
@@ -490,7 +371,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
         outputURL: URL
     ) async {
         writer.cancelWriting()
-        await cancelKeyframeWrites()
         resetWriterState()
         try? FileManager.default.removeItem(at: outputURL.deletingLastPathComponent())
     }
@@ -501,7 +381,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
         fileManager: FileManager = .default
     ) async -> URL? {
         writer.cancelWriting()
-        _ = await finishKeyframeWrites()
 
         let recordingDirectory = outputURL.deletingLastPathComponent()
         guard fileManager.fileExists(atPath: recordingDirectory.path) else {
@@ -542,63 +421,6 @@ public actor LocalMediaRecorder: MediaSampleSink {
         return fileManager.fileExists(atPath: destination.path) ? destination : nil
     }
 
-    private func recordingDuration(through sampleBuffer: CMSampleBuffer) -> TimeInterval {
-        guard writerSessionStartTime.isValid,
-              sampleBuffer.presentationTimeStamp.isValid else {
-            return 0
-        }
-        let duration = CMTimeSubtract(
-            sampleBuffer.presentationTimeStamp,
-            writerSessionStartTime
-        ).seconds
-        return duration.isFinite ? max(0, duration) : 0
-    }
-}
-
-private struct KeyframePixelBuffer: @unchecked Sendable {
-    let value: CVPixelBuffer
-}
-
-private actor KeyframeWriter {
-    private let imageContext = CIContext()
-    private let logger = Logger(
-        subsystem: "de.marcusschiesser.screencontext",
-        category: "keyframes"
-    )
-
-    func write(
-        pixelBuffer: KeyframePixelBuffer,
-        timestamp: TimeInterval,
-        fileURL: URL
-    ) -> RecordingKeyframe? {
-        guard !Task.isCancelled else { return nil }
-        let image = CIImage(cvPixelBuffer: pixelBuffer.value)
-        guard let cgImage = imageContext.createCGImage(image, from: image.extent) else {
-            logger.warning("Could not render a recording keyframe")
-            return nil
-        }
-        guard !Task.isCancelled else { return nil }
-        guard let destination = CGImageDestinationCreateWithURL(
-            fileURL as CFURL,
-            UTType.png.identifier as CFString,
-            1,
-            nil
-        ) else {
-            logger.warning("Could not create a recording keyframe image destination")
-            return nil
-        }
-        CGImageDestinationAddImage(destination, cgImage, nil)
-        guard CGImageDestinationFinalize(destination) else {
-            logger.warning("Could not write a recording keyframe")
-            try? FileManager.default.removeItem(at: fileURL)
-            return nil
-        }
-        guard !Task.isCancelled else {
-            try? FileManager.default.removeItem(at: fileURL)
-            return nil
-        }
-        return RecordingKeyframe(timestamp: timestamp, fileURL: fileURL)
-    }
 }
 
 public enum LocalRecordingError: Error, LocalizedError, Sendable {

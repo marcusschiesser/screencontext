@@ -8,8 +8,6 @@ public struct RecordingConfiguration: Equatable, Sendable {
     public let capturesWebcam: Bool
     public let webcamDeviceID: String?
     public let webcamLayout: WebcamLayout
-    public let transcriptionLocale: TranscriptionLocale
-
     public init(
         source: CaptureSource,
         capturesSystemAudio: Bool,
@@ -17,10 +15,7 @@ public struct RecordingConfiguration: Equatable, Sendable {
         microphoneDeviceID: String?,
         capturesWebcam: Bool,
         webcamDeviceID: String?,
-        webcamLayout: WebcamLayout,
-        transcriptionLocale: TranscriptionLocale = TranscriptionLocale(
-            Locale.autoupdatingCurrent
-        )
+        webcamLayout: WebcamLayout
     ) {
         self.source = source
         self.capturesSystemAudio = capturesSystemAudio
@@ -29,27 +24,14 @@ public struct RecordingConfiguration: Equatable, Sendable {
         self.capturesWebcam = capturesWebcam
         self.webcamDeviceID = webcamDeviceID
         self.webcamLayout = webcamLayout
-        self.transcriptionLocale = transcriptionLocale
-    }
-}
-
-public struct RecordingKeyframe: Equatable, Sendable {
-    public let timestamp: TimeInterval
-    public let fileURL: URL
-
-    public init(timestamp: TimeInterval, fileURL: URL) {
-        self.timestamp = timestamp
-        self.fileURL = fileURL
     }
 }
 
 public struct RecordingArtifacts: Equatable, Sendable {
     public let recordingURL: URL
-    public let keyframes: [RecordingKeyframe]
 
-    public init(recordingURL: URL, keyframes: [RecordingKeyframe]) {
+    public init(recordingURL: URL) {
         self.recordingURL = recordingURL
-        self.keyframes = keyframes
     }
 }
 

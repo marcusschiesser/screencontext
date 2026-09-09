@@ -10,7 +10,6 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
         category: "capture"
     )
     private let recorder: LocalMediaRecorder
-    private let transcriber = OnDeviceSpeechTranscriber()
     private let bundleIdentifier: String
     private var captureStream: SCStream?
     private var outputBridge: ScreenCaptureOutputBridge?
@@ -70,10 +69,7 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
             systemAudioTrack: MediaTrackLayout.systemAudioTrack(
                 capturesMicrophone: configuration.capturesMicrophone
             ),
-            microphoneTrack: MediaTrackLayout.microphoneTrack,
-            microphoneTap: { [transcriber] sample in
-                await transcriber.append(sample)
-            }
+            microphoneTrack: MediaTrackLayout.microphoneTrack
         )
         self.sampleForwarder = sampleForwarder
 
@@ -87,19 +83,6 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
             try Task.checkCancellation()
 
             if configuration.capturesMicrophone {
-                do {
-                    try await transcriber.start(
-                        localeIdentifier: configuration.transcriptionLocale.identifier
-                    )
-                    eventContinuation?.yield(.transcriptionAvailable)
-                } catch {
-                    logger.warning(
-                        "Local transcription is unavailable: \(error.localizedDescription, privacy: .public)"
-                    )
-                    eventContinuation?.yield(
-                        .transcriptionUnavailable(message: error.localizedDescription)
-                    )
-                }
                 let microphoneCapture = MicrophoneCaptureSource { sampleBuffer in
                     sampleForwarder.yieldMicrophone(sampleBuffer)
                 }
@@ -161,19 +144,13 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
         }
     }
 
-    public func captureKeyframe() async {
-        await recorder.captureKeyframe()
-    }
-
     public func stop() async throws -> RecordingArtifacts {
         do {
             try await stopCaptureSources()
         } catch {
             logger.warning("Capture source did not stop cleanly: \(error.localizedDescription, privacy: .public)")
         }
-        let transcript = await transcriber.finishTranscript()
         let artifacts = try await recorder.finish()
-        eventContinuation?.yield(.transcript(transcript))
         logger.info("Recording pipeline stopped")
         eventContinuation?.finish()
         eventContinuation = nil
@@ -182,7 +159,6 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
 
     public func cancel() async {
         try? await stopCaptureSources()
-        await transcriber.cancel()
         await recorder.cancel()
         logger.info("Recording pipeline cancelled")
         eventContinuation?.finish()
@@ -236,8 +212,7 @@ final class MediaSampleForwarder: @unchecked Sendable {
     init(
         sink: any MediaSampleSink,
         systemAudioTrack: UInt8 = 0,
-        microphoneTrack: UInt8 = 0,
-        microphoneTap: (@Sendable (SpeechAudioSample) async -> Void)? = nil
+        microphoneTrack: UInt8 = 0
     ) {
         let videoSamples = AsyncStream.makeStream(
             of: ForwardedSample.self,
@@ -281,7 +256,6 @@ final class MediaSampleForwarder: @unchecked Sendable {
             Task {
                 for await sample in microphoneSamples.stream {
                     guard !Task.isCancelled else { break }
-                    await microphoneTap?(SpeechAudioSample(buffer: sample.buffer))
                     await sink.appendAudio(sample.buffer, track: microphoneTrack)
                 }
             },

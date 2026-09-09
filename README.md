@@ -8,21 +8,20 @@
 
 *The App Store release is pending Apple review.*
 
-ScreenContext is a native Mac app that brings your screen recording, click keyframes, and microphone transcript together. Show what happened, explain what matters, and copy the context into your AI workflow.
+ScreenContext is a native Mac app that records your screen with optional audio and webcam video. Show what happened, explain what matters, and copy the context into your AI workflow.
 
 Use it as your everyday screen recorder, too. Record a screen or window and share the MP4. When you need AI context, it is ready in the same app. No second recorder needed.
 
 ## From recording to context
 
 1. **Choose what to capture.** In Settings, select a screen or window, enable optional audio and webcam inputs, and choose your webcam layout.
-2. **Press ⌃⌘R to start and stop.** Change the shortcut in Settings → General. Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video and captures keyframes at clicks.
-3. **Use the result.** Play back the recording, copy the MP4, or choose a template and click **Copy & Return to [App]** to copy the context and switch back to the app active when recording started. Press **⌘V** there to paste. Regular Copy is also available, including for recordings reopened after restarting ScreenContext.
+2. **Press ⌃⌘R to start and stop.** Change the shortcut in Settings → Recordings. Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video locally.
+3. **Use the result.** Play back the recording, copy the MP4, or click **Copy & Return to [App]** to copy the context and switch back to the app active when recording started. Press **⌘V** there to paste. The context contains the recording heading and local video path. Regular Copy is also available, including for recordings reopened after restarting ScreenContext.
 
 ## Put your recording to work
 
-- **Create an issue.** Demonstrate a bug and use the Create issue template to help your AI tool write reproduction steps and expected versus actual results.
-- **Prepare a product video.** Record a walkthrough and use the Product video template to give your AI workflow source material and instructions for the video.
-- **Create your own workflow.** Write a reusable template with your instructions and placeholders for the recording, keyframes, and transcript. Markdown and SRT formats are also available.
+- **Create an issue.** Demonstrate a bug and give the recording to your AI tool to help write reproduction steps and expected versus actual results.
+- **Prepare a product video.** Record a walkthrough and give your AI workflow the source video and your instructions.
 - **Just record.** Capture a demo, tutorial, or quick explanation and share the video directly.
 
 ScreenContext prepares the material; your chosen AI tool handles the next step.
@@ -31,7 +30,7 @@ ScreenContext prepares the material; your chosen AI tool handles the next step.
 
 Recordings and context stay on your Mac until you choose to share them. No ScreenContext account is required, and analytics are disabled for launch.
 
-Screen recording works on **macOS 15 or later**. On-device microphone transcription requires **macOS 26 or later**, a supported language, and the corresponding speech assets. The app requests screen recording, microphone, and camera permissions as needed.
+Screen recording works on **macOS 15 or later**. The app requests screen recording, microphone, and camera permissions as needed.
 
 [Privacy policy](docs/privacy.md) · [Support](docs/support.md) · [Report an issue](https://github.com/marcusschiesser/screencontext/issues)
 

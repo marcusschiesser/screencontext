@@ -17,7 +17,7 @@ let package = Package(
             dependencies: [
                 .product(name: "HaishinKit", package: "HaishinKit.swift"),
             ],
-            resources: [.copy("Resources/Templates"), .copy("Resources/PrivacyInfo.xcprivacy")]
+            resources: [.copy("Resources/PrivacyInfo.xcprivacy")]
         ),
         .executableTarget(
             name: "ScreenContext",

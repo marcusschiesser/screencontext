@@ -4,34 +4,12 @@ import Carbon
 import CoreVideo
 import Foundation
 import HaishinKit
-import ImageIO
 @preconcurrency import ScreenCaptureKit
 import XCTest
 @testable import ScreenContextCore
 
 final class PersistenceAndStoreTests: XCTestCase {
-    func testLanguageSelectionResolvesToConcreteTranscriptionLocale() {
-        XCTAssertEqual(
-            AppLanguage.system.transcriptionLocale(
-                using: Locale(identifier: "nl-NL")
-            ).identifier,
-            Locale(identifier: "nl-NL").identifier
-        )
-        XCTAssertEqual(
-            AppLanguage.system.transcriptionLocale(
-                using: Locale(identifier: "pt-PT")
-            ).identifier,
-            Locale(identifier: "pt-PT").identifier
-        )
-        XCTAssertEqual(
-            AppLanguage.german.transcriptionLocale(
-                using: Locale(identifier: "es-ES")
-            ).identifier,
-            "de"
-        )
-    }
-
-    func testFileRecordingHistoryRoundTripPreservesRecordingsKeyframesAndSelection() async throws {
+    func testFileRecordingHistoryRoundTripPreservesRecordingsAndSelection() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("screencontext-history-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
@@ -41,12 +19,8 @@ final class PersistenceAndStoreTests: XCTestCase {
         try FileManager.default.createDirectory(at: secondDirectory, withIntermediateDirectories: true)
         let firstVideo = firstDirectory.appendingPathComponent("recording.mp4")
         let secondVideo = secondDirectory.appendingPathComponent("recording.mp4")
-        let firstFrame = firstDirectory.appendingPathComponent("frame-0000.png")
-        let secondFrame = secondDirectory.appendingPathComponent("frame-0003.png")
         try Data([1]).write(to: firstVideo)
         try Data([2]).write(to: secondVideo)
-        try Data([3]).write(to: firstFrame)
-        try Data([4]).write(to: secondFrame)
         let firstID = UUID()
         let secondID = UUID()
         let firstRecordedAt = Date(timeIntervalSince1970: 1_788_255_600)
@@ -56,22 +30,12 @@ final class PersistenceAndStoreTests: XCTestCase {
                 RecordingHistoryEntry(
                     id: firstID,
                     fileURL: firstVideo,
-                    keyframes: [RecordingKeyframe(timestamp: 0, fileURL: firstFrame)],
-                    recordedAt: firstRecordedAt,
-                    requestedTranscription: false,
-                    transcriptionLocale: TranscriptionLocale(identifier: "nl-NL"),
-                    transcriptSRT: "",
-                    transcriptIsAvailable: false
+                    recordedAt: firstRecordedAt
                 ),
                 RecordingHistoryEntry(
                     id: secondID,
                     fileURL: secondVideo,
-                    keyframes: [RecordingKeyframe(timestamp: 3.25, fileURL: secondFrame)],
-                    recordedAt: secondRecordedAt,
-                    requestedTranscription: true,
-                    transcriptionLocale: TranscriptionLocale(identifier: "en"),
-                    transcriptSRT: "Transcript",
-                    transcriptIsAvailable: true
+                    recordedAt: secondRecordedAt
                 ),
             ],
             selectedRecordingID: firstID
@@ -87,7 +51,7 @@ final class PersistenceAndStoreTests: XCTestCase {
         ))
     }
 
-    func testFileRecordingHistoryDiscoversExistingRecordingAndKeyframes() async throws {
+    func testFileRecordingHistoryDiscoversExistingRecording() async throws {
         for (prefix, suffix) in [("ContextCast", ""), ("ScreenContext", ""), ("ScreenContext", "-2")] {
             let root = FileManager.default.temporaryDirectory
                 .appendingPathComponent("screencontext-migration-\(UUID().uuidString)", isDirectory: true)
@@ -106,7 +70,6 @@ final class PersistenceAndStoreTests: XCTestCase {
 
             XCTAssertEqual(loaded.recordings.count, 1)
             XCTAssertEqual(loaded.selectedRecordingID, loaded.recordings.first?.id)
-            XCTAssertEqual(loaded.recordings.first?.keyframes.map(\.timestamp), [0, 2])
             let recordedAt = try XCTUnwrap(loaded.recordings.first?.recordedAt)
             let components = Calendar(identifier: .gregorian).dateComponents(
                 [.year, .month, .day, .hour, .minute, .second],
@@ -124,25 +87,18 @@ final class PersistenceAndStoreTests: XCTestCase {
         }
     }
 
-    func testFileRecordingHistoryDeleteRemovesVideoAndKeyframeDirectory() async throws {
+    func testFileRecordingHistoryDeleteRemovesRecordingDirectory() async throws {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("screencontext-delete-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
         let directory = root.appendingPathComponent("ContextCast 2026-09-01 13-00-00")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let videoURL = directory.appendingPathComponent("recording.mp4")
-        let keyframeURL = directory.appendingPathComponent("frame-0000.png")
         try Data([1]).write(to: videoURL)
-        try Data([2]).write(to: keyframeURL)
         let entry = RecordingHistoryEntry(
             id: UUID(),
             fileURL: videoURL,
-            keyframes: [RecordingKeyframe(timestamp: 0, fileURL: keyframeURL)],
-            recordedAt: Date(timeIntervalSince1970: 1_788_266_400),
-            requestedTranscription: false,
-            transcriptionLocale: TranscriptionLocale(identifier: "en"),
-            transcriptSRT: "",
-            transcriptIsAvailable: false
+            recordedAt: Date(timeIntervalSince1970: 1_788_266_400)
         )
         let store = FileRecordingHistoryStore(recordingsDirectory: root)
         try await store.save(RecordingHistorySnapshot(
@@ -387,8 +343,7 @@ final class PersistenceAndStoreTests: XCTestCase {
     func testRecordingAnalyticsEmitsSuccessfulStartAndCompletionExactlyOnce() async {
         let analytics = StoreAnalyticsSpy()
         let pipeline = TestRecordingPipeline(
-            outputURL: temporaryRecordingURL(),
-            keyframes: [RecordingKeyframe(timestamp: 1, fileURL: temporaryRecordingURL())]
+            outputURL: temporaryRecordingURL()
         )
         let store = makeStore(pipeline: pipeline, analyticsClient: analytics)
         await store.initialize()
@@ -403,8 +358,6 @@ final class PersistenceAndStoreTests: XCTestCase {
         XCTAssertEqual(analytics.events.map(\.name), ["recording_started", "recording_completed"])
         XCTAssertEqual(analytics.events[0].properties["source_kind"], .string("display"))
         XCTAssertEqual(analytics.events[0].properties["microphone_enabled"], .bool(false))
-        XCTAssertEqual(analytics.events[1].properties["keyframe_count"], .integer(1))
-        XCTAssertEqual(analytics.events[1].properties["transcription_requested"], .bool(false))
         XCTAssertEqual(store.phase, .idle)
     }
 
@@ -547,22 +500,12 @@ final class PersistenceAndStoreTests: XCTestCase {
                 RecordingHistoryEntry(
                     id: firstID,
                     fileURL: firstURL,
-                    keyframes: [],
-                    recordedAt: Date(timeIntervalSince1970: 1),
-                    requestedTranscription: false,
-                    transcriptionLocale: TranscriptionLocale(identifier: "en"),
-                    transcriptSRT: "",
-                    transcriptIsAvailable: false
+                    recordedAt: Date(timeIntervalSince1970: 1)
                 ),
                 RecordingHistoryEntry(
                     id: secondID,
                     fileURL: secondURL,
-                    keyframes: [],
-                    recordedAt: Date(timeIntervalSince1970: 2),
-                    requestedTranscription: false,
-                    transcriptionLocale: TranscriptionLocale(identifier: "en"),
-                    transcriptSRT: "",
-                    transcriptIsAvailable: false
+                    recordedAt: Date(timeIntervalSince1970: 2)
                 ),
             ],
             selectedRecordingID: secondID
@@ -671,18 +614,14 @@ final class PersistenceAndStoreTests: XCTestCase {
     }
 
     @MainActor
-    func testCompletedRecordingIsAppendedToPersistedHistoryWithKeyframes() async throws {
+    func testCompletedRecordingIsAppendedToPersistedHistory() async throws {
         let fileURL = temporaryRecordingURL()
-        let keyframeURL = fileURL.deletingLastPathComponent()
-            .appendingPathComponent("frame-0001.png")
         let historyStore = TestRecordingHistoryStore()
         let pipeline = TestRecordingPipeline(
-            outputURL: fileURL,
-            keyframes: [RecordingKeyframe(timestamp: 1.5, fileURL: keyframeURL)]
+            outputURL: fileURL
         )
         let store = makeStore(pipeline: pipeline, recordingHistoryStore: historyStore)
         await store.initialize()
-        let expectedTranscriptionLocale = AppLanguage.system.transcriptionLocale()
 
         store.startRecording()
         let didStart = await waitUntilOnMainActor { store.phase.isRecording }
@@ -695,11 +634,6 @@ final class PersistenceAndStoreTests: XCTestCase {
         XCTAssertTrue(didPersist)
         let persisted = await historyStore.snapshotValue()
         XCTAssertEqual(persisted.recordings.first?.fileURL, fileURL)
-        XCTAssertEqual(persisted.recordings.first?.keyframes.first?.timestamp, 1.5)
-        XCTAssertEqual(
-            persisted.recordings.first?.transcriptionLocale,
-            expectedTranscriptionLocale
-        )
         XCTAssertEqual(persisted.selectedRecordingID, persisted.recordings.first?.id)
     }
 
@@ -708,10 +642,7 @@ final class PersistenceAndStoreTests: XCTestCase {
         let fileURL = temporaryRecordingURL()
         try Data(repeating: 5, count: 32).write(to: fileURL)
         defer { try? FileManager.default.removeItem(at: fileURL) }
-        let transcript = Transcript(segments: [
-            TranscriptSegment(startTime: 0, duration: 1, text: "First recording"),
-        ])
-        let pipeline = TestRecordingPipeline(outputURL: fileURL, transcript: transcript)
+        let pipeline = TestRecordingPipeline(outputURL: fileURL)
         let store = makeStore(pipeline: pipeline)
         await store.initialize()
         var presentedResult: RecordingResult?
@@ -724,243 +655,14 @@ final class PersistenceAndStoreTests: XCTestCase {
         let firstDidFinish = await waitUntilOnMainActor { presentedResult != nil }
         XCTAssertTrue(firstDidFinish)
         let firstResult = try XCTUnwrap(presentedResult)
-        let firstTranscript = firstResult.transcriptSRT
+        let firstContext = firstResult.context
 
         store.startRecording()
         let secondDidStart = await waitUntilOnMainActor { store.phase.isRecording }
         XCTAssertTrue(secondDidStart)
         XCTAssertEqual(firstResult.fileURL, fileURL)
-        XCTAssertEqual(firstResult.transcriptSRT, firstTranscript)
-        XCTAssertTrue(firstResult.transcriptIsAvailable)
+        XCTAssertEqual(firstResult.context, firstContext)
         store.cancelRecording()
-    }
-
-    @MainActor
-    func testStaleModelAvailabilityCannotOverwriteSelectedLanguage() async {
-        let manager = ControlledSpeechModelManager()
-        let store = RecordingSessionStore(
-            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
-            captureAuthorization: PermittedCaptureAuthorization(),
-            preferencesStore: InMemoryPreferences(snapshot: PreferencesSnapshot(
-                selectedCaptureSourceID: .display(1),
-                capturesSystemAudio: false,
-                capturesMicrophone: false
-            )),
-            recordingPipeline: TestRecordingPipeline(outputURL: temporaryRecordingURL()),
-            speechModelManager: manager
-        )
-        await store.initialize()
-
-        store.language = .german
-        let requestedGerman = await waitUntil {
-            await manager.requestedLocales().contains("de")
-        }
-        XCTAssertTrue(requestedGerman)
-        store.language = .english
-        let requestedEnglish = await waitUntil {
-            await manager.requestedLocales().contains("en")
-        }
-        XCTAssertTrue(requestedEnglish)
-
-        await manager.resolveAvailability(for: "en", with: .available)
-        let englishDidResolve = await waitUntilOnMainActor {
-            store.transcriptionModelAvailability == .available
-        }
-        XCTAssertTrue(englishDidResolve)
-        await manager.resolveAvailability(for: "de", with: .unsupported)
-        try? await Task.sleep(for: .milliseconds(20))
-        XCTAssertEqual(store.language, .english)
-        XCTAssertEqual(store.transcriptionModelAvailability, .available)
-    }
-
-    @MainActor
-    func testExternallyDownloadingModelRefreshesToTerminalStatus() async {
-        let manager = ControlledSpeechModelManager()
-        let store = RecordingSessionStore(
-            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
-            captureAuthorization: PermittedCaptureAuthorization(),
-            preferencesStore: InMemoryPreferences(snapshot: PreferencesSnapshot(
-                selectedCaptureSourceID: .display(1),
-                capturesSystemAudio: false,
-                capturesMicrophone: false,
-                language: .german
-            )),
-            recordingPipeline: TestRecordingPipeline(outputURL: temporaryRecordingURL()),
-            speechModelManager: manager
-        )
-        await store.initialize()
-
-        let refreshTask = Task { await store.refreshTranscriptionModelAvailability() }
-        let requestedGerman = await waitUntil {
-            await manager.requestedLocales().contains("de")
-        }
-        XCTAssertTrue(requestedGerman)
-        await manager.resolveAvailability(for: "de", with: .installing)
-        let displayedInstalling = await waitUntilOnMainActor {
-            store.transcriptionModelAvailability == .installing
-        }
-        XCTAssertTrue(displayedInstalling)
-        await manager.resolveDownload(for: "de", with: .available)
-        await refreshTask.value
-        XCTAssertEqual(store.transcriptionModelAvailability, .available)
-    }
-
-    @MainActor
-    func testSystemLanguageRecordingEventUpdatesGlobalModelAvailability() async {
-        let pipeline = TestRecordingPipeline(outputURL: temporaryRecordingURL())
-        let manager = ImmediateSpeechModelManager(availability: .downloadable)
-        let store = RecordingSessionStore(
-            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
-            captureAuthorization: PermittedCaptureAuthorization(),
-            preferencesStore: InMemoryPreferences(snapshot: PreferencesSnapshot(
-                selectedCaptureSourceID: .display(1),
-                capturesSystemAudio: false,
-                capturesMicrophone: false,
-                language: .system
-            )),
-            recordingPipeline: pipeline,
-            speechModelManager: manager
-        )
-        await store.initialize()
-
-        store.startRecording()
-        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
-        XCTAssertTrue(didStart)
-        store.stopRecording()
-        let didStop = await waitUntilOnMainActor { store.phase == .idle }
-        XCTAssertTrue(didStop)
-
-        XCTAssertEqual(store.transcriptionModelAvailability, .available)
-    }
-
-    @MainActor
-    func testSystemLanguageModelInstallRetriesMatchingFailedRecording() async throws {
-        let fileURL = temporaryRecordingURL()
-        let transcriptionLocale = AppLanguage.system.transcriptionLocale()
-        let recording = RecordingHistoryEntry(
-            id: UUID(),
-            fileURL: fileURL,
-            keyframes: [],
-            recordedAt: Date(),
-            requestedTranscription: true,
-            transcriptionLocale: transcriptionLocale,
-            transcriptSRT: "",
-            transcriptIsAvailable: false
-        )
-        let historyStore = TestRecordingHistoryStore(snapshot: RecordingHistorySnapshot(
-            recordings: [recording],
-            selectedRecordingID: recording.id
-        ))
-        let manager = ImmediateSpeechModelManager(
-            availability: .downloadable,
-            transcript: Transcript(segments: [
-                TranscriptSegment(startTime: 0, duration: 1, text: "Retried"),
-            ])
-        )
-        let store = RecordingSessionStore(
-            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
-            captureAuthorization: PermittedCaptureAuthorization(),
-            preferencesStore: InMemoryPreferences(snapshot: PreferencesSnapshot(
-                selectedCaptureSourceID: .display(1),
-                capturesSystemAudio: false,
-                capturesMicrophone: false,
-                language: .system
-            )),
-            recordingHistoryStore: historyStore,
-            recordingPipeline: TestRecordingPipeline(outputURL: fileURL),
-            speechModelManager: manager
-        )
-        await store.initialize()
-
-        await store.installTranscriptionModel()
-
-        XCTAssertEqual(store.transcriptionModelAvailability, .available)
-        XCTAssertTrue(store.latestRecordingResult?.transcriptIsAvailable == true)
-        XCTAssertTrue(store.latestRecordingResult?.transcriptSRT.contains("Retried") == true)
-        let requests = await manager.requestedLocaleIdentifiers()
-        XCTAssertEqual(requests.installed, transcriptionLocale.identifier)
-        XCTAssertEqual(requests.transcribed, transcriptionLocale.identifier)
-    }
-
-    @MainActor
-    func testCompletedRecordingStoresTimestampedTranscript() async throws {
-        let fileURL = temporaryRecordingURL()
-        try Data(repeating: 5, count: 32).write(to: fileURL)
-        defer { try? FileManager.default.removeItem(at: fileURL) }
-        let transcript = Transcript(segments: [
-            TranscriptSegment(startTime: 0, duration: 1, text: "Hello"),
-        ])
-        let expectedSRT = "1\n00:00:00,000 --> 00:00:01,000\nHello"
-        let pipeline = TestRecordingPipeline(
-            outputURL: fileURL,
-            transcript: transcript
-        )
-        let store = makeStore(pipeline: pipeline)
-        await store.initialize()
-
-        store.startRecording()
-        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
-        XCTAssertTrue(didStart)
-        store.stopRecording()
-        let didFinish = await waitUntilOnMainActor {
-            store.phase == .idle && store.lastLocalRecordingURL == fileURL
-        }
-        XCTAssertTrue(didFinish)
-        XCTAssertEqual(store.lastTranscriptSRT, expectedSRT)
-    }
-
-    @MainActor
-    func testUnavailableTranscriptionDoesNotExposeTranscript() async throws {
-        let fileURL = temporaryRecordingURL()
-        try Data(repeating: 5, count: 32).write(to: fileURL)
-        defer { try? FileManager.default.removeItem(at: fileURL) }
-        let pipeline = UnavailableTranscriptionPipeline(outputURL: fileURL)
-
-        let store = makeStore(pipeline: pipeline)
-        await store.initialize()
-
-        store.startRecording()
-        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
-        XCTAssertTrue(didStart)
-        store.stopRecording()
-        let didFinish = await waitUntilOnMainActor {
-            store.phase == .idle && store.lastLocalRecordingURL == fileURL
-        }
-        XCTAssertTrue(didFinish)
-        XCTAssertFalse(store.lastTranscriptIsAvailable)
-        XCTAssertEqual(store.lastTranscriptSRT, "")
-        XCTAssertEqual(store.warningMessage, "A transcription model is required.")
-    }
-
-    @MainActor
-    func testCompletedRecordingStoresKeyframesAndCapturesClicks() async throws {
-        let fileURL = temporaryRecordingURL()
-        let keyframes = [
-            RecordingKeyframe(
-                timestamp: 0,
-                fileURL: fileURL.deletingLastPathComponent().appendingPathComponent("frame-0000.png")
-            ),
-            RecordingKeyframe(
-                timestamp: 2,
-                fileURL: fileURL.deletingLastPathComponent().appendingPathComponent("frame-0002.png")
-            ),
-        ]
-        let pipeline = TestRecordingPipeline(outputURL: fileURL, keyframes: keyframes)
-        let store = makeStore(pipeline: pipeline)
-        await store.initialize()
-
-        store.startRecording()
-        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
-        XCTAssertTrue(didStart)
-        store.captureClickKeyframe()
-        let didCaptureClick = await waitUntil { await pipeline.capturedKeyframeCount() == 1 }
-        XCTAssertTrue(didCaptureClick)
-
-        store.stopRecording()
-        let didFinish = await waitUntilOnMainActor {
-            store.phase == .idle && store.lastKeyframes == keyframes
-        }
-        XCTAssertTrue(didFinish)
     }
 
     @MainActor
@@ -1212,7 +914,6 @@ final class PersistenceAndStoreTests: XCTestCase {
                 try await Task.sleep(for: .milliseconds(350))
             }
             if frame == 15 {
-                await recorder.captureKeyframe()
             }
             guard frame >= 10 else { continue }
             for audioIndex in 0..<2 {
@@ -1257,19 +958,10 @@ final class PersistenceAndStoreTests: XCTestCase {
         )
         XCTAssertEqual(outputURL.lastPathComponent, "recording.mp4")
         XCTAssertTrue(outputURL.deletingLastPathComponent().lastPathComponent.hasPrefix("ScreenContext "))
-        XCTAssertGreaterThanOrEqual(artifacts.keyframes.count, 3)
-        XCTAssertEqual(artifacts.keyframes.first?.timestamp ?? -1, 0.5, accuracy: 0.02)
-        XCTAssertEqual(artifacts.keyframes[1].timestamp, 1, accuracy: 0.1)
-        XCTAssertTrue(artifacts.keyframes.allSatisfy {
-            FileManager.default.fileExists(atPath: $0.fileURL.path)
-                && $0.fileURL.pathExtension == "png"
-        })
-        XCTAssertEqual(
-            Set(artifacts.keyframes.map(\.fileURL)).count,
-            artifacts.keyframes.count
+        let files = try FileManager.default.contentsOfDirectory(
+            at: outputURL.deletingLastPathComponent(), includingPropertiesForKeys: nil
         )
-        let startKeyframe = try XCTUnwrap(artifacts.keyframes.first)
-        XCTAssertGreaterThan(try averageRGBComponent(at: startKeyframe.fileURL), 200)
+        XCTAssertEqual(files.map(\.lastPathComponent), ["recording.mp4"])
         let asset = AVURLAsset(url: outputURL)
         let videoTracks = try await asset.loadTracks(withMediaType: .video)
         let audioTracks = try await asset.loadTracks(withMediaType: .audio)
@@ -1277,8 +969,6 @@ final class PersistenceAndStoreTests: XCTestCase {
         XCTAssertEqual(videoTracks.count, 1)
         XCTAssertEqual(audioTracks.count, 1)
         XCTAssertGreaterThan(duration, 0.5)
-        let speechAnalyzerInput = try AVAudioFile(forReading: outputURL)
-        XCTAssertGreaterThan(speechAnalyzerInput.length, 0)
         let maximumAudioAmplitude = try await maximumDecodedAudioAmplitude(in: asset)
         XCTAssertGreaterThan(
             maximumAudioAmplitude,
@@ -1383,23 +1073,16 @@ private actor InMemoryPreferences: PreferencesStore {
 
 private actor TestRecordingPipeline: RecordingPipeline {
     private let outputURL: URL
-    private let transcript: Transcript
-    private let keyframes: [RecordingKeyframe]
     private var startCount = 0
     private var stopCount = 0
     private var cancelCount = 0
     private var continuation: AsyncStream<RecordingPipelineEvent>.Continuation?
     private var configuration: RecordingConfiguration?
-    private var keyframeCaptureCount = 0
 
     init(
-        outputURL: URL,
-        transcript: Transcript = .empty,
-        keyframes: [RecordingKeyframe] = []
+        outputURL: URL
     ) {
         self.outputURL = outputURL
-        self.transcript = transcript
-        self.keyframes = keyframes
     }
     func start(configuration: RecordingConfiguration) -> AsyncStream<RecordingPipelineEvent> {
         startCount += 1
@@ -1408,15 +1091,10 @@ private actor TestRecordingPipeline: RecordingPipeline {
         continuation = events.continuation
         return events.stream
     }
-    func captureKeyframe() {
-        keyframeCaptureCount += 1
-    }
     func stop() -> RecordingArtifacts {
         stopCount += 1
-        continuation?.yield(.transcriptionAvailable)
-        continuation?.yield(.transcript(transcript))
         continuation?.finish()
-        return RecordingArtifacts(recordingURL: outputURL, keyframes: keyframes)
+        return RecordingArtifacts(recordingURL: outputURL)
     }
     func cancel() {
         cancelCount += 1
@@ -1425,7 +1103,6 @@ private actor TestRecordingPipeline: RecordingPipeline {
     func startCountValue() -> Int { startCount }
     func stopCountValue() -> Int { stopCount }
     func configurationValue() -> RecordingConfiguration? { configuration }
-    func capturedKeyframeCount() -> Int { keyframeCaptureCount }
 }
 
 private actor RecoverableFailureRecordingPipeline: RecordingPipeline {
@@ -1442,7 +1119,6 @@ private actor RecoverableFailureRecordingPipeline: RecordingPipeline {
         return events.stream
     }
 
-    func captureKeyframe() {}
 
     func stop() throws -> RecordingArtifacts {
         continuation?.finish()
@@ -1461,7 +1137,6 @@ private actor FailingStartRecordingPipeline: RecordingPipeline {
     func start(configuration: RecordingConfiguration) throws -> AsyncStream<RecordingPipelineEvent> {
         throw TestRecordingAnalyticsError.failed
     }
-    func captureKeyframe() {}
     func stop() throws -> RecordingArtifacts { throw TestRecordingAnalyticsError.failed }
     func cancel() {}
 }
@@ -1473,7 +1148,6 @@ private actor NonRecoverableFailureRecordingPipeline: RecordingPipeline {
         continuation = events.continuation
         return events.stream
     }
-    func captureKeyframe() {}
     func stop() throws -> RecordingArtifacts {
         continuation?.finish()
         throw TestRecordingAnalyticsError.failed
@@ -1485,100 +1159,6 @@ private enum TestRecordingAnalyticsError: Error {
     case failed
 }
 
-private actor ControlledSpeechModelManager: SpeechModelManaging {
-    private var availabilityContinuations: [
-        String: CheckedContinuation<TranscriptionModelAvailability, Never>
-    ] = [:]
-    private var downloadContinuations: [
-        String: CheckedContinuation<TranscriptionModelAvailability, Never>
-    ] = [:]
-
-    func availability(localeIdentifier: String?) async -> TranscriptionModelAvailability {
-        await withCheckedContinuation { continuation in
-            availabilityContinuations[localeIdentifier ?? "system"] = continuation
-        }
-    }
-
-    func availabilityFollowingDownload(
-        localeIdentifier: String?
-    ) async -> TranscriptionModelAvailability {
-        await withCheckedContinuation { continuation in
-            downloadContinuations[localeIdentifier ?? "system"] = continuation
-        }
-    }
-
-    func install(localeIdentifier: String?) async throws -> TranscriptionModelAvailability {
-        .available
-    }
-
-    func transcribeRecording(
-        at fileURL: URL,
-        localeIdentifier: String?
-    ) async throws -> Transcript {
-        .empty
-    }
-
-    func requestedLocales() -> Set<String> {
-        Set(availabilityContinuations.keys)
-    }
-
-    func resolveAvailability(
-        for localeIdentifier: String,
-        with status: TranscriptionModelAvailability
-    ) {
-        availabilityContinuations.removeValue(forKey: localeIdentifier)?.resume(returning: status)
-    }
-
-    func resolveDownload(
-        for localeIdentifier: String,
-        with status: TranscriptionModelAvailability
-    ) {
-        downloadContinuations.removeValue(forKey: localeIdentifier)?.resume(returning: status)
-    }
-}
-
-private actor ImmediateSpeechModelManager: SpeechModelManaging {
-    private let availabilityStatus: TranscriptionModelAvailability
-    private let transcript: Transcript
-    private var installedLocaleIdentifier: String?
-    private var transcribedLocaleIdentifier: String?
-
-    init(
-        availability: TranscriptionModelAvailability,
-        transcript: Transcript = .empty
-    ) {
-        availabilityStatus = availability
-        self.transcript = transcript
-    }
-
-    func availability(localeIdentifier: String?) -> TranscriptionModelAvailability {
-        availabilityStatus
-    }
-
-    func availabilityFollowingDownload(
-        localeIdentifier: String?
-    ) -> TranscriptionModelAvailability {
-        .available
-    }
-
-    func install(localeIdentifier: String?) -> TranscriptionModelAvailability {
-        installedLocaleIdentifier = localeIdentifier
-        return .available
-    }
-
-    func transcribeRecording(
-        at fileURL: URL,
-        localeIdentifier: String?
-    ) -> Transcript {
-        transcribedLocaleIdentifier = localeIdentifier
-        return transcript
-    }
-
-    func requestedLocaleIdentifiers() -> (installed: String?, transcribed: String?) {
-        (installedLocaleIdentifier, transcribedLocaleIdentifier)
-    }
-}
-
 private actor BlockingStartPipeline: RecordingPipeline {
     private let outputURL: URL
     private var continuation: CheckedContinuation<Void, Never>?
@@ -1588,9 +1168,8 @@ private actor BlockingStartPipeline: RecordingPipeline {
         await withCheckedContinuation { continuation = $0 }
         return AsyncStream { $0.finish() }
     }
-    func captureKeyframe() {}
     func stop() -> RecordingArtifacts {
-        RecordingArtifacts(recordingURL: outputURL, keyframes: [])
+        RecordingArtifacts(recordingURL: outputURL)
     }
     func cancel() {
         cancelCount += 1
@@ -1599,38 +1178,6 @@ private actor BlockingStartPipeline: RecordingPipeline {
     }
     func releaseStart() { continuation?.resume(); continuation = nil }
     func cancelCountValue() -> Int { cancelCount }
-}
-
-private actor UnavailableTranscriptionPipeline: RecordingPipeline {
-    private let outputURL: URL
-    private var continuation: AsyncStream<RecordingPipelineEvent>.Continuation?
-
-    init(outputURL: URL) {
-        self.outputURL = outputURL
-    }
-
-    func start(configuration: RecordingConfiguration) -> AsyncStream<RecordingPipelineEvent> {
-        let events = AsyncStream.makeStream(of: RecordingPipelineEvent.self)
-        continuation = events.continuation
-        return events.stream
-    }
-
-    func captureKeyframe() {}
-
-    func stop() -> RecordingArtifacts {
-        continuation?.yield(
-            .transcriptionUnavailable(message: "A transcription model is required.")
-        )
-        continuation?.yield(.transcript(Transcript(segments: [
-            TranscriptSegment(startTime: 0, duration: 1, text: "Must stay hidden"),
-        ])))
-        continuation?.finish()
-        return RecordingArtifacts(recordingURL: outputURL, keyframes: [])
-    }
-
-    func cancel() {
-        continuation?.finish()
-    }
 }
 
 private actor RecordingCaptureAuthorization: CaptureAuthorization {
@@ -1770,12 +1317,7 @@ private func recordingHistoryEntry(id: UUID, timestamp: TimeInterval) -> Recordi
     RecordingHistoryEntry(
         id: id,
         fileURL: temporaryRecordingURL(),
-        keyframes: [],
-        recordedAt: Date(timeIntervalSince1970: timestamp),
-        requestedTranscription: false,
-        transcriptionLocale: TranscriptionLocale(identifier: "en"),
-        transcriptSRT: "",
-        transcriptIsAvailable: false
+        recordedAt: Date(timeIntervalSince1970: timestamp)
     )
 }
 
@@ -1846,28 +1388,6 @@ private func makeWhiteVideoSampleBuffer(
     return sampleBuffer
 }
 
-private func averageRGBComponent(at fileURL: URL) throws -> Double {
-    guard let source = CGImageSourceCreateWithURL(fileURL as CFURL, nil),
-          let image = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
-        throw NSError(domain: "ScreenContextTests", code: -3)
-    }
-    var pixel = [UInt8](repeating: 0, count: 4)
-    guard let context = CGContext(
-        data: &pixel,
-        width: 1,
-        height: 1,
-        bitsPerComponent: 8,
-        bytesPerRow: 4,
-        space: CGColorSpaceCreateDeviceRGB(),
-        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-    ) else {
-        throw NSError(domain: "ScreenContextTests", code: -4)
-    }
-    context.draw(image, in: CGRect(x: 0, y: 0, width: 1, height: 1))
-    return pixel.prefix(3).map(Double.init).reduce(0, +) / 3
-}
-
-@discardableResult
 private func waitUntil(
     timeout: Duration = .seconds(1),
     condition: @Sendable () async -> Bool

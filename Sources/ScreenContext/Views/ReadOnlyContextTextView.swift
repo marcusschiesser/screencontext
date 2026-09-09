@@ -1,7 +1,7 @@
 import AppKit
 import SwiftUI
 
-struct ReadOnlyTranscriptTextView: NSViewRepresentable {
+struct ReadOnlyContextTextView: NSViewRepresentable {
     let text: String
     let accessibilityLabel: String
 

@@ -3,31 +3,16 @@ import Foundation
 public struct RecordingHistoryEntry: Equatable, Sendable {
     public let id: UUID
     public let fileURL: URL
-    public let keyframes: [RecordingKeyframe]
     public let recordedAt: Date
-    public let requestedTranscription: Bool
-    public let transcriptionLocale: TranscriptionLocale
-    public let transcriptSRT: String
-    public let transcriptIsAvailable: Bool
 
     public init(
         id: UUID,
         fileURL: URL,
-        keyframes: [RecordingKeyframe],
-        recordedAt: Date,
-        requestedTranscription: Bool,
-        transcriptionLocale: TranscriptionLocale,
-        transcriptSRT: String,
-        transcriptIsAvailable: Bool
+        recordedAt: Date
     ) {
         self.id = id
         self.fileURL = fileURL
-        self.keyframes = keyframes
         self.recordedAt = recordedAt
-        self.requestedTranscription = requestedTranscription
-        self.transcriptionLocale = transcriptionLocale
-        self.transcriptSRT = transcriptSRT
-        self.transcriptIsAvailable = transcriptIsAvailable
     }
 }
 

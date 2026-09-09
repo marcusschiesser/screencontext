@@ -43,14 +43,10 @@ public protocol PreferencesStore: Sendable {
 public enum RecordingPipelineEvent: Equatable, Sendable {
     case optionalInputLost(name: String)
     case fatal(message: String)
-    case transcriptionAvailable
-    case transcriptionUnavailable(message: String)
-    case transcript(Transcript)
 }
 
 public protocol RecordingPipeline: Sendable {
     func start(configuration: RecordingConfiguration) async throws -> AsyncStream<RecordingPipelineEvent>
-    func captureKeyframe() async
     func stop() async throws -> RecordingArtifacts
     func cancel() async
 }

@@ -20,12 +20,6 @@ public enum AppLanguage: String, Codable, CaseIterable, Identifiable, Sendable {
     public var id: String { rawValue }
     public var localeIdentifier: String? { self == .system ? nil : rawValue }
 
-    public func transcriptionLocale(
-        using systemLocale: Locale = .autoupdatingCurrent
-    ) -> TranscriptionLocale {
-        guard let localeIdentifier else { return TranscriptionLocale(systemLocale) }
-        return TranscriptionLocale(identifier: localeIdentifier)
-    }
 }
 
 public struct PreferencesSnapshot: Codable, Equatable, Sendable {

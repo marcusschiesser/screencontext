@@ -19,9 +19,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var shortcutController: GlobalShortcutController?
     private weak var settingsWindow: NSWindow?
     private var settingsPresentationPending = false
-    private lazy var clickMonitor = MouseClickMonitor { [weak self] in
-        self?.store.captureClickKeyframe()
-    }
     private var workspaceObservers: [NSObjectProtocol] = []
 
     override init() {
@@ -63,7 +60,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             guard let self else { return }
             self.overlayController?.synchronize()
             self.feedbackController?.synchronize()
-            clickMonitor.setActive(store.phase.isRecording)
         }
         store.shortcutPreferenceChanged = { [weak self] shortcut in
             self?.shortcutController?.register(shortcut) ?? false
@@ -105,7 +101,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         logger.info("ScreenContext terminating")
-        clickMonitor.stop()
         shortcutRecorder.stop()
         contextReturnController.stopObserving()
         store.cancelRecording()
