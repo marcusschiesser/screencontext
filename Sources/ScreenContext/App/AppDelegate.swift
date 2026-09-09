@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let analytics: AnalyticsConsentController
     let store: RecordingSessionStore
     let shortcutRecorder = ShortcutRecorder()
+    private let contextReturnController = RecordingContextReturnController()
     private var overlayController: WebcamOverlayPanelController?
     private var feedbackController: RecordingFeedbackPanelController?
     private var recordingResultController: RecordingResultPanelController?
@@ -37,6 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         logger.info("ScreenContext launched")
         analytics.capture(.appLaunched)
         NSApp.setActivationPolicy(.regular)
+        contextReturnController.startObserving()
         overlayController = WebcamOverlayPanelController(store: store) { [weak self] in
             self?.overlayController?.hide()
             self?.openSettings()
@@ -44,7 +46,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let feedbackController = RecordingFeedbackPanelController(store: store)
         let recordingResultController = RecordingResultPanelController(
             store: store,
-            analytics: analytics
+            analytics: analytics,
+            contextReturnController: contextReturnController
         )
         self.feedbackController = feedbackController
         self.recordingResultController = recordingResultController
@@ -65,8 +68,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         store.shortcutPreferenceChanged = { [weak self] shortcut in
             self?.shortcutController?.register(shortcut) ?? false
         }
-        store.recordingResultAvailable = { [weak recordingResultController] result in
-            recordingResultController?.present(result)
+        store.recordingWillStart = { [weak self] in
+            self?.contextReturnController.captureDestination()
+        }
+        store.recordingResultAvailable = { [weak self] result in
+            guard let self else { return }
+            contextReturnController.recordingCompleted(
+                result,
+                retaining: Set(store.recordingResults.map(\.id))
+            )
+            self.recordingResultController?.present(result)
         }
         store.recordingFailureNoticeAvailable = { [weak self] in
             self?.openSettings()
@@ -96,6 +107,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         logger.info("ScreenContext terminating")
         clickMonitor.stop()
         shortcutRecorder.stop()
+        contextReturnController.stopObserving()
         store.cancelRecording()
         analytics.flush()
         for observer in workspaceObservers {

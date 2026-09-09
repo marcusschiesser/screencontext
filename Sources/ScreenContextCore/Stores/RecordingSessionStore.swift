@@ -120,6 +120,8 @@ public final class RecordingSessionStore {
         category: "recording-session"
     )
 
+    /// Called synchronously for accepted starts, before preparation changes app focus.
+    @ObservationIgnored public var recordingWillStart: (() -> Void)?
     @ObservationIgnored public var recordingResultAvailable: ((RecordingResult) -> Void)?
     @ObservationIgnored public var recordingFailureNoticeAvailable: (() -> Void)?
     @ObservationIgnored public var shortcutPreferenceChanged: ((GlobalShortcut) -> Bool)?
@@ -439,6 +441,7 @@ public final class RecordingSessionStore {
             return
         }
 
+        recordingWillStart?()
         let sessionID = UUID()
         let transcriptionLocale = language.transcriptionLocale()
         activeSessionID = sessionID

@@ -11,6 +11,8 @@ final class RecordingResultPanelController {
     private static let verticalScreenMargin: CGFloat = 80
     private let store: RecordingSessionStore
     private let analytics: AnalyticsConsentController
+    private let contextReturnController: RecordingContextReturnController
+    private let pasteReminderController = PasteReminderPanelController()
     private var presentedResultID: RecordingResult.ID?
 
     private lazy var window: NSWindow = {
@@ -32,10 +34,12 @@ final class RecordingResultPanelController {
 
     init(
         store: RecordingSessionStore,
-        analytics: AnalyticsConsentController
+        analytics: AnalyticsConsentController,
+        contextReturnController: RecordingContextReturnController
     ) {
         self.store = store
         self.analytics = analytics
+        self.contextReturnController = contextReturnController
     }
 
     func present(_ result: RecordingResult) {
@@ -104,6 +108,13 @@ final class RecordingResultPanelController {
                 fallbackResult: result,
                 mediaHeight: mediaHeight,
                 analytics: analytics,
+                contextReturnController: contextReturnController,
+                contextReturned: { [weak self] locale in
+                    guard let self else { return }
+                    let screen = window.screen
+                    dismiss()
+                    pasteReminderController.show(locale: locale, on: screen)
+                },
                 dismiss: { [weak self] in self?.dismiss() }
             )
         )

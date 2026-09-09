@@ -1,6 +1,139 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Press ⌘V to paste.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "اضغط على ⌘V للصق." } },
+        "de": { "stringUnit": { "state": "translated", "value": "Drücke ⌘V zum Einfügen." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Press ⌘V to paste." } },
+        "es": { "stringUnit": { "state": "translated", "value": "Pulsa ⌘V para pegar." } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Appuyez sur ⌘V pour coller." } },
+        "it": { "stringUnit": { "state": "translated", "value": "Premi ⌘V per incollare." } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "⌘Vを押してペーストしてください。" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "⌘V를 눌러 붙여넣으십시오." } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Pressione ⌘V para colar." } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Нажмите ⌘V для вставки." } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Yapıştırmak için ⌘V tuşlarına basın." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Nhấn ⌘V để dán." } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "按 ⌘V 粘贴。" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "按 ⌘V 貼上。" } }
+      }
+    },
+    "Copy & Return to %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "نسخ والعودة إلى %@" } },
+        "de": { "stringUnit": { "state": "translated", "value": "Kopieren & zu %@ zurückkehren" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Copy & Return to %@" } },
+        "es": { "stringUnit": { "state": "translated", "value": "Copiar y volver a %@" } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Copier et revenir à %@" } },
+        "it": { "stringUnit": { "state": "translated", "value": "Copia e torna a %@" } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "コピーして%@に戻る" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "복사하고 %@로 돌아가기" } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Copiar e voltar para %@" } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Скопировать и вернуться в %@" } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Kopyala ve %@ uygulamasına dön" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Sao chép và quay lại %@" } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "复制并返回 %@" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "複製並返回 %@" } }
+      }
+    },
+    "Paste with ⌘V": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "اللصق باستخدام ⌘V" } },
+        "de": { "stringUnit": { "state": "translated", "value": "Mit ⌘V einfügen" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Paste with ⌘V" } },
+        "es": { "stringUnit": { "state": "translated", "value": "Pegar con ⌘V" } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Coller avec ⌘V" } },
+        "it": { "stringUnit": { "state": "translated", "value": "Incolla con ⌘V" } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "⌘Vでペースト" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "⌘V로 붙여넣기" } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Cole com ⌘V" } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Вставьте через ⌘V" } },
+        "tr": { "stringUnit": { "state": "translated", "value": "⌘V ile yapıştırın" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Dán bằng ⌘V" } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "按 ⌘V 粘贴" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "按 ⌘V 貼上" } }
+      }
+    },
+    "Copy context and switch back to the original app. Press ⌘V there to paste.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "انسخ السياق وعد إلى التطبيق الأصلي. اضغط على ⌘V هناك للصق." } },
+        "de": { "stringUnit": { "state": "translated", "value": "Kontext kopieren und zur ursprünglichen App zurückkehren. Dort mit ⌘V einfügen." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Copy context and switch back to the original app. Press ⌘V there to paste." } },
+        "es": { "stringUnit": { "state": "translated", "value": "Copia el contexto y vuelve a la app original. Pulsa ⌘V allí para pegarlo." } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Copiez le contexte et revenez à l’app d’origine. Appuyez sur ⌘V pour l’y coller." } },
+        "it": { "stringUnit": { "state": "translated", "value": "Copia il contesto e torna all’app originale. Premi ⌘V per incollarlo." } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "コンテキストをコピーして元のアプリに戻ります。そこで⌘Vを押してペーストしてください。" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "컨텍스트를 복사하고 원래 앱으로 돌아갑니다. 해당 앱에서 ⌘V를 눌러 붙여넣으십시오." } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Copie o contexto e volte ao app original. Pressione ⌘V nele para colar." } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Скопируйте контекст и вернитесь в исходное приложение. Нажмите там ⌘V для вставки." } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Bağlamı kopyalayıp önceki uygulamaya dönün. Yapıştırmak için orada ⌘V tuşlarına basın." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Sao chép ngữ cảnh và quay lại ứng dụng ban đầu. Nhấn ⌘V tại đó để dán." } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "复制上下文并返回原来的应用。然后按 ⌘V 粘贴。" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "複製內容脈絡並返回原來的 App，然後按 ⌘V 貼上。" } }
+      }
+    },
+    "Couldn’t Copy Context": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "تعذر نسخ السياق" } },
+        "de": { "stringUnit": { "state": "translated", "value": "Kontext konnte nicht kopiert werden" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Couldn’t Copy Context" } },
+        "es": { "stringUnit": { "state": "translated", "value": "No se pudo copiar el contexto" } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de copier le contexte" } },
+        "it": { "stringUnit": { "state": "translated", "value": "Impossibile copiare il contesto" } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "コンテキストをコピーできませんでした" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "컨텍스트를 복사할 수 없음" } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Não foi possível copiar o contexto" } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось скопировать контекст" } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Bağlam kopyalanamadı" } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Không thể sao chép ngữ cảnh" } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "无法复制上下文" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "無法複製內容脈絡" } }
+      }
+    },
+    "Try copying the context again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "حاول نسخ السياق مرة أخرى." } },
+        "de": { "stringUnit": { "state": "translated", "value": "Versuche erneut, den Kontext zu kopieren." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Try copying the context again." } },
+        "es": { "stringUnit": { "state": "translated", "value": "Intenta copiar el contexto de nuevo." } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Réessayez de copier le contexte." } },
+        "it": { "stringUnit": { "state": "translated", "value": "Prova a copiare di nuovo il contesto." } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "コンテキストのコピーをもう一度お試しください。" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "컨텍스트를 다시 복사해 보십시오." } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Tente copiar o contexto novamente." } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Попробуйте скопировать контекст ещё раз." } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Bağlamı kopyalamayı yeniden deneyin." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Hãy thử sao chép ngữ cảnh lần nữa." } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "请重试复制上下文。" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "請重試複製內容脈絡。" } }
+      }
+    },
+    "Couldn’t return to the original app. Switch to your destination and press ⌘V to paste.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": { "stringUnit": { "state": "translated", "value": "تعذرت العودة إلى التطبيق الأصلي. انتقل إلى التطبيق المطلوب واضغط على ⌘V للصق." } },
+        "de": { "stringUnit": { "state": "translated", "value": "Die ursprüngliche App konnte nicht aktiviert werden. Wechsle zur gewünschten App und füge den Kontext mit ⌘V ein." } },
+        "en": { "stringUnit": { "state": "translated", "value": "Couldn’t return to the original app. Switch to your destination and press ⌘V to paste." } },
+        "es": { "stringUnit": { "state": "translated", "value": "No se pudo volver a la app original. Cambia al destino y pulsa ⌘V para pegar." } },
+        "fr": { "stringUnit": { "state": "translated", "value": "Impossible de revenir à l’app d’origine. Ouvrez l’app souhaitée et appuyez sur ⌘V pour coller." } },
+        "it": { "stringUnit": { "state": "translated", "value": "Impossibile tornare all’app originale. Passa alla destinazione e premi ⌘V per incollare." } },
+        "ja-JP": { "stringUnit": { "state": "translated", "value": "元のアプリに戻れませんでした。貼り付け先に切り替えて⌘Vを押してください。" } },
+        "ko-KR": { "stringUnit": { "state": "translated", "value": "원래 앱으로 돌아갈 수 없습니다. 대상 앱으로 전환하고 ⌘V를 눌러 붙여넣으십시오." } },
+        "pt-BR": { "stringUnit": { "state": "translated", "value": "Não foi possível voltar ao app original. Mude para o destino e pressione ⌘V para colar." } },
+        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось вернуться в исходное приложение. Перейдите в нужное приложение и нажмите ⌘V для вставки." } },
+        "tr": { "stringUnit": { "state": "translated", "value": "Önceki uygulamaya dönülemedi. Hedef uygulamaya geçip yapıştırmak için ⌘V tuşlarına basın." } },
+        "vi": { "stringUnit": { "state": "translated", "value": "Không thể quay lại ứng dụng ban đầu. Chuyển đến ứng dụng đích và nhấn ⌘V để dán." } },
+        "zh-CN": { "stringUnit": { "state": "translated", "value": "无法返回原来的应用。请切换到目标应用并按 ⌘V 粘贴。" } },
+        "zh-TW": { "stringUnit": { "state": "translated", "value": "無法返回原來的 App。請切換到目標 App 並按 ⌘V 貼上。" } }
+      }
+    },
     "%lld of %lld": {
       "extractionState": "manual",
       "localizations": {
@@ -39,25 +172,7 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "加入範本" } }
       }
     },
-    "Claude supports contexts up to 14,000 characters. Shorten this context and try again.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "يدعم Claude سياقات يصل طولها إلى 14,000 حرف. اختصر هذا السياق وحاول مرة أخرى." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Claude unterstützt Kontexte mit bis zu 14.000 Zeichen. Kürze diesen Kontext und versuche es erneut." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Claude supports contexts up to 14,000 characters. Shorten this context and try again." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Claude admite contextos de hasta 14.000 caracteres. Acorta este contexto e inténtalo de nuevo." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Claude accepte les contextes jusqu’à 14 000 caractères. Raccourcissez ce contexte et réessayez." } },
-        "it": { "stringUnit": { "state": "translated", "value": "Claude supporta contesti fino a 14.000 caratteri. Riduci questo contesto e riprova." } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "Claude が対応するコンテキストは最大14,000文字です。コンテキストを短くして、もう一度お試しください。" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "Claude는 최대 14,000자의 컨텍스트를 지원합니다. 컨텍스트를 줄인 후 다시 시도하십시오." } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "O Claude aceita contextos de até 14.000 caracteres. Reduza este contexto e tente novamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Claude поддерживает контекст длиной до 14 000 символов. Сократите контекст и повторите попытку." } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Claude en fazla 14.000 karakterlik bağlamları destekler. Bu bağlamı kısaltıp yeniden deneyin." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Claude hỗ trợ ngữ cảnh tối đa 14.000 ký tự. Hãy rút gọn ngữ cảnh này rồi thử lại." } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "Claude 支持最多 14,000 个字符的上下文。请缩短此上下文后重试。" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "Claude 支援最多 14,000 個字元的內容脈絡。請縮短內容脈絡後再試一次。" } }
-      }
-    },
+
     "Context copied": {
       "extractionState": "manual",
       "localizations": {
@@ -77,44 +192,8 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "內容脈絡已複製" } }
       }
     },
-    "Context Too Long": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "السياق طويل جدًا" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Kontext ist zu lang" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Context Too Long" } },
-        "es": { "stringUnit": { "state": "translated", "value": "El contexto es demasiado largo" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Contexte trop long" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Contesto troppo lungo" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "コンテキストが長すぎます" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "컨텍스트가 너무 깁니다" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Contexto muito longo" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Слишком длинный контекст" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Bağlam Çok Uzun" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ngữ cảnh quá dài" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "上下文过长" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "內容脈絡過長" } }
-      }
-    },
-    "Couldn’t Open %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تعذر فتح %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "%@ konnte nicht geöffnet werden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Couldn’t Open %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "No se pudo abrir %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Impossible d’ouvrir %@" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Impossibile aprire %@" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "%@を開けませんでした" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "%@을(를) 열 수 없습니다" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Não foi possível abrir %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Не удалось открыть %@" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "%@ Açılamadı" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Không thể mở %@" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "无法打开 %@" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "無法開啟 %@" } }
-      }
-    },
+
+
     "Delete Template?": {
       "extractionState": "manual",
       "localizations": {
@@ -153,25 +232,7 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "刪除範本" } }
       }
     },
-    "Make sure %@ is installed and try again.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "تأكد من تثبيت %@ ثم حاول مرة أخرى." } },
-        "de": { "stringUnit": { "state": "translated", "value": "Stelle sicher, dass %@ installiert ist, und versuche es erneut." } },
-        "en": { "stringUnit": { "state": "translated", "value": "Make sure %@ is installed and try again." } },
-        "es": { "stringUnit": { "state": "translated", "value": "Asegúrate de que %@ esté instalado e inténtalo de nuevo." } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Vérifiez que %@ est installé, puis réessayez." } },
-        "it": { "stringUnit": { "state": "translated", "value": "Assicurati che %@ sia installato e riprova." } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "%@がインストールされていることを確認して、もう一度お試しください。" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "%@이(가) 설치되어 있는지 확인한 후 다시 시도하십시오." } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Verifique se %@ está instalado e tente novamente." } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Убедитесь, что приложение %@ установлено, и повторите попытку." } },
-        "tr": { "stringUnit": { "state": "translated", "value": "%@ uygulamasının yüklü olduğundan emin olup yeniden deneyin." } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Hãy đảm bảo %@ đã được cài đặt rồi thử lại." } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "请确保已安装 %@，然后重试。" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "請確認已安裝 %@，然後再試一次。" } }
-      }
-    },
+
     "New template": {
       "extractionState": "manual",
       "localizations": {
@@ -3515,25 +3576,7 @@
         }
       }
     },
-    "Open this context in %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "فتح هذا السياق في %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Diesen Kontext in %@ öffnen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Open this context in %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Abrir este contexto en %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Ouvrir ce contexte dans %@" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Apri questo contesto in %@" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "このコンテキストを%@で開く" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "이 컨텍스트를 %@에서 열기" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Abrir este contexto no %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Открыть этот контекст в %@" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Bu bağlamı %@ içinde aç" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Mở ngữ cảnh này trong %@" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "在 %@ 中打开此上下文" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "在 %@ 中開啟此內容脈絡" } }
-      }
-    },
+
     "Português (Brasil)": {
       "extractionState": "manual",
       "localizations": {
@@ -4430,25 +4473,7 @@
         }
       }
     },
-    "Send context to %@": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "إرسال السياق إلى %@" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Kontext an %@ senden" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Send context to %@" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Enviar contexto a %@" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Envoyer le contexte à %@" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Invia il contesto a %@" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "コンテキストを%@に送信" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "%@에 컨텍스트 보내기" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Enviar contexto ao %@" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Отправить контекст в %@" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Bağlamı %@ uygulamasına gönder" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Gửi ngữ cảnh đến %@" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "将上下文发送到 %@" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "將內容脈絡傳送到 %@" } }
-      }
-    },
+
     "Settings…": {
       "extractionState": "manual",
       "localizations": {

@@ -8,6 +8,7 @@ import OSLog
 import UniformTypeIdentifiers
 
 public actor LocalMediaRecorder: MediaSampleSink {
+    private let recordingsDirectory: URL
     private let logger = Logger(
         subsystem: "de.marcusschiesser.screencontext",
         category: "recorder"
@@ -37,7 +38,9 @@ public actor LocalMediaRecorder: MediaSampleSink {
     public nonisolated let videoTrackId: UInt8? = UInt8.max
     public nonisolated let audioTrackId: UInt8? = UInt8.max
 
-    public init() {}
+    public init(recordingsDirectory: URL? = nil) {
+        self.recordingsDirectory = recordingsDirectory ?? RecordingStorage.recordingsDirectory()
+    }
 
     public func start(
         profile: OutputProfile,
@@ -74,7 +77,7 @@ public actor LocalMediaRecorder: MediaSampleSink {
             layout: webcamLayout
         )
 
-        let outputURL = try Self.makeOutputURL()
+        let outputURL = try Self.makeOutputURL(recordingsDirectory: recordingsDirectory)
         let writer: AVAssetWriter
         do {
             writer = try AVAssetWriter(outputURL: outputURL, fileType: .mp4)
@@ -213,10 +216,10 @@ public actor LocalMediaRecorder: MediaSampleSink {
     }
 
     static func makeOutputURL(
+        recordingsDirectory directory: URL,
         now: Date = Date(),
         fileManager: FileManager = .default
     ) throws -> URL {
-        let directory = RecordingStorage.recordingsDirectory(fileManager: fileManager)
         try fileManager.createDirectory(
             at: directory,
             withIntermediateDirectories: true
@@ -506,7 +509,7 @@ public actor LocalMediaRecorder: MediaSampleSink {
             return nil
         }
 
-        let recoveryDirectory = RecordingStorage.recordingsDirectory(fileManager: fileManager)
+        let recoveryDirectory = recordingsDirectory
             .appendingPathComponent("Recovery", isDirectory: true)
         var destination = recoveryDirectory.appendingPathComponent(
             recordingDirectory.lastPathComponent,

@@ -311,6 +311,26 @@ final class PersistenceAndStoreTests: XCTestCase {
     }
 
     @MainActor
+    func testRecordingDestinationIsCapturedOnceBeforePreparation() async {
+        let pipeline = TestRecordingPipeline(outputURL: temporaryRecordingURL())
+        let store = makeStore(pipeline: pipeline)
+        await store.initialize()
+        var phasesAtCapture: [RecordingPhase] = []
+        store.recordingWillStart = { phasesAtCapture.append(store.phase) }
+
+        store.startRecording()
+        XCTAssertEqual(phasesAtCapture, [.idle])
+        // Repeated starts during preparation/recording must not replace the destination.
+        store.startRecording()
+        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
+        XCTAssertTrue(didStart)
+        store.startRecording()
+        XCTAssertEqual(phasesAtCapture, [.idle])
+
+        store.cancelRecording()
+    }
+
+    @MainActor
     func testCompletedRecordingIsSavedLocally() async throws {
         let fileURL = temporaryRecordingURL()
         try Data(repeating: 5, count: 32).write(to: fileURL)
@@ -1092,8 +1112,9 @@ final class PersistenceAndStoreTests: XCTestCase {
     }
 
     func testFailedFinalizationRemovesRecordingDirectory() async throws {
-        let directoriesBefore = recordingDirectoryNames()
-        let recorder = LocalMediaRecorder()
+        let recordingsDirectory = temporaryRecordingsDirectory()
+        defer { try? FileManager.default.removeItem(at: recordingsDirectory) }
+        let recorder = LocalMediaRecorder(recordingsDirectory: recordingsDirectory)
         try await recorder.start(
             profile: OutputProfile(
                 width: 640,
@@ -1107,16 +1128,24 @@ final class PersistenceAndStoreTests: XCTestCase {
             webcamLayout: .defaultLayout
         )
 
+        XCTAssertEqual(
+            try FileManager.default.contentsOfDirectory(atPath: recordingsDirectory.path).count,
+            1
+        )
         do {
             _ = try await recorder.finish()
             XCTFail("Expected an empty recording to fail finalization")
         } catch {
-            XCTAssertEqual(recordingDirectoryNames(), directoriesBefore)
+            XCTAssertTrue(
+                try FileManager.default.contentsOfDirectory(atPath: recordingsDirectory.path).isEmpty
+            )
         }
     }
 
     func testLocalRecorderFinalizesVideoAndAudioMP4() async throws {
-        let recorder = LocalMediaRecorder()
+        let recordingsDirectory = temporaryRecordingsDirectory()
+        defer { try? FileManager.default.removeItem(at: recordingsDirectory) }
+        let recorder = LocalMediaRecorder(recordingsDirectory: recordingsDirectory)
         let profile = OutputProfile(
             width: 640,
             height: 360,
@@ -1222,7 +1251,10 @@ final class PersistenceAndStoreTests: XCTestCase {
 
         let artifacts = try await recorder.finish()
         let outputURL = artifacts.recordingURL
-        defer { try? FileManager.default.removeItem(at: outputURL.deletingLastPathComponent()) }
+        XCTAssertEqual(
+            outputURL.deletingLastPathComponent().deletingLastPathComponent().standardizedFileURL,
+            recordingsDirectory.standardizedFileURL
+        )
         XCTAssertEqual(outputURL.lastPathComponent, "recording.mp4")
         XCTAssertTrue(outputURL.deletingLastPathComponent().lastPathComponent.hasPrefix("ScreenContext "))
         XCTAssertGreaterThanOrEqual(artifacts.keyframes.count, 3)
@@ -1751,18 +1783,11 @@ private func temporaryRecordingURL() -> URL {
     FileManager.default.temporaryDirectory.appendingPathComponent("screencontext-\(UUID().uuidString).mp4")
 }
 
-private func recordingDirectoryNames() -> Set<String> {
-    let recordingsURL = FileManager.default.urls(
-        for: .applicationSupportDirectory,
-        in: .userDomainMask
-    )[0]
-        .appendingPathComponent("ContextCast", isDirectory: true)
-        .appendingPathComponent("Recordings", isDirectory: true)
-    let names = try? FileManager.default.contentsOfDirectory(
-        at: recordingsURL,
-        includingPropertiesForKeys: nil
-    ).map(\.lastPathComponent)
-    return Set(names ?? [])
+private func temporaryRecordingsDirectory() -> URL {
+    FileManager.default.temporaryDirectory.appendingPathComponent(
+        "screencontext-recorder-\(UUID().uuidString)",
+        isDirectory: true
+    )
 }
 
 private func makeVideoSampleBuffer(

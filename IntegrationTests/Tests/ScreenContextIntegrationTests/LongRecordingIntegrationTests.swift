@@ -7,7 +7,12 @@ import XCTest
 
 final class LongRecordingIntegrationTests: XCTestCase {
     func testLongRecordingWithAllInputsFinalizesPlayableMP4() async throws {
-        let recorder = LocalMediaRecorder()
+        let recordingsDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(
+            "screencontext-integration-\(UUID().uuidString)",
+            isDirectory: true
+        )
+        defer { try? FileManager.default.removeItem(at: recordingsDirectory) }
+        let recorder = LocalMediaRecorder(recordingsDirectory: recordingsDirectory)
         try await recorder.start(
             profile: OutputProfile(
                 width: 640,
@@ -51,11 +56,11 @@ final class LongRecordingIntegrationTests: XCTestCase {
             try await Task.sleep(for: .milliseconds(500))
 
             let artifacts = try await recorder.finish()
-            defer {
-                try? FileManager.default.removeItem(
-                    at: artifacts.recordingURL.deletingLastPathComponent()
-                )
-            }
+            XCTAssertEqual(
+                artifacts.recordingURL.deletingLastPathComponent()
+                    .deletingLastPathComponent().standardizedFileURL,
+                recordingsDirectory.standardizedFileURL
+            )
             let asset = AVURLAsset(url: artifacts.recordingURL)
             let duration = try await asset.load(.duration).seconds
             let videoTracks = try await asset.loadTracks(withMediaType: .video)
@@ -65,9 +70,6 @@ final class LongRecordingIntegrationTests: XCTestCase {
             XCTAssertEqual(videoTracks.count, 1)
             XCTAssertEqual(audioTracks.count, 1)
         } catch {
-            if let recoveryError = error as? RecordingRecoveryError {
-                try? FileManager.default.removeItem(at: recoveryError.recoveryURL)
-            }
             await recorder.cancel()
             throw error
         }
