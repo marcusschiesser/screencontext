@@ -5,7 +5,7 @@ import SwiftUI
 
 @MainActor
 final class WebcamOverlayPanelController {
-    private static let shapePickerSize = CGSize(width: 156, height: 36)
+    private static let shapePickerSize = CGSize(width: 224, height: 36)
     private static let shapePickerSpacing: CGFloat = 3
 
     private let store: RecordingSessionStore
@@ -16,7 +16,7 @@ final class WebcamOverlayPanelController {
     private var geometryTask: Task<Void, Never>?
     private var isPresented = false
 
-    init(store: RecordingSessionStore) {
+    init(store: RecordingSessionStore, finishEditing: @escaping @MainActor () -> Void) {
         self.store = store
         panel = WebcamOverlayPanel(
             contentRect: .zero,
@@ -33,7 +33,7 @@ final class WebcamOverlayPanelController {
         contentView = WebcamOverlayContentView()
         panel.contentView = contentView
         let shapeHostingView = NSHostingView(
-            rootView: WebcamShapePicker(store: store)
+            rootView: WebcamShapePicker(store: store, finishEditing: finishEditing)
         )
         shapeHostingView.wantsLayer = true
         shapeHostingView.layer?.backgroundColor = NSColor.clear.cgColor
@@ -86,6 +86,7 @@ final class WebcamOverlayPanelController {
     }
 
     func synchronize() {
+        if store.configurationIsLocked { isPresented = false }
         guard isPresented, store.showsWebcamPositioningOverlay else {
             dismissOverlay()
             return
@@ -233,22 +234,26 @@ final class WebcamOverlayPanelController {
 
 private struct WebcamShapePicker: View {
     @Bindable var store: RecordingSessionStore
+    let finishEditing: @MainActor () -> Void
 
     var body: some View {
-        Picker("Webcam shape", selection: maskSelection) {
-            ForEach(WebcamMask.allCases) { mask in
-                Label(mask.title, systemImage: mask.symbolName)
-                    .labelStyle(.iconOnly)
-                    .tag(mask)
+        HStack(spacing: 8) {
+            Picker("Webcam shape", selection: maskSelection) {
+                ForEach(WebcamMask.allCases) { mask in
+                    Label(mask.title, systemImage: mask.symbolName)
+                        .labelStyle(.iconOnly)
+                        .tag(mask)
+                }
             }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .help("Choose webcam shape")
+            .accessibilityLabel("Webcam shape")
+            Button("Done", action: finishEditing)
         }
-        .pickerStyle(.segmented)
-        .labelsHidden()
         .controlSize(.small)
         .padding(4)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
-        .help("Choose webcam shape")
-        .accessibilityLabel("Webcam shape")
         .environment(\.locale, store.effectiveLocale)
         .environment(\.layoutDirection, store.usesRightToLeftLayout ? .rightToLeft : .leftToRight)
     }

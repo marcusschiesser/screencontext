@@ -14,8 +14,8 @@ Use it as your everyday screen recorder, too. Record a screen or window and shar
 
 ## From recording to context
 
-1. **Choose what to capture.** Select a screen or window, then optionally enable system audio, your microphone, or a webcam overlay.
-2. **Record from the floating HUD.** Walk through a task and explain it as you go. ScreenContext saves the video and captures keyframes at clicks.
+1. **Choose what to capture.** In Settings, select a screen or window, enable optional audio and webcam inputs, and choose your webcam layout.
+2. **Press ⇧⌘O to start and stop.** Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video and captures keyframes at clicks.
 3. **Use the result.** Play back the recording, copy the MP4, or choose a template and copy the prepared context into your AI tool.
 
 ## Put your recording to work

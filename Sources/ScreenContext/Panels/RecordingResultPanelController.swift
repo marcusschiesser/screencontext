@@ -11,7 +11,6 @@ final class RecordingResultPanelController {
     private static let verticalScreenMargin: CGFloat = 80
     private let store: RecordingSessionStore
     private let analytics: AnalyticsConsentController
-    private weak var parent: HUDPanelController?
     private var presentedResultID: RecordingResult.ID?
 
     private lazy var window: NSWindow = {
@@ -33,11 +32,9 @@ final class RecordingResultPanelController {
 
     init(
         store: RecordingSessionStore,
-        parent: HUDPanelController,
         analytics: AnalyticsConsentController
     ) {
         self.store = store
-        self.parent = parent
         self.analytics = analytics
     }
 
@@ -92,7 +89,6 @@ final class RecordingResultPanelController {
             width: Self.contentWidth,
             height: min(fittingHeight, maximumContentHeight)
         ))
-        parent?.show()
         if !window.isVisible {
             window.center()
         }

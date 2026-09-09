@@ -46,8 +46,8 @@ The current reference owners are:
 
 | Surface | Owner | Reference behavior |
 | --- | --- | --- |
-| Floating controls | `HUDView`, `HUDPanelController` | One compact horizontal material strip |
-| Webcam placement | `WebcamOverlayPanelController` | Direct manipulation over the capture target |
+| Recording feedback | `RecordingFeedbackPanelController` | Transient nonactivating material overlay |
+| Capture and webcam layout | `CaptureSettingsView`, `WebcamOverlayPanelController` | Native Settings forms |
 | Recordings | `RecordingResultView`, `RecordingResultPanelController` | Native sidebar with a narrow, vertically stacked detail |
 | Settings | `SettingsView` | Small tabbed window with grouped native forms |
 | Context templates | `ScreenContextTemplateSettingsView` | Compact list-and-editor layout |
@@ -73,8 +73,6 @@ The blue, cyan, coral, and orange brand colors belong primarily to the app icon 
 
 Use material only for objects that genuinely float over other applications or media.
 
-- The HUD uses `.regularMaterial` with its existing subtle light-appearance highlight.
-- Do not add a second outer stroke or a large drop shadow to the HUD.
 - The recording context area may use a quiet material card because it contains scrollable output.
 - The video preview may retain a thin adaptive border and restrained shadow so it separates from the window.
 - Native windows, sidebars, lists, forms, menus, and dialogs keep their system surfaces.
@@ -89,7 +87,7 @@ Use the system font and semantic text styles.
 - Use monospaced text for timecodes, template placeholders, paths, commands, and raw identifiers.
 - Keep headings and controls in sentence case.
 - Use SF Symbols for actions and status.
-- Icon-only compact controls are appropriate in the HUD and media overlays when they have an accessibility label and help text.
+- Icon-only compact controls are appropriate in media overlays when they have an accessibility label and help text.
 - Do not convert every icon-only action into a labeled button if the established compact affordance is clear.
 - Do not put ordinary symbols in brand-colored tiles unless that treatment is already part of the accepted surface.
 
@@ -104,41 +102,20 @@ Start with the dimensions already encoded in the accepted views.
 - Use leading and trailing alignment for localization.
 - Let native controls own their standard corner radius.
 - Reserve capsules for compact tokens or transient labels, not general containment.
-- Preserve the HUD's established 18-point continuous outer radius.
+- Preserve the feedback overlay's 18-point continuous outer radius.
 
-## Floating HUD
+## Recording controls
 
-The HUD is a compact horizontal control strip:
+- Shift–Command–O toggles recording from any app.
+- The menu bar shows a recording indicator and monospaced elapsed time.
+- A nonactivating material overlay confirms start and stop; preparation and finalization stay visible while pending.
+- Recording actions remain available in the menu bar menu for keyboard and pointer access.
+- Capture sources and audio/webcam inputs live in Settings → Recording.
+- The latest recording opens automatically after finalization.
 
-> Hide or move · choose source · choose inputs · review status · go or stop
+## Webcam layout
 
-Preserve these traits:
-
-- A single `HStack` with native dividers between groups.
-- A borderless source menu wide enough for a useful truncated runtime name.
-- Plain icon toggles for system audio, microphone, and webcam.
-- Device chevrons only when the corresponding input is enabled.
-- Settings and recordings remain secondary icon actions.
-- The Go/Stop control stays at the terminal edge.
-- The ready Go control uses a quiet custom rounded background and hover response, not a large filled prominent button.
-- Active recording uses red, a stop symbol, the word “Stop,” and monospaced elapsed time.
-- Preparing and finalizing keep the same control location and show progress without expanding the HUD.
-- The warning is a compact material capsule attached below the controls.
-- The floating surface uses soft material and the accepted internal highlight, without a heavy outline or shadow.
-
-Do not add branded source-picker tinting, outlined toggle buttons, or a wide prominent blue Go button. Those treatments make the compact utility feel heavier and compete with recording state.
-
-## Webcam overlay
-
-The webcam preview is direct manipulation on the selected capture canvas.
-
-- The camera image is the focal object.
-- Dragging moves the overlay; dragging its border resizes it.
-- Keep preview and shape controls inside the chosen capture bounds.
-- Preserve the user's device, position, size, and mask where safe.
-- Use native segmented controls for the fixed shape choices.
-- Show handles and selection treatment only when needed.
-- Never include overlay controls in the recorded output.
+Settings → Recording → Edit Webcam Layout… opens the live WYSIWYG webcam preview over the capture target. Drag to move, drag the border to resize, and use the segmented shape picker. Done closes the editor and returns to Settings. Starting a recording also ends editing. Preserve the user's device, position, size, and mask.
 
 ## Recordings window
 
@@ -248,9 +225,6 @@ Default to stillness.
 The rejected redesign made the app worse by over-interpreting the capture-to-context story as a visual theme. Do not repeat these changes:
 
 - Do not assign blue and orange to entire workflow halves.
-- Do not turn plain HUD toggles into bordered, tinted buttons.
-- Do not replace the restrained Go control with a large blue prominent button.
-- Do not add heavy HUD outlines and shadows.
 - Do not widen the recordings window from 860 to 1120 points.
 - Do not place video and recording context side by side.
 - Do not wrap both result areas in branded outlined cards.
@@ -267,8 +241,8 @@ Review significant UI changes in light and dark appearance and with these states
 1. Ready to record with a long window title.
 2. Preparing and finalizing.
 3. Active recording beyond one hour.
-4. A nonfatal HUD warning.
-5. Webcam placement near each capture edge.
+4. A nonfatal recording warning.
+5. WYSIWYG webcam placement near each capture edge.
 6. Completed recording with video and context.
 7. Unavailable transcription with a recoverable model state.
 8. Several recording-history rows.
