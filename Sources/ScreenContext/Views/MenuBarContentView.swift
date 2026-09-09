@@ -5,6 +5,7 @@ import SwiftUI
 struct MenuBarContentView: View {
     @Bindable var store: RecordingSessionStore
     let openRecordings: () -> Void
+    let openSettings: () -> Void
 
     var body: some View {
         if store.phase == .finalizing {
@@ -21,7 +22,7 @@ struct MenuBarContentView: View {
             .disabled(store.recordingResults.isEmpty)
 
         Divider()
-        SettingsLink { Text("Settings…") }
+        Button("Settings…", action: openSettings)
             .keyboardShortcut(",", modifiers: .command)
         Divider()
         Button("Quit ScreenContext") { NSApp.terminate(nil) }

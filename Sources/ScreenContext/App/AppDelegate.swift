@@ -16,6 +16,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var feedbackController: RecordingFeedbackPanelController?
     private var recordingResultController: RecordingResultPanelController?
     private var shortcutController: GlobalShortcutController?
+    private weak var settingsWindow: NSWindow?
+    private var settingsPresentationPending = false
     private lazy var clickMonitor = MouseClickMonitor { [weak self] in
         self?.store.captureClickKeyframe()
     }
@@ -121,11 +123,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func openSettings() {
         overlayController?.hide()
         logger.info("Opening Settings")
-        presentSettings()
+        WindowPresentation.afterMenuDismissal { [weak self] in
+            self?.presentSettings()
+        }
+    }
+
+    func registerSettingsWindow(_ window: NSWindow) {
+        settingsWindow = window
+        guard settingsPresentationPending else { return }
+        settingsPresentationPending = false
+        WindowPresentation.afterMenuDismissal { [weak window] in
+            guard let window else { return }
+            WindowPresentation.bringToFront(window)
+        }
     }
 
     private func presentSettings() {
-        NSApp.activate(ignoringOtherApps: true)
+        if let settingsWindow {
+            WindowPresentation.bringToFront(settingsWindow)
+            return
+        }
+
+        // SwiftUI creates the Settings window lazily. The accessor completes
+        // presentation when that specific window is attached to its content.
+        settingsPresentationPending = true
 
         if let applicationMenu = NSApp.mainMenu?.items.first?.submenu,
            let settingsItemIndex = applicationMenu.items.firstIndex(where: {
@@ -138,6 +159,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         logger.warning("The SwiftUI Settings menu command was unavailable; trying the responder chain")
         if !NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil) {
+            settingsPresentationPending = false
             logger.error("ScreenContext could not present its Settings scene")
         }
     }
