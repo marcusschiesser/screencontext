@@ -12,9 +12,8 @@ enum CaptureWindowFocusController {
     ) {
         focusTask?.cancel()
 
-        // The HUD is a nonactivating panel. After the first handoff it remains
-        // clickable while ScreenContext is inactive, so every selection must first
-        // establish a fresh activation before yielding it to the target app.
+        // Establish a fresh activation before yielding to the capture target,
+        // including when the webcam editor is reopened from another app.
         NSApp.activate(ignoringOtherApps: true)
 
         focusTask = Task { @MainActor in

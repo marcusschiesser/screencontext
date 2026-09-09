@@ -31,7 +31,7 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(source.contains("content.windows"))
         XCTAssertTrue(source.contains("desktopIndependentWindow"))
 
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
+        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/CaptureSettingsView.swift")
         let hudSource = try String(contentsOf: hudURL, encoding: .utf8)
         XCTAssertTrue(hudSource.contains("Section(\"Screens\")"))
         XCTAssertTrue(hudSource.contains("Section(\"Windows\")"))
@@ -61,102 +61,27 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(factorySource.contains("filter.contentRect"))
         XCTAssertTrue(factorySource.contains("filter.pointPixelScale"))
 
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
+        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/CaptureSettingsView.swift")
         let hudSource = try String(contentsOf: hudURL, encoding: .utf8)
         XCTAssertTrue(hudSource.contains("Choose a screen or window"))
-        XCTAssertTrue(hudSource.contains(".disabled(store.recordingActionIsUnavailable)"))
+        XCTAssertTrue(hudSource.contains(".disabled(store.configurationIsLocked)"))
     }
 
-    func testWindowSelectionFocusesTargetAndTruncatesHUDTitle() throws {
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
-        let hudSource = try String(contentsOf: hudURL, encoding: .utf8)
-        XCTAssertTrue(hudSource.contains("focusWindow(window)"))
-        XCTAssertTrue(hudSource.contains(".truncationMode(.tail)"))
-        XCTAssertTrue(hudSource.contains(".frame(width: 178, alignment: .leading)"))
 
-        let focusControllerURL = repositoryRoot.appendingPathComponent(
-            "Sources/ScreenContext/Support/CaptureWindowFocusController.swift"
-        )
-        let focusControllerSource = try String(contentsOf: focusControllerURL, encoding: .utf8)
-        let reactivateScreenContext = try XCTUnwrap(
-            focusControllerSource.range(of: "NSApp.activate(ignoringOtherApps: true)")
-        )
-        let yieldToTarget = try XCTUnwrap(
-            focusControllerSource.range(of: "NSApp.yieldActivation(to: application)")
-        )
-        XCTAssertLessThan(reactivateScreenContext.lowerBound, yieldToTarget.lowerBound)
-        XCTAssertTrue(focusControllerSource.contains("focusTask?.cancel()"))
-        XCTAssertTrue(focusControllerSource.contains("waitUntilScreenContextIsActive()"))
-        XCTAssertTrue(focusControllerSource.contains("application.activate(\n                from: .current"))
-        XCTAssertTrue(focusControllerSource.contains("kAXRaiseAction"))
-        XCTAssertFalse(focusControllerSource.contains("kAXTrustedCheckOptionPrompt"))
 
-        let appDelegateURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/App/AppDelegate.swift")
-        let appDelegateSource = try String(contentsOf: appDelegateURL, encoding: .utf8)
-        XCTAssertTrue(appDelegateSource.contains("self?.overlayController?.synchronize()"))
-    }
 
-    func testHUDContainsNoDestinationOrLanguageEditors() throws {
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
-        let source = try String(contentsOf: hudURL, encoding: .utf8)
-        XCTAssertFalse(source.contains("$store.destinationProvider"))
-        XCTAssertFalse(source.contains("rtmpServerURL"))
-        XCTAssertFalse(source.contains("rtmpStreamKey"))
-        XCTAssertFalse(source.contains("Picker(\"Language\""))
-    }
 
-    func testHUDUsesExplicitSettingsActionForItsAppKitPanel() throws {
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
-        let source = try String(contentsOf: hudURL, encoding: .utf8)
-        XCTAssertTrue(source.contains("let openSettings:"))
-        XCTAssertTrue(source.contains("Button(action: openSettings)"))
-        XCTAssertTrue(source.contains("let hideHUD:"))
-        XCTAssertTrue(source.contains("Button(action: hideHUD)"))
-        XCTAssertFalse(source.contains("SettingsLink"))
 
-        let appDelegateURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/App/AppDelegate.swift")
-        let appDelegateSource = try String(contentsOf: appDelegateURL, encoding: .utf8)
-        XCTAssertTrue(appDelegateSource.contains("performActionForItem"))
-
-        let controllerURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/Panels/HUDPanelController.swift")
-        let controllerSource = try String(contentsOf: controllerURL, encoding: .utf8)
-        XCTAssertTrue(controllerSource.contains("hostingView.sizingOptions = [.intrinsicContentSize]"))
-        XCTAssertTrue(controllerSource.contains("contentView?.fittingSize.width"))
-        XCTAssertTrue(controllerSource.contains("func synchronizeWidth"))
-        XCTAssertFalse(source.contains(".frame(maxWidth: .infinity)"))
-    }
-
-    func testHidingAndOpeningControlsAlsoUpdatesWebcamOverlayVisibility() throws {
-        let appDelegateURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/App/AppDelegate.swift")
-        let appDelegateSource = try String(contentsOf: appDelegateURL, encoding: .utf8)
-        XCTAssertTrue(appDelegateSource.contains("hideControls: { [weak self] in"))
-        XCTAssertTrue(appDelegateSource.contains("overlayController?.show()"))
-        XCTAssertTrue(appDelegateSource.contains("overlayController?.hide()"))
-
+    func testWebcamLayoutEditorPreservesLiveCaptureGeometry() throws {
         let overlayURL = repositoryRoot
             .appendingPathComponent("Sources/ScreenContext/Panels/WebcamOverlayPanelController.swift")
-        let overlaySource = try String(contentsOf: overlayURL, encoding: .utf8)
-        XCTAssertTrue(overlaySource.contains("guard isPresented, store.showsWebcamPositioningOverlay"))
-    }
-
-    func testWebcamShapePickerLivesWithPreviewInsteadOfHUD() throws {
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
-        let hudSource = try String(contentsOf: hudURL, encoding: .utf8)
-        XCTAssertFalse(hudSource.contains("WebcamMask.allCases"))
-        XCTAssertFalse(hudSource.contains("Webcam shape"))
-
-        let overlayURL = repositoryRoot
-            .appendingPathComponent("Sources/ScreenContext/Panels/WebcamOverlayPanelController.swift")
-        let overlaySource = try String(contentsOf: overlayURL, encoding: .utf8)
-        XCTAssertTrue(overlaySource.contains("struct WebcamShapePicker"))
-        XCTAssertTrue(overlaySource.contains("Picker(\"Webcam shape\""))
-        XCTAssertTrue(overlaySource.contains("liveAppKitFrame(forWindowID:"))
-        XCTAssertTrue(overlaySource.contains("inside: canvasFrame"))
-        XCTAssertTrue(overlaySource.contains("shapePickerSpacing: CGFloat = 3"))
-        XCTAssertTrue(overlaySource.contains("previewFrame.maxY + Self.shapePickerSpacing"))
+        let source = try String(contentsOf: overlayURL, encoding: .utf8)
+        XCTAssertTrue(source.contains("liveAppKitFrame(forWindowID:"))
+        XCTAssertTrue(source.contains("inside: canvasFrame"))
+        XCTAssertTrue(source.contains("previewFrame.maxY + Self.shapePickerSpacing"))
+        XCTAssertTrue(source.contains("store?.updateWebcamPosition"))
+        XCTAssertTrue(source.contains("store?.updateWebcamSize"))
+        XCTAssertTrue(source.contains("Picker(\"Webcam shape\""))
     }
 
     func testSettingsSceneDoesNotOpenAtLaunch() throws {
@@ -289,13 +214,7 @@ final class RepositoryContractTests: XCTestCase {
         }
     }
 
-    func testRecordingsLibraryIsAvailableFromHUDAndMenuBar() throws {
-        let hudURL = repositoryRoot.appendingPathComponent("Sources/ScreenContext/Views/HUDView.swift")
-        let hudSource = try String(contentsOf: hudURL, encoding: .utf8)
-        XCTAssertTrue(hudSource.contains("Button(action: openRecordings)"))
-        XCTAssertTrue(hudSource.contains("if !store.recordingResults.isEmpty"))
-        XCTAssertFalse(hudSource.contains(".disabled(store.recordingResults.isEmpty)"))
-
+    func testRecordingsLibraryIsAvailableFromMenuBar() throws {
         let menuURL = repositoryRoot
             .appendingPathComponent("Sources/ScreenContext/Views/MenuBarContentView.swift")
         let menuSource = try String(contentsOf: menuURL, encoding: .utf8)

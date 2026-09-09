@@ -9,8 +9,6 @@ struct ScreenContextApp: App {
         MenuBarExtra {
             MenuBarContentView(
                 store: appDelegate.store,
-                openHUD: appDelegate.showHUD,
-                hideHUD: appDelegate.hideHUD,
                 openRecordings: appDelegate.showRecordings
             )
             .environment(\.locale, appDelegate.store.effectiveLocale)
@@ -19,11 +17,15 @@ struct ScreenContextApp: App {
                 appDelegate.store.usesRightToLeftLayout ? .rightToLeft : .leftToRight
             )
         } label: {
-            Image(systemName: appDelegate.store.phase.isRecording ? "record.circle.fill" : "record.circle")
+            RecordingStatusLabel(store: appDelegate.store)
         }
 
         Settings {
-            SettingsView(store: appDelegate.store, analytics: appDelegate.analytics)
+            SettingsView(
+                store: appDelegate.store,
+                analytics: appDelegate.analytics,
+                editWebcamLayout: appDelegate.editWebcamLayout
+            )
         }
         .defaultLaunchBehavior(.suppressed)
     }

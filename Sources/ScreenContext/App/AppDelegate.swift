@@ -11,9 +11,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
     let analytics: AnalyticsConsentController
     let store: RecordingSessionStore
-    private var hudController: HUDPanelController?
-    private var recordingResultController: RecordingResultPanelController?
     private var overlayController: WebcamOverlayPanelController?
+    private var feedbackController: RecordingFeedbackPanelController?
+    private var recordingResultController: RecordingResultPanelController?
     private var shortcutController: GlobalShortcutController?
     private lazy var clickMonitor = MouseClickMonitor { [weak self] in
         self?.store.captureClickKeyframe()
@@ -34,38 +34,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         logger.info("ScreenContext launched")
         analytics.capture(.appLaunched)
         NSApp.setActivationPolicy(.regular)
-        let hudController = HUDPanelController(
-            store: store,
-            openSettings: { [weak self] in
-                self?.openSettings()
-            },
-            openRecordings: { [weak self] in
-                self?.showRecordings()
-            },
-            hideControls: { [weak self] in
-                self?.hideHUD()
-            },
-            focusWindow: { [weak self] window in
-                self?.focus(window)
-            }
-        )
-        let overlayController = WebcamOverlayPanelController(store: store)
+        overlayController = WebcamOverlayPanelController(store: store) { [weak self] in
+            self?.overlayController?.hide()
+            self?.openSettings()
+        }
+        let feedbackController = RecordingFeedbackPanelController(store: store)
         let recordingResultController = RecordingResultPanelController(
             store: store,
-            parent: hudController,
             analytics: analytics
         )
-        self.hudController = hudController
-        self.overlayController = overlayController
+        self.feedbackController = feedbackController
         self.recordingResultController = recordingResultController
         shortcutController = GlobalShortcutController { [weak self] in
-            DispatchQueue.main.async { self?.showHUD() }
+            DispatchQueue.main.async {
+                guard let self, self.store.isInitialized else { return }
+                self.store.toggleRecording()
+            }
         }
 
         store.overlayStateChanged = { [weak self] in
-            self?.overlayController?.synchronize()
-            self?.hudController?.synchronizeWidth()
             guard let self else { return }
+            self.overlayController?.synchronize()
+            self.feedbackController?.synchronize()
             clickMonitor.setActive(store.phase.isRecording)
         }
         store.shortcutPreferenceChanged = { [weak self] enabled in
@@ -75,7 +65,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             recordingResultController?.present(result)
         }
         store.recordingFailureNoticeAvailable = { [weak self] in
-            self?.showHUD()
+            self?.openSettings()
         }
         store.requestScreenRecordingSettings = {
             guard let url = URL(
@@ -89,12 +79,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         Task {
             await store.initialize()
-            showHUD()
+            openSettings()
         }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        showHUD()
+        openSettings()
         return true
     }
 
@@ -109,28 +99,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func showHUD() {
-        hudController?.show()
-        overlayController?.show()
-    }
-
-    func hideHUD() {
-        hudController?.hide()
-        overlayController?.hide()
-    }
-
     func showRecordings() {
         recordingResultController?.presentSelectedRecording()
     }
 
-    private func focus(_ window: WindowSource) {
-        CaptureWindowFocusController.focus(window) { [weak self] in
-            self?.overlayController?.synchronize()
+    func editWebcamLayout() {
+        guard store.showsWebcamPositioningOverlay, let source = store.selectedCaptureSource else { return }
+        // The Settings button is the entry point; hide that window to reveal the capture canvas.
+        NSApp.keyWindow?.orderOut(nil)
+        overlayController?.show()
+        if case let .window(window) = source {
+            CaptureWindowFocusController.focus(window) { [weak self] in
+                self?.overlayController?.synchronize()
+            }
         }
     }
 
     func openSettings() {
-        logger.info("Opening Settings from the HUD")
+        overlayController?.hide()
+        logger.info("Opening Settings")
         presentSettings()
     }
 

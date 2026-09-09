@@ -248,25 +248,6 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "這將永久刪除範本。" } }
       }
     },
-    "Agent mode": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "وضع الوكيل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Agentenmodus" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Agent mode" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Modo agente" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Mode agent" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Modalità agente" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "エージェントモード" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "에이전트 모드" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Modo agente" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Режим агента" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Ajan modu" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Chế độ tác nhân" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "智能体模式" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "代理模式" } }
-      }
-    },
     "Markdown": {
       "extractionState": "manual",
       "localizations": {
@@ -360,44 +341,6 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Thao tác này sẽ xóa vĩnh viễn video và các khung hình chính." } },
         "zh-CN": { "stringUnit": { "state": "translated", "value": "这将永久删除视频及其关键帧。" } },
         "zh-TW": { "stringUnit": { "state": "translated", "value": "這將永久刪除影片及其關鍵影格。" } }
-      }
-    },
-    "Next recording": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "التسجيل التالي" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Nächste Aufnahme" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Next recording" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Grabación siguiente" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Enregistrement suivant" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Registrazione successiva" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "次の録画" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "다음 녹화" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Próxima gravação" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Следующая запись" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Sonraki kayıt" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bản ghi tiếp theo" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "下一个录制" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "下一個錄製" } }
-      }
-    },
-    "Previous recording": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "التسجيل السابق" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Vorherige Aufnahme" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Previous recording" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Grabación anterior" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Enregistrement précédent" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Registrazione precedente" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "前の録画" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "이전 녹화" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Gravação anterior" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Предыдущая запись" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Önceki kayıt" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Bản ghi trước" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "上一个录制" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "上一個錄製" } }
       }
     },
     "Allow Screen Recording for ScreenContext, then reopen or refresh sources.": {
@@ -845,95 +788,6 @@
         }
       }
     },
-    "Choose a microphone": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر ميكروفونًا"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mikrofon auswählen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose a microphone"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige un micrófono"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisir un microphone"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scegli un microfono"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "マイクを選択"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "마이크 선택"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escolha um microfone"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите микрофон"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mikrofon Seçin"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chọn micrô"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择麦克风"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇麥克風"
-          }
-        }
-      }
-    },
     "Choose a screen or window": {
       "extractionState": "manual",
       "localizations": {
@@ -1019,184 +873,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "選擇螢幕或視窗"
-          }
-        }
-      }
-    },
-    "Choose a screen or window to record": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر شاشة أو نافذة للتسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bildschirm oder Fenster für die Aufnahme auswählen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose a screen or window to record"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige una pantalla o ventana para grabar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisir un écran ou une fenêtre à enregistrer"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scegli uno schermo o una finestra da registrare"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "収録する画面またはウインドウを選択"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "녹화할 화면 또는 창 선택"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escolha uma tela ou janela para gravar"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите экран или окно для записи"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kaydedilecek Ekranı veya Pencereyi Seçin"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chọn màn hình hoặc cửa sổ để ghi"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择要录制的屏幕或窗口"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇要錄製的螢幕或視窗"
-          }
-        }
-      }
-    },
-    "Choose a webcam": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر كاميرا ويب"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Webcam auswählen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choose a webcam"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Elige una cámara web"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choisir une webcam"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Scegli una webcam"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Webカメラを選択"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "웹캠 선택"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Escolha uma webcam"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите веб-камеру"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Web Kamerası Seçin"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chọn webcam"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "选择摄像头"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "選擇網路攝影機"
           }
         }
       }
@@ -1468,184 +1144,6 @@
         }
       }
     },
-    "Copy the MP4 to paste into another app.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "انسخ ملف MP4 للصقه في تطبيق آخر."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MP4 kopieren, um es in eine andere App einzufügen."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy the MP4 to paste into another app."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copia el MP4 para pegarlo en otra app."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copier le MP4 pour le coller dans une autre app."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copia l’MP4 per incollarlo in un’altra app."
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MP4をコピーして別のアプリにペーストします。"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MP4를 복사하여 다른 앱에 붙여넣습니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copie o MP4 para colá-lo em outro app."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скопируйте MP4, чтобы вставить его в другое приложение."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "MP4'ü başka bir uygulamaya yapıştırmak için kopyalayın."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sao chép MP4 để dán vào ứng dụng khác."
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "复制 MP4 以粘贴到其他 App。"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拷貝 MP4 以貼到其他 App。"
-          }
-        }
-      }
-    },
-    "Copy Video": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "نسخ الفيديو"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video kopieren"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy Video"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copiar vídeo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copier la vidéo"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copia video"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ビデオをコピー"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "비디오 복사"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copiar vídeo"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Копировать видео"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Videoyu Kopyala"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sao chép video"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "复制视频"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拷貝影片"
-          }
-        }
-      }
-    },
     "Copy the transcript": {
       "extractionState": "manual",
       "localizations": {
@@ -1909,95 +1407,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "複製影片"
-          }
-        }
-      }
-    },
-    "Transcript copied": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تم نسخ النص"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transkript kopiert"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcript copied"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcripción copiada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcription copiée"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trascrizione copiata"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "文字起こしをコピーしました"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "스크립트가 복사됨"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transcrição copiada"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Расшифровка скопирована"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Transkript kopyalandı"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Đã sao chép bản chép lời"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "转录文本已复制"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "已複製轉錄文字"
           }
         }
       }
@@ -2413,95 +1822,6 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Đang phiên âm bản ghi…" } },
         "zh-CN": { "stringUnit": { "state": "translated", "value": "正在转录录制内容…" } },
         "zh-TW": { "stringUnit": { "state": "translated", "value": "正在轉錄錄製內容…" } }
-      }
-    },
-    "Drag ScreenContext": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اسحب ScreenContext"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext bewegen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Drag ScreenContext"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrastrar ScreenContext"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Déplacer ScreenContext"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Trascina ScreenContext"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContextをドラッグ"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext 드래그"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrastar o ScreenContext"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перетащить ScreenContext"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext'u Sürükle"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kéo ScreenContext"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拖动 ScreenContext"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "拖移 ScreenContext"
-          }
-        }
       }
     },
     "Enable global shortcut ⇧⌘O": {
@@ -3127,362 +2447,6 @@
         }
       }
     },
-    "Go": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ابدأ"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Los"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Go"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Démarrer"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avvia"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開始"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "시작"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Начать"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Başlat"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bắt đầu"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開始"
-          }
-        }
-      }
-    },
-    "Hide Controls": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إخفاء عناصر التحكم"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Steuerung ausblenden"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide Controls"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Masquer les commandes"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nascondi controlli"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "コントロールを隠す"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "컨트롤 숨기기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скрыть элементы управления"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Denetimleri Gizle"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ẩn điều khiển"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐藏控制项"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隱藏控制項"
-          }
-        }
-      }
-    },
-    "Hide ScreenContext Controls": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إخفاء عناصر تحكم ScreenContext"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext-Steuerung ausblenden"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide ScreenContext Controls"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles de ScreenContext"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Masquer les commandes ScreenContext"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nascondi i controlli di ScreenContext"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContextのコントロールを隠す"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext 컨트롤 숨기기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles do ScreenContext"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скрыть элементы управления ScreenContext"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext Denetimlerini Gizle"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ẩn điều khiển ScreenContext"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐藏 ScreenContext 控制项"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隱藏 ScreenContext 控制項"
-          }
-        }
-      }
-    },
-    "Hide ScreenContext Controls — reopen with ⇧⌘O": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إخفاء عناصر تحكم ScreenContext — أعد فتحها باستخدام ⇧⌘O"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext-Steuerung ausblenden — mit ⇧⌘O erneut öffnen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide ScreenContext Controls — reopen with ⇧⌘O"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles de ScreenContext — volver a abrir con ⇧⌘O"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Masquer les commandes ScreenContext — rouvrir avec ⇧⌘O"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nascondi i controlli di ScreenContext — riapri con ⇧⌘O"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContextのコントロールを隠す — ⇧⌘Oで再表示"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext 컨트롤 숨기기 — ⇧⌘O로 다시 열기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ocultar controles do ScreenContext — reabrir com ⇧⌘O"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скрыть элементы ScreenContext — открыть снова с помощью ⇧⌘O"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext Denetimlerini Gizle — ⇧⌘O ile yeniden aç"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ẩn điều khiển ScreenContext — mở lại bằng ⇧⌘O"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隐藏 ScreenContext 控制项 — 使用 ⇧⌘O 重新打开"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "隱藏 ScreenContext 控制項 — 使用 ⇧⌘O 重新開啟"
-          }
-        }
-      }
-    },
     "Install Model": {
       "extractionState": "manual",
       "localizations": {
@@ -3835,95 +2799,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "語言"
-          }
-        }
-      }
-    },
-    "Local video": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "فيديو محلي"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lokales Video"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Local video"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vídeo local"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vidéo locale"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video locale"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ローカルビデオ"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "로컬 비디오"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vídeo local"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Локальное видео"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yerel Video"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video cục bộ"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本地视频"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本機影片"
           }
         }
       }
@@ -4748,184 +3623,6 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "在 %@ 中開啟此內容脈絡" } }
       }
     },
-    "Open ScreenContext": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "فتح ScreenContext"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext öffnen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open ScreenContext"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir ScreenContext"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ouvrir ScreenContext"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apri ScreenContext"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContextを開く"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext 열기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir o ScreenContext"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Открыть ScreenContext"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ScreenContext'u Aç"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mở ScreenContext"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开 ScreenContext"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打開 ScreenContext"
-          }
-        }
-      }
-    },
-    "Open Settings": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "فتح الإعدادات"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Einstellungen öffnen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Open Settings"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir ajustes"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ouvrir les réglages"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Apri impostazioni"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "設定を開く"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "설정 열기"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abrir ajustes"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Открыть настройки"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ayarları Aç"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mở cài đặt"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "打开设置"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開啟設定"
-          }
-        }
-      }
-    },
     "Português (Brasil)": {
       "extractionState": "manual",
       "localizations": {
@@ -5100,95 +3797,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "結束 ScreenContext"
-          }
-        }
-      }
-    },
-    "Recording Complete": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اكتمل التسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme abgeschlossen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recording Complete"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grabación completada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enregistrement terminé"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrazione completata"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "収録完了"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "녹화 완료"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gravação concluída"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Запись завершена"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kayıt Tamamlandı"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Đã ghi xong"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录制完成"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "錄製完成"
           }
         }
       }
@@ -5375,95 +3983,6 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Không tạo được bản ghi có thể sử dụng. Hãy kiểm tra cài đặt ghi và thử lại." } },
         "zh-CN": { "stringUnit": { "state": "translated", "value": "未生成可用的录制内容。请检查录制设置，然后重试。" } },
         "zh-TW": { "stringUnit": { "state": "translated", "value": "未產生可用的錄製內容。請檢查錄製設定，然後再試一次。" } }
-      }
-    },
-    "Recording Saved": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تم حفظ التسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme gesichert"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Recording Saved"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Grabación guardada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enregistrement sauvegardé"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Registrazione salvata"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "収録を保存しました"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "녹화 저장됨"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gravação salva"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Запись сохранена"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kayıt Kaydedildi"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Đã lưu bản ghi"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "录制已存储"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "錄製已儲存"
-          }
-        }
       }
     },
     "Recording source": {
@@ -6108,184 +4627,6 @@
         }
       }
     },
-    "Share this recording": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "مشاركة هذا التسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Diese Aufnahme teilen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Share this recording"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartir esta grabación"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partager cet enregistrement"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Condividi questa registrazione"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "この収録を共有"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "이 녹화 공유"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compartilhar esta gravação"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Поделиться этой записью"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bu Kaydı Paylaş"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chia sẻ bản ghi này"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "共享此录制"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "分享此錄製"
-          }
-        }
-      }
-    },
-    "Sign In with Google": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تسجيل الدخول باستخدام Google"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit Google anmelden"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign In with Google"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar sesión con Google"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se connecter avec Google"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accedi con Google"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Googleでサインイン"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google로 로그인"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entrar com o Google"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Войти через Google"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Google ile Giriş Yap"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Đăng nhập bằng Google"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Google 登录"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "使用 Google 登入"
-          }
-        }
-      }
-    },
     "Speech recognition is unavailable for the selected language.": {
       "extractionState": "manual",
       "localizations": {
@@ -6375,95 +4716,6 @@
         }
       }
     },
-    "Speech Recognition permission is required for local transcription.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يلزم إذن التعرف على الكلام للنسخ المحلي."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Für die lokale Transkription ist die Berechtigung zur Spracherkennung erforderlich."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speech Recognition permission is required for local transcription."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Se requiere permiso de reconocimiento de voz para la transcripción local."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "L’autorisation de reconnaissance vocale est requise pour la transcription locale."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Per la trascrizione locale è richiesta l’autorizzazione al riconoscimento vocale."
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ローカル文字起こしには音声認識の権限が必要です。"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "로컬 스크립트 작성에는 음성 인식 권한이 필요합니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "A permissão de Reconhecimento de Fala é necessária para a transcrição local."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для локальной расшифровки требуется разрешение на распознавание речи."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yerel transkripsiyon için Konuşma Tanıma izni gereklidir."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cần quyền Nhận dạng giọng nói để chép lời cục bộ."
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本地转录需要语音识别权限。"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "本機轉錄需要語音辨識權限。"
-          }
-        }
-      }
-    },
     "Square": {
       "extractionState": "manual",
       "localizations": {
@@ -6549,273 +4801,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "正方形"
-          }
-        }
-      }
-    },
-    "Start recording": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "بدء التسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme starten"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Start recording"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar grabación"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Démarrer l’enregistrement"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Avvia registrazione"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "収録を開始"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "녹화 시작"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Iniciar gravação"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Начать запись"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kaydı başlat"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bắt đầu ghi"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "开始录制"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "開始錄製"
-          }
-        }
-      }
-    },
-    "Stop": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إيقاف"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stopp"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stop"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detener"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrêter"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Interrompi"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "중지"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parar"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Остановить"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Durdur"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dừng"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止"
-          }
-        }
-      }
-    },
-    "Stop recording": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "إيقاف التسجيل"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aufnahme stoppen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stop recording"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detener grabación"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Arrêter l’enregistrement"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Interrompi registrazione"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "収録を停止"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "녹화 중지"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Parar gravação"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Остановить запись"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kaydı durdur"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dừng ghi"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止录制"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "停止錄製"
           }
         }
       }
@@ -8151,95 +6136,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "所選網路攝影機無法使用。"
-          }
-        }
-      }
-    },
-    "The shortcut restores the floating controls from any app.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يعيد الاختصار عناصر التحكم العائمة من أي تطبيق."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Das Tastenkürzel stellt die schwebenden Steuerelemente aus jeder App wieder her."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The shortcut restores the floating controls from any app."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El atajo restaura los controles flotantes desde cualquier app."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le raccourci restaure les commandes flottantes depuis n’importe quelle app."
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La scorciatoia ripristina i controlli mobili da qualsiasi app."
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "どのアプリからでもショートカットでフローティングコントロールを復元できます。"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "어떤 앱에서든 단축키로 플로팅 컨트롤을 다시 표시합니다."
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "O atalho restaura os controles flutuantes de qualquer app."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сочетание возвращает плавающие элементы управления из любого приложения."
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kısayol, yüzen denetimleri herhangi bir uygulamadan geri getirir."
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Phím tắt khôi phục các điều khiển nổi từ mọi ứng dụng."
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "该快捷键可从任何 App 恢复浮动控制项。"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "此快速鍵可從任何 App 恢復浮動控制項。"
           }
         }
       }
@@ -10197,6 +8093,177 @@
             "value": "支援"
           }
         }
+      }
+    },
+    "Start Recording": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "بدء التسجيل"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Aufnahme starten"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Start recording"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Iniciar grabación"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Démarrer l’enregistrement"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Avvia registrazione"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "収録を開始"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "녹화 시작"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Iniciar gravação"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Начать запись"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kaydı başlat"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Bắt đầu ghi"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "开始录制"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "開始錄製"}}
+      }
+    },
+    "⇧⌘O": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "de": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "en": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "es": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "it": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}}
+      }
+    },
+    "Recording": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "التسجيل"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Aufnahme"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Recording"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Grabación"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Enregistrement"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Registrazione"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "録画"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "녹화"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Gravação"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Запись"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kayıt"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Ghi hình"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "录制"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "錄製"}}
+      }
+    },
+    "Press ⇧⌘O to start recording. Press it again to stop.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "اضغط ⇧⌘O لبدء التسجيل. اضغط مرة أخرى لإيقافه."}},
+        "de": {"stringUnit": {"state": "translated", "value": "Drücke ⇧⌘O, um die Aufnahme zu starten. Drücke erneut, um sie zu stoppen."}},
+        "en": {"stringUnit": {"state": "translated", "value": "Press ⇧⌘O to start recording. Press it again to stop."}},
+        "es": {"stringUnit": {"state": "translated", "value": "Pulsa ⇧⌘O para iniciar la grabación. Vuelve a pulsarlo para detenerla."}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Appuyez sur ⇧⌘O pour démarrer l’enregistrement, puis à nouveau pour l’arrêter."}},
+        "it": {"stringUnit": {"state": "translated", "value": "Premi ⇧⌘O per avviare la registrazione. Premi di nuovo per interromperla."}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "⇧⌘Oで録画を開始します。もう一度押すと停止します。"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "⇧⌘O를 눌러 녹화를 시작하세요. 다시 누르면 중지됩니다."}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Pressione ⇧⌘O para iniciar a gravação. Pressione novamente para parar."}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Нажмите ⇧⌘O, чтобы начать запись. Нажмите ещё раз, чтобы остановить."}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kaydı başlatmak için ⇧⌘O tuşlarına basın. Durdurmak için tekrar basın."}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Nhấn ⇧⌘O để bắt đầu ghi. Nhấn lại để dừng."}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "按 ⇧⌘O 开始录制，再按一次停止。"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "按 ⇧⌘O 開始錄製，再按一次停止。"}}
+      }
+    },
+    "Preparing…": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "جارٍ التحضير…"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Vorbereiten…"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Preparing…"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Preparando…"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Préparation…"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Preparazione…"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "準備中…"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "준비 중…"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Preparando…"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Подготовка…"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Hazırlanıyor…"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Đang chuẩn bị…"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "正在准备…"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "正在準備…"}}
+      }
+    },
+    "Audio": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "الصوت"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Audio"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Audio"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Audio"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Audio"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Audio"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "オーディオ"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "오디오"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Áudio"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Аудио"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Ses"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Âm thanh"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "音频"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "音訊"}}
+      }
+    },
+    "Recording started": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "بدأ التسجيل"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Aufnahme gestartet"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Recording started"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Grabación iniciada"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Enregistrement démarré"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Registrazione avviata"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "録画を開始しました"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "녹화 시작됨"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Gravação iniciada"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Запись началась"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kayıt başladı"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Đã bắt đầu ghi"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "录制已开始"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "錄製已開始"}}
+      }
+    },
+    "Recording stopped": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "توقف التسجيل"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Aufnahme gestoppt"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Recording stopped"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Grabación detenida"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Enregistrement arrêté"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Registrazione interrotta"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "録画を停止しました"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "녹화 중지됨"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Gravação interrompida"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Запись остановлена"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kayıt durduruldu"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Đã dừng ghi"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "录制已停止"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "錄製已停止"}}
+      }
+    },
+    "Edit Webcam Layout…": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "تعديل تخطيط كاميرا الويب…"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Webcam-Layout bearbeiten…"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Edit Webcam Layout…"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Editar diseño de cámara…"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Modifier la disposition de la webcam…"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Modifica layout webcam…"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "Webカメラのレイアウトを編集…"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "웹캠 레이아웃 편집…"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Editar layout da webcam…"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Изменить расположение веб-камеры…"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Web kamerası düzenini değiştir…"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Chỉnh sửa bố cục webcam…"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "编辑摄像头布局…"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "編輯攝影機配置…"}}
       }
     }
   },

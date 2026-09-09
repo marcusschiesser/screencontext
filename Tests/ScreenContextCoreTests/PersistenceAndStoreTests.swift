@@ -862,15 +862,38 @@ final class PersistenceAndStoreTests: XCTestCase {
     }
 
     @MainActor
-    func testStoppingDuringPreparationCancelsRecording() async {
+    func testRecordingToggleStopsAndPresentsLatestResultOnce() async {
+        let pipeline = TestRecordingPipeline(outputURL: temporaryRecordingURL())
+        let store = makeStore(pipeline: pipeline)
+        await store.initialize()
+        var presentedResults: [RecordingResult] = []
+        store.recordingResultAvailable = { presentedResults.append($0) }
+
+        store.toggleRecording()
+        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
+        XCTAssertTrue(didStart)
+        XCTAssertTrue(store.configurationIsLocked)
+        store.toggleRecording()
+        XCTAssertEqual(store.phase, .finalizing)
+        store.toggleRecording() // Repeated input during finalization must not start a new session.
+        let didFinish = await waitUntilOnMainActor { store.phase == .idle }
+        XCTAssertTrue(didFinish)
+        XCTAssertEqual(presentedResults.count, 1)
+        XCTAssertEqual(presentedResults.first?.id, store.latestRecordingResult?.id)
+        XCTAssertEqual(store.selectedRecordingID, store.latestRecordingResult?.id)
+        XCTAssertFalse(store.configurationIsLocked)
+    }
+
+    @MainActor
+    func testRecordingToggleDuringPreparationCancelsRecording() async {
         let pipeline = BlockingStartPipeline(outputURL: temporaryRecordingURL())
         let store = makeStore(pipeline: pipeline)
         await store.initialize()
 
-        store.startRecording()
+        store.toggleRecording()
         let didPrepare = await waitUntilOnMainActor { store.phase == .preparing }
         XCTAssertTrue(didPrepare)
-        store.stopRecording()
+        store.toggleRecording()
         await pipeline.releaseStart()
         let didCancel = await waitUntilOnMainActor { store.phase == .idle }
         XCTAssertTrue(didCancel)

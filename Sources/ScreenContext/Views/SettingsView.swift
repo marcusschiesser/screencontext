@@ -1,14 +1,21 @@
+import AppKit
 import ScreenContextCore
 import SwiftUI
 
 struct SettingsView: View {
     @Bindable var store: RecordingSessionStore
     @Bindable var analytics: AnalyticsConsentController
+    let editWebcamLayout: @MainActor () -> Void
     @AppStorage(ScreenContextTemplatePreferenceKey.library)
     private var templateLibraryData = Data()
 
     var body: some View {
         TabView {
+            CaptureSettingsView(store: store, editWebcamLayout: editWebcamLayout)
+                .tabItem {
+                    Label("Recording", systemImage: "record.circle")
+                }
+
             GeneralSettingsView(store: store, analytics: analytics)
                 .tabItem {
                     Label("General", systemImage: "gearshape")
@@ -22,10 +29,32 @@ struct SettingsView: View {
                 Label("Recording context", systemImage: "text.quote")
             }
         }
-        .frame(width: 580, height: 440)
+        .frame(width: 620, height: 600)
         .padding()
         .environment(\.locale, store.effectiveLocale)
         .environment(\.layoutDirection, store.usesRightToLeftLayout ? .rightToLeft : .leftToRight)
+        .alert(
+            "Recording Couldn’t Be Saved",
+            isPresented: Binding(
+                get: { store.recordingFailureNotice != nil },
+                set: { if !$0 { store.dismissRecordingFailureNotice() } }
+            ),
+            presenting: store.recordingFailureNotice
+        ) { notice in
+            if let recoveryURL = notice.recoveryURL {
+                Button("Show in Finder") {
+                    NSWorkspace.shared.activateFileViewerSelecting([recoveryURL])
+                    store.dismissRecordingFailureNotice()
+                }
+            }
+            Button("Dismiss", role: .cancel) { store.dismissRecordingFailureNotice() }
+        } message: { notice in
+            if notice.kind == .partialRecordingPreserved {
+                Text("ScreenContext preserved the partial recording. Show it in Finder to see whether it can be played.")
+            } else {
+                Text("No usable recording was produced. Check your recording settings and try again.")
+            }
+        }
         .onAppear {
             analytics.capture(.settingsOpened)
         }
@@ -56,7 +85,7 @@ private struct GeneralSettingsView: View {
             Section {
                 Toggle("Enable global shortcut ⇧⌘O", isOn: $store.globalShortcutEnabled)
 
-                Text("The shortcut restores the floating controls from any app.")
+                Text("Press ⇧⌘O to start recording. Press it again to stop.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

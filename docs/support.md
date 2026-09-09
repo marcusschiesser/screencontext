@@ -10,23 +10,23 @@ Use ScreenContext as a normal screen recorder: capture your screen or a window, 
 
 ## Get started
 
-1. Open ScreenContext and choose a screen or window from the floating HUD.
+1. Open ScreenContext and choose a screen or window in Settings → Recording.
 2. Enable the audio, microphone, and camera inputs you want to include.
-3. Press Go. Grant the requested macOS permissions if needed.
-4. Demonstrate your task, then stop the recording from the HUD.
-5. Open the recording library, review the video, choose a recording context format, and copy the material into your workflow.
+3. Press Shift–Command–O to start recording. Grant the requested macOS permissions if needed.
+4. Demonstrate your task, then press the same shortcut to stop.
+5. The latest recording opens automatically. Review the video, choose a recording context format, and copy the material into your workflow.
 
 ## I cannot find the controls
 
-Press Shift–Command–O to bring the HUD back.
+Open Settings… from the ScreenContext menu bar icon. Capture inputs are in Recording, and Edit Webcam Layout… opens the live webcam layout editor. Drag to move, drag its border to resize, choose a shape, then click Done. Shift–Command–O toggles recording from any app; elapsed time appears in the menu bar.
 
 ## My screen or window is missing
 
-Use Refresh Sources in the recording source menu. Make sure the window is open and check Screen & System Audio Recording access in System Settings → Privacy & Security. Follow any macOS instruction to reopen the app after changing permissions.
+Use Refresh Sources in Settings → Recording. Make sure the window is open and check Screen & System Audio Recording access in System Settings → Privacy & Security. Follow any macOS instruction to reopen the app after changing permissions.
 
 ## My microphone or camera is unavailable
 
-Check that the desired input is enabled in the HUD, that the device is connected, and that ScreenContext has the corresponding permission in System Settings → Privacy & Security.
+Check that the desired input is enabled in Settings → Recording, that the device is connected, and that ScreenContext has the corresponding permission in System Settings → Privacy & Security.
 
 ## Why is there no transcript?
 
