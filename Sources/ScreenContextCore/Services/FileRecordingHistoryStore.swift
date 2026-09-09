@@ -136,8 +136,7 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
                 recordingFileName: recordingURL.lastPathComponent,
                 recordedAt: Self.recordingDate(
                     directoryName: directory.lastPathComponent,
-                    recordingURL: recordingURL,
-                    fileManager: fileManager
+                    recordingURL: recordingURL
                 )
             )
         }
@@ -178,27 +177,22 @@ public actor FileRecordingHistoryStore: RecordingHistoryStore {
     private func recordingDate(for stored: StoredRecording) -> Date {
         stored.recordedAt ?? Self.recordingDate(
             directoryName: stored.directoryName,
-            recordingURL: recordingURL(for: stored),
-            fileManager: fileManager
+            recordingURL: recordingURL(for: stored)
         )
     }
 
     private static func recordingDate(
         directoryName: String,
-        recordingURL: URL,
-        fileManager: FileManager
+        recordingURL: URL
     ) -> Date {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.locale = Locale(identifier: "en_US_POSIX")
-        // Existing recordings retain their original names, including collision suffixes.
-        for prefix in ["ScreenContext", "ContextCast"] {
-            let timestampLength = "\(prefix) 0000-00-00 00-00-00".count
-            let timestamp = String(directoryName.prefix(timestampLength))
-            formatter.dateFormat = "'\(prefix)' yyyy-MM-dd HH-mm-ss"
-            if let date = formatter.date(from: timestamp) {
-                return date
-            }
+        formatter.dateFormat = "'ScreenContext' yyyy-MM-dd HH-mm-ss"
+        // Ignore collision suffixes appended after the recording timestamp.
+        let timestamp = String(directoryName.prefix("ScreenContext 0000-00-00 00-00-00".count))
+        if let date = formatter.date(from: timestamp) {
+            return date
         }
         let values = try? recordingURL.resourceValues(
             forKeys: [.creationDateKey, .contentModificationDateKey]

@@ -24,10 +24,9 @@ final class PasteReminderPanelController {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     }
 
-    func show(locale: Locale, on screen: NSScreen?) {
+    func show(title: String, locale: Locale, on screen: NSScreen?) {
         dismissalTask?.cancel()
         guard let screen = screen ?? NSScreen.main ?? NSScreen.screens.first else { return }
-        let title = String(localized: "Context copied", locale: locale)
         let instruction = String(localized: "Press ⌘V to paste.", locale: locale)
         let width = min(360, screen.visibleFrame.width - 32)
         let hostingView = NSHostingView(rootView: PasteReminderView(

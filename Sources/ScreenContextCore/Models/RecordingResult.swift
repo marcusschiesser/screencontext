@@ -12,6 +12,6 @@ public struct RecordingResult: Identifiable, Equatable, Sendable {
     }
 
     public var context: String {
-        "## Recording\n\n\(fileURL.path)"
+        fileURL.path
     }
 }

@@ -30,7 +30,7 @@ Check that the desired input is enabled in Settings → Recordings, that the dev
 
 ## How do I use the result with an AI tool?
 
-Click Copy context in the recording window to copy the recording heading and local video path. Attach the video if your AI tool cannot access local paths. AI tools and accounts are separate from ScreenContext.
+Click Copy File Path under Recording file to copy the local video path. Attach the video if your AI tool cannot access local paths. AI tools and accounts are separate from ScreenContext.
 
 For a recording made during the current app session, Copy & Return to [App] (⌘⇧C) copies the context and switches back to the app that was active when you started recording. Press ⌘V there to paste. Recordings reopened after restarting ScreenContext retain regular Copy.
 

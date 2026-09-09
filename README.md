@@ -1,50 +1,55 @@
 # ScreenContext
 
-**Record your screen and voice. Use it as context in your AI workflows.**
+**Use your screen recording in your AI agent.**
 
-[![ScreenContext — Turn your screencast into AI context](docs/media/screencontext-readme-hero.png)](https://apps.apple.com/app/id6809044710)
+ScreenContext captures a screen recording and sends it as context to your AI agent. The agent can use that context to make a product video, fix a bug, or create a ticket.
 
-**[View on the Mac App Store](https://apps.apple.com/app/id6809044710)** · Free · macOS 15+
+[![ScreenContext — Use your screen recording in your AI agent](docs/media/screencontext-readme-hero.png)](https://apps.apple.com/app/id6809044710)
 
-*The App Store release is pending Apple review.*
+[Mac App Store](https://apps.apple.com/app/id6809044710) · Free · macOS 15+
 
-ScreenContext is a native Mac app that records your screen with optional audio and webcam video. Show what happened, explain what matters, and copy the context into your AI workflow.
+## From your screen to your agent
 
-Use it as your everyday screen recorder, too. Record a screen or window and share the MP4. When you need AI context, it is ready in the same app. No second recorder needed.
+1. **Choose your inputs.** Open Settings → Recordings. Select a screen or window, then choose whether to include system audio, microphone audio, and a webcam overlay.
+2. **Capture the context.** With your agent's app active, press **⌃⌘R** to start. Record a product walkthrough, reproduce a bug, or capture a workflow. Press the shortcut again to stop.
+3. **Bring the recording back.** The recording opens automatically for review. Click **Copy & Return to [App]**, or press **⌘⇧C**, to copy its reference and switch back to your agent's app. Press **⌘V** there to paste.
+4. **Give the agent a task.** Add your request alongside the recording: “Fix the bug I demonstrated,” “Create a Linear issue,” or “Turn this walkthrough into a product presentation video.”
 
-## From recording to context
+Use an agent that can process video. The copied context is just the local MP4 path:
 
-1. **Choose what to capture.** In Settings, select a screen or window, enable optional audio and webcam inputs, and choose your webcam layout.
-2. **Press ⌃⌘R to start and stop.** Change the shortcut in Settings → Recordings. Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video locally.
-3. **Use the result.** Play back the recording, copy the MP4, or click **Copy & Return to [App]** to copy the context and switch back to the app active when recording started. Press **⌘V** there to paste. The context contains the recording heading and local video path. Regular Copy is also available, including for recordings reopened after restarting ScreenContext.
+```text
+/path/to/your/recording.mp4
+```
 
-## Put your recording to work
+A local path works only if your agent can access that file. If it cannot, attach the MP4 using the agent's file-upload controls. ScreenContext does not upload or attach the recording automatically.
 
-- **Create an issue.** Demonstrate a bug and give the recording to your AI tool to help write reproduction steps and expected versus actual results.
-- **Prepare a product video.** Record a walkthrough and give your AI workflow the source video and your instructions.
-- **Just record.** Capture a demo, tutorial, or quick explanation and share the video directly.
+Copy & Return remembers the app that was active when recording started. It is available for recordings made during the current ScreenContext session. 
 
-ScreenContext prepares the material; your chosen AI tool handles the next step.
+## Your everyday screen recorder, too
 
-## Local recording, no account
+ScreenContext also works as a normal screen recorder, so you don't need to install a second app for everyday recordings. Capture a tutorial, share a walkthrough with a teammate, or save a quick demo—no AI agent required.
 
-Recordings and context stay on your Mac until you choose to share them. No ScreenContext account is required, and analytics are disabled for launch.
+Recordings are saved as local MP4 files. Revisit them in the recording library with playback, Copy Video, and deletion controls.
 
-Screen recording works on **macOS 15 or later**. The app requests screen recording, microphone, and camera permissions as needed.
+To share the video in an app such as Slack, start recording with that app active. Use **Copy Video & Return to [App]** below the player, or press **⌘⌥⇧C**, then press **⌘V** in the destination app to paste the video file.
+
+Customize the global shortcut at the top of Settings → Recordings. Recording status and elapsed time stay in the menu bar while you work.
+
+## Local by default
+
+No ScreenContext account, cloud upload, or analytics. ScreenContext requests screen recording, microphone, and camera access when needed. Choose the app language in Settings → General, which also contains Privacy Policy and Support.
 
 [Privacy policy](docs/privacy.md) · [Support](docs/support.md) · [Report an issue](https://github.com/marcusschiesser/screencontext/issues)
 
-## Build from source
+## Build and test
 
-Use **Xcode 26 or later**. Open `ScreenContext.xcodeproj`, select the `ScreenContext` scheme, and press **⌘R**. Choose your signing team if prompted.
-
-From the repository root:
+Open `ScreenContext.xcodeproj` in Xcode 26 or later, select the ScreenContext scheme, and choose your signing team. Or run:
 
 ```sh
 ./script/build_and_run.sh
 ```
 
-Run the project checks:
+Run the checks:
 
 ```sh
 ./script/test_unit.sh
@@ -52,15 +57,10 @@ Run the project checks:
 ./script/check_native_only.sh
 ```
 
-The app uses Swift, SwiftUI, and native macOS media APIs. Read [design.md](design.md) before changing the interface. Bug reports and focused pull requests are welcome.
+The audio-output test requires access to the macOS AAC encoder. Restricted execution environments report a capability skip; run the scripts outside that restriction to validate actual media encoding.
 
-<details>
-<summary>Upgrading from a local ContextCast build</summary>
-
-The app now uses the bundle identifier `de.marcusschiesser.screencontext`. macOS gives it a separate sandbox and permission grants, so recordings and settings from builds using the previous identifier are not automatically migrated. The library still recognizes older ContextCast recording filenames.
-
-</details>
+The app uses Swift, SwiftUI, ScreenCaptureKit, and native macOS media APIs. See [design.md](design.md) for interface guidance.
 
 ## License
 
-[Apache-2.0](LICENSE). See [NOTICE](NOTICE) and [third-party notices](THIRD_PARTY_NOTICES.md) for attribution. The license does not grant rights to the ScreenContext name or third-party trademarks.
+[Apache-2.0](LICENSE). See [NOTICE](NOTICE) and [third-party notices](THIRD_PARTY_NOTICES.md). The license does not grant rights to the ScreenContext name or third-party trademarks.

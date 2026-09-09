@@ -3,11 +3,11 @@ import XCTest
 @testable import ScreenContextCore
 
 final class RecordingContextTests: XCTestCase {
-    func testContextContainsOnlyRecordingHeadingAndUnescapedFilePath() {
+    func testContextContainsOnlyUnescapedFilePath() {
         let url = URL(fileURLWithPath: "/tmp/ScreenContext Demo 日本語/recording.mp4")
         let recording = RecordingResult(fileURL: url)
 
-        XCTAssertEqual(recording.context, "## Recording\n\n/tmp/ScreenContext Demo 日本語/recording.mp4")
+        XCTAssertEqual(recording.context, "/tmp/ScreenContext Demo 日本語/recording.mp4")
     }
 
     func testLegacyCatalogsPreserveRecordingIdentityAndSelection() async throws {

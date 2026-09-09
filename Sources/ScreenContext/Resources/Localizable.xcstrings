@@ -1,6 +1,419 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Copy Video": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "نسخ الفيديو"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Video kopieren"}},
+        "en": {"stringUnit": {"state": "translated", "value": "Copy Video"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Copiar vídeo"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Copier la vidéo"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Copia video"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "ビデオをコピー"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "비디오 복사"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Copiar vídeo"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Копировать видео"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Videoyu kopyala"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Sao chép video"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "复制视频"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "複製影片"}}
+      }
+    },
+    "Recording file": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Recording file"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "ملف التسجيل"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Aufnahmedatei"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Archivo de grabación"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Fichier d’enregistrement"}},
+        "it": {"stringUnit": {"state": "translated", "value": "File della registrazione"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "録画ファイル"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "녹화 파일"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Arquivo da gravação"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Файл записи"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kayıt dosyası"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Tệp bản ghi"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "录制文件"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "錄製檔案"}}
+      }
+    },
+    "Copy File Path": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Copy File Path"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "نسخ مسار الملف"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Dateipfad kopieren"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Copiar ruta del archivo"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Copier le chemin du fichier"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Copia percorso del file"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "ファイルパスをコピー"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "파일 경로 복사"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Copiar caminho do arquivo"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Скопировать путь к файлу"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Dosya Yolunu Kopyala"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Sao chép đường dẫn tệp"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "复制文件路径"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "複製檔案路徑"}}
+      }
+    },
+  "Copy Video & Return to %@": {
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copy Video & Return to %@"
+        }
+      },
+      "ar": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "نسخ الفيديو والعودة إلى %@"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Video kopieren & zu %@ zurückkehren"
+        }
+      },
+      "es": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copiar vídeo y volver a %@"
+        }
+      },
+      "fr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copier la vidéo et revenir à %@"
+        }
+      },
+      "it": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copia il video e torna a %@"
+        }
+      },
+      "ja-JP": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "ビデオをコピーして%@に戻る"
+        }
+      },
+      "ko-KR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "비디오를 복사하고 %@로 돌아가기"
+        }
+      },
+      "pt-BR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copiar vídeo e voltar para %@"
+        }
+      },
+      "ru": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Скопировать видео и вернуться в %@"
+        }
+      },
+      "tr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Videoyu Kopyala ve %@ Uygulamasına Dön"
+        }
+      },
+      "vi": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sao chép video và quay lại %@"
+        }
+      },
+      "zh-CN": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "复制视频并返回 %@"
+        }
+      },
+      "zh-TW": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "複製影片並返回 %@"
+        }
+      }
+    }
+  },
+  "Couldn’t Copy Video": {
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Couldn’t Copy Video"
+        }
+      },
+      "ar": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "تعذّر نسخ الفيديو"
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Video konnte nicht kopiert werden"
+        }
+      },
+      "es": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "No se pudo copiar el vídeo"
+        }
+      },
+      "fr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Impossible de copier la vidéo"
+        }
+      },
+      "it": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Impossibile copiare il video"
+        }
+      },
+      "ja-JP": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "ビデオをコピーできませんでした"
+        }
+      },
+      "ko-KR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "비디오를 복사할 수 없음"
+        }
+      },
+      "pt-BR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Não foi possível copiar o vídeo"
+        }
+      },
+      "ru": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Не удалось скопировать видео"
+        }
+      },
+      "tr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Video Kopyalanamadı"
+        }
+      },
+      "vi": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Không thể sao chép video"
+        }
+      },
+      "zh-CN": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "无法复制视频"
+        }
+      },
+      "zh-TW": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "無法複製影片"
+        }
+      }
+    }
+  },
+  "Try copying the video again.": {
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Try copying the video again."
+        }
+      },
+      "ar": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "حاول نسخ الفيديو مرة أخرى."
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Versuche erneut, das Video zu kopieren."
+        }
+      },
+      "es": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Intenta copiar el vídeo de nuevo."
+        }
+      },
+      "fr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Essayez de copier à nouveau la vidéo."
+        }
+      },
+      "it": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Prova a copiare di nuovo il video."
+        }
+      },
+      "ja-JP": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "ビデオをもう一度コピーしてください。"
+        }
+      },
+      "ko-KR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "비디오를 다시 복사해 보십시오."
+        }
+      },
+      "pt-BR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Tente copiar o vídeo novamente."
+        }
+      },
+      "ru": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Попробуйте скопировать видео ещё раз."
+        }
+      },
+      "tr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Videoyu tekrar kopyalamayı deneyin."
+        }
+      },
+      "vi": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Hãy thử sao chép video lại."
+        }
+      },
+      "zh-CN": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "请尝试重新复制视频。"
+        }
+      },
+      "zh-TW": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "請嘗試重新複製影片。"
+        }
+      }
+    }
+  },
+  "Copy the video file and switch back to the original app. Press ⌘V there to paste.": {
+    "extractionState": "manual",
+    "localizations": {
+      "en": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copy the video file and switch back to the original app. Press ⌘V there to paste."
+        }
+      },
+      "ar": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "انسخ ملف الفيديو وارجع إلى التطبيق الأصلي. اضغط على ⌘V هناك للصق."
+        }
+      },
+      "de": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Kopiere die Videodatei und wechsle zur ursprünglichen App zurück. Drücke dort ⌘V zum Einfügen."
+        }
+      },
+      "es": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copia el archivo de vídeo y vuelve a la app original. Pulsa ⌘V allí para pegar."
+        }
+      },
+      "fr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copiez le fichier vidéo et revenez à l’app d’origine. Appuyez sur ⌘V pour le coller."
+        }
+      },
+      "it": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copia il file video e torna all’app originale. Premi ⌘V per incollarlo."
+        }
+      },
+      "ja-JP": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "ビデオファイルをコピーして元のアプリに戻ります。そこで⌘Vを押してペーストしてください。"
+        }
+      },
+      "ko-KR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "비디오 파일을 복사하고 원래 앱으로 돌아갑니다. 해당 앱에서 ⌘V를 눌러 붙여넣으십시오."
+        }
+      },
+      "pt-BR": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Copie o arquivo de vídeo e volte ao app original. Pressione ⌘V lá para colar."
+        }
+      },
+      "ru": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Скопируйте видеофайл и вернитесь в исходное приложение. Нажмите там ⌘V для вставки."
+        }
+      },
+      "tr": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Video dosyasını kopyalayın ve ilk uygulamaya dönün. Yapıştırmak için orada ⌘V tuşlarına basın."
+        }
+      },
+      "vi": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "Sao chép tệp video và quay lại ứng dụng ban đầu. Nhấn ⌘V tại đó để dán."
+        }
+      },
+      "zh-CN": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "复制视频文件并切换回原来的应用。按 ⌘V 粘贴。"
+        }
+      },
+      "zh-TW": {
+        "stringUnit": {
+          "state": "translated",
+          "value": "複製影片檔案並切換回原來的 App。按 ⌘V 貼上。"
+        }
+      }
+    }
+  },
     "Press ⌘V to paste.": {
       "extractionState": "manual",
       "localizations": {
@@ -37,25 +450,6 @@
         "vi": { "stringUnit": { "state": "translated", "value": "Sao chép và quay lại %@" } },
         "zh-CN": { "stringUnit": { "state": "translated", "value": "复制并返回 %@" } },
         "zh-TW": { "stringUnit": { "state": "translated", "value": "複製並返回 %@" } }
-      }
-    },
-    "Paste with ⌘V": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "اللصق باستخدام ⌘V" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Mit ⌘V einfügen" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Paste with ⌘V" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Pegar con ⌘V" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Coller avec ⌘V" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Incolla con ⌘V" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "⌘Vでペースト" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "⌘V로 붙여넣기" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Cole com ⌘V" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Вставьте через ⌘V" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "⌘V ile yapıştırın" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Dán bằng ⌘V" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "按 ⌘V 粘贴" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "按 ⌘V 貼上" } }
       }
     },
     "Copy context and switch back to the original app. Press ⌘V there to paste.": {
@@ -721,95 +1115,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "拷貝本機影片檔案"
-          }
-        }
-      }
-    },
-    "Copy video": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "نسخ الفيديو"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Video kopieren"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copy video"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copiar vídeo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copier la vidéo"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copia video"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ビデオをコピー"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "비디오 복사"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copiar vídeo"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Копировать видео"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Videoyu kopyala"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sao chép video"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "复制视频"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "複製影片"
           }
         }
       }
@@ -2414,25 +2719,6 @@
             "value": "結束 ScreenContext"
           }
         }
-      }
-    },
-    "Recording context": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": { "stringUnit": { "state": "translated", "value": "سياق التسجيل" } },
-        "de": { "stringUnit": { "state": "translated", "value": "Aufnahmekontext" } },
-        "en": { "stringUnit": { "state": "translated", "value": "Recording context" } },
-        "es": { "stringUnit": { "state": "translated", "value": "Contexto de la grabación" } },
-        "fr": { "stringUnit": { "state": "translated", "value": "Contexte de l’enregistrement" } },
-        "it": { "stringUnit": { "state": "translated", "value": "Contesto della registrazione" } },
-        "ja-JP": { "stringUnit": { "state": "translated", "value": "録画のコンテキスト" } },
-        "ko-KR": { "stringUnit": { "state": "translated", "value": "녹화 컨텍스트" } },
-        "pt-BR": { "stringUnit": { "state": "translated", "value": "Contexto da gravação" } },
-        "ru": { "stringUnit": { "state": "translated", "value": "Контекст записи" } },
-        "tr": { "stringUnit": { "state": "translated", "value": "Kayıt bağlamı" } },
-        "vi": { "stringUnit": { "state": "translated", "value": "Ngữ cảnh bản ghi" } },
-        "zh-CN": { "stringUnit": { "state": "translated", "value": "录制上下文" } },
-        "zh-TW": { "stringUnit": { "state": "translated", "value": "錄製內容脈絡" } }
       }
     },
     "Recordings": {

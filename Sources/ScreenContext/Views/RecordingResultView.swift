@@ -9,7 +9,7 @@ struct RecordingResultView: View {
     let mediaHeight: CGFloat
     let analytics: AnalyticsConsentController
     let contextReturnController: RecordingContextReturnController
-    let contextReturned: @MainActor (Locale) -> Void
+    let copiedAndReturned: @MainActor (String, Locale) -> Void
     let dismiss: @MainActor () -> Void
     @Environment(\.colorScheme) private var colorScheme
     @State private var copyToastMessage: String?
@@ -18,6 +18,10 @@ struct RecordingResultView: View {
     @State private var isDeletingRecording = false
     @State private var destinationAlert: RecordingContextDestinationAlert?
     @State private var isReturningToApplication = false
+
+    private enum CopyContent {
+        case context, video
+    }
 
     var body: some View {
         NavigationSplitView {
@@ -111,59 +115,25 @@ struct RecordingResultView: View {
                                 lineWidth: 1
                             )
                     }
-                    .overlay(alignment: .topTrailing) {
-                        copyButton(
-                            accessibilityLabel: "Copy video",
-                            help: "Copy the local video file"
-                        ) {
-                            copyVideoToPasteboard(result.fileURL)
-                        }
-                        .padding(10)
-                    }
                     .shadow(
                         color: .black.opacity(colorScheme == .dark ? 0.30 : 0.12),
                         radius: 16,
                         y: 8
                     )
 
+                copyActions(for: .video)
+
                 VStack(alignment: .leading, spacing: 10) {
-                    Label("Recording context", systemImage: "text.quote")
+                    Label("Recording file", systemImage: "doc")
                         .font(.headline)
 
                     ReadOnlyContextTextView(
                         text: result.context,
-                        accessibilityLabel: String(localized: "Recording context", locale: locale)
+                        accessibilityLabel: String(localized: "Recording file", locale: locale)
                     )
                     .frame(maxHeight: .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-                    .overlay(alignment: .topTrailing) {
-                        copyButton(accessibilityLabel: "Copy context", help: "Copy context") {
-                            copyContextToPasteboard()
-                        }
-                        .padding(8)
-                    }
-                    if let application = contextReturnController.destination(for: result.id) {
-                        HStack {
-                            Button {
-                                copyAndReturn(to: application)
-                            } label: {
-                                Label(copyAndReturnTitle(for: application), systemImage: "arrow.uturn.backward")
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
-                            }
-                            .disabled(isReturningToApplication)
-                            .accessibilityLabel(copyAndReturnTitle(for: application))
-                            .keyboardShortcut("c", modifiers: [.command, .shift])
-                            .help("Copy context and switch back to the original app. Press ⌘V there to paste.")
-
-                            Spacer(minLength: 8)
-
-                            Text("Paste with ⌘V")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .fixedSize()
-                        }
-                    }
+                    copyActions(for: .context)
                 }
                 .padding(14)
                 .frame(height: 180)
@@ -242,15 +212,32 @@ struct RecordingResultView: View {
 
     private var locale: Locale { store.effectiveLocale }
 
-    private func copyVideoToPasteboard(_ fileURL: URL) {
+    @discardableResult
+    private func copyVideoToPasteboard(_ fileURL: URL, showConfirmation: Bool = true) -> Bool {
         let item = NSPasteboardItem()
-        guard item.setString(fileURL.absoluteString, forType: .fileURL) else { return }
         let pasteboard = NSPasteboard.general
+        guard item.setString(fileURL.absoluteString, forType: .fileURL) else {
+            showVideoCopyError()
+            return false
+        }
         pasteboard.clearContents()
-        guard pasteboard.writeObjects([item]) else { return }
+        guard pasteboard.writeObjects([item]) else {
+            showVideoCopyError()
+            return false
+        }
 
         analytics.capture(.videoCopied)
-        showCopyToast(String(localized: "Video copied", locale: locale))
+        if showConfirmation {
+            showCopyToast(String(localized: "Video copied", locale: locale))
+        }
+        return true
+    }
+
+    private func showVideoCopyError() {
+        destinationAlert = RecordingContextDestinationAlert(
+            title: String(localized: "Couldn’t Copy Video", locale: locale),
+            message: String(localized: "Try copying the video again.", locale: locale)
+        )
     }
 
     @discardableResult
@@ -272,26 +259,77 @@ struct RecordingResultView: View {
         return true
     }
 
-    private func copyAndReturnTitle(for application: NSRunningApplication) -> String {
+    private func copyActions(for content: CopyContent) -> some View {
+        HStack(spacing: 8) {
+            Button {
+                switch content {
+                case .video:
+                    copyVideoToPasteboard(result.fileURL)
+                case .context:
+                    copyContextToPasteboard()
+                }
+            } label: {
+                if content == .video {
+                    Text("Copy Video")
+                } else {
+                    Text("Copy File Path")
+                }
+            }
+            .fixedSize()
+
+            if let application = contextReturnController.destination(for: result.id) {
+                Button {
+                    copyAndReturn(content, to: application)
+                } label: {
+                    Label(copyAndReturnTitle(for: application, content: content), systemImage: "arrow.uturn.backward")
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+                .accessibilityLabel(copyAndReturnTitle(for: application, content: content))
+                .keyboardShortcut("c", modifiers: content == .video ? [.command, .option, .shift] : [.command, .shift])
+                .help(content == .video
+                    ? Text("Copy the video file and switch back to the original app. Press ⌘V there to paste.")
+                    : Text("Copy context and switch back to the original app. Press ⌘V there to paste."))
+            }
+
+            Spacer(minLength: 0)
+        }
+        .buttonStyle(.bordered)
+        .disabled(isReturningToApplication)
+    }
+
+    private func copyAndReturnTitle(for application: NSRunningApplication, content: CopyContent) -> String {
         String(
-            format: String(localized: "Copy & Return to %@", locale: locale),
+            format: content == .video
+                ? String(localized: "Copy Video & Return to %@", locale: locale)
+                : String(localized: "Copy & Return to %@", locale: locale),
             locale: locale,
             application.localizedName ?? application.bundleIdentifier ?? ""
         )
     }
 
-    private func copyAndReturn(to application: NSRunningApplication) {
-        guard !isReturningToApplication,
-              copyContextToPasteboard(showConfirmation: false) else { return }
+    private func copyAndReturn(_ content: CopyContent, to application: NSRunningApplication) {
+        guard !isReturningToApplication else { return }
+        let didCopy: Bool
+        let confirmation: String
+        switch content {
+        case .context:
+            didCopy = copyContextToPasteboard(showConfirmation: false)
+            confirmation = String(localized: "Context copied", locale: locale)
+        case .video:
+            didCopy = copyVideoToPasteboard(result.fileURL, showConfirmation: false)
+            confirmation = String(localized: "Video copied", locale: locale)
+        }
+        guard didCopy else { return }
         isReturningToApplication = true
         Task { @MainActor in
             let didActivate = await contextReturnController.activate(application)
             isReturningToApplication = false
             if didActivate {
-                contextReturned(locale)
+                copiedAndReturned(confirmation, locale)
             } else {
                 destinationAlert = RecordingContextDestinationAlert(
-                    title: String(localized: "Context copied", locale: locale),
+                    title: confirmation,
                     message: String(
                         localized: "Couldn’t return to the original app. Switch to your destination and press ⌘V to paste.",
                         locale: locale
@@ -327,20 +365,6 @@ struct RecordingResultView: View {
         }
     }
 
-    private func copyButton(
-        accessibilityLabel: LocalizedStringKey,
-        help: LocalizedStringKey,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Image(systemName: "doc.on.doc")
-                .frame(width: 16, height: 16)
-        }
-        .buttonStyle(.bordered)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
-        .accessibilityLabel(Text(accessibilityLabel))
-        .help(Text(help))
-    }
 }
 
 private struct RecordingContextDestinationAlert: Identifiable {

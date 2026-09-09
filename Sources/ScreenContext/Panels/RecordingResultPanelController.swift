@@ -109,11 +109,11 @@ final class RecordingResultPanelController {
                 mediaHeight: mediaHeight,
                 analytics: analytics,
                 contextReturnController: contextReturnController,
-                contextReturned: { [weak self] locale in
+                copiedAndReturned: { [weak self] confirmation, locale in
                     guard let self else { return }
                     let screen = window.screen
                     dismiss()
-                    pasteReminderController.show(locale: locale, on: screen)
+                    pasteReminderController.show(title: confirmation, locale: locale, on: screen)
                 },
                 dismiss: { [weak self] in self?.dismiss() }
             )

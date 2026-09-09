@@ -13,8 +13,8 @@ final class PersistenceAndStoreTests: XCTestCase {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("screencontext-history-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
-        let firstDirectory = root.appendingPathComponent("ContextCast 2026-09-01 10-00-00")
-        let secondDirectory = root.appendingPathComponent("ContextCast 2026-09-01 11-00-00")
+        let firstDirectory = root.appendingPathComponent("ScreenContext 2026-09-01 10-00-00")
+        let secondDirectory = root.appendingPathComponent("ScreenContext 2026-09-01 11-00-00")
         try FileManager.default.createDirectory(at: firstDirectory, withIntermediateDirectories: true)
         try FileManager.default.createDirectory(at: secondDirectory, withIntermediateDirectories: true)
         let firstVideo = firstDirectory.appendingPathComponent("recording.mp4")
@@ -52,18 +52,16 @@ final class PersistenceAndStoreTests: XCTestCase {
     }
 
     func testFileRecordingHistoryDiscoversExistingRecording() async throws {
-        for (prefix, suffix) in [("ContextCast", ""), ("ScreenContext", ""), ("ScreenContext", "-2")] {
+        for suffix in ["", "-2"] {
             let root = FileManager.default.temporaryDirectory
-                .appendingPathComponent("screencontext-migration-\(UUID().uuidString)", isDirectory: true)
+                .appendingPathComponent("screencontext-discovery-\(UUID().uuidString)", isDirectory: true)
             defer { try? FileManager.default.removeItem(at: root) }
-            let recordingDirectory = root.appendingPathComponent("\(prefix) 2026-09-01 12-00-00\(suffix)")
+            let recordingDirectory = root.appendingPathComponent("ScreenContext 2026-09-01 12-00-00\(suffix)")
             try FileManager.default.createDirectory(
                 at: recordingDirectory,
                 withIntermediateDirectories: true
             )
             try Data([1]).write(to: recordingDirectory.appendingPathComponent("recording.mp4"))
-            try Data([2]).write(to: recordingDirectory.appendingPathComponent("frame-0000.png"))
-            try Data([3]).write(to: recordingDirectory.appendingPathComponent("frame-0002-2.png"))
 
             let store = FileRecordingHistoryStore(recordingsDirectory: root)
             let loaded = try await store.load()
@@ -91,7 +89,7 @@ final class PersistenceAndStoreTests: XCTestCase {
         let root = FileManager.default.temporaryDirectory
             .appendingPathComponent("screencontext-delete-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: root) }
-        let directory = root.appendingPathComponent("ContextCast 2026-09-01 13-00-00")
+        let directory = root.appendingPathComponent("ScreenContext 2026-09-01 13-00-00")
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let videoURL = directory.appendingPathComponent("recording.mp4")
         try Data([1]).write(to: videoURL)
@@ -847,6 +845,10 @@ final class PersistenceAndStoreTests: XCTestCase {
     func testLocalRecorderFinalizesVideoAndAudioMP4() async throws {
         let recordingsDirectory = temporaryRecordingsDirectory()
         defer { try? FileManager.default.removeItem(at: recordingsDirectory) }
+        // AAC encoder discovery uses a macOS service that is unavailable in some
+        // test sandboxes. Probe a known format independently of the recorder so
+        // missing host capabilities do not masquerade as a recording regression.
+        try requireAACEncoder(in: recordingsDirectory)
         let recorder = LocalMediaRecorder(recordingsDirectory: recordingsDirectory)
         let profile = OutputProfile(
             width: 640,
@@ -913,8 +915,6 @@ final class PersistenceAndStoreTests: XCTestCase {
                 // Exercise a delay longer than the recorder's former 300 ms fallback.
                 try await Task.sleep(for: .milliseconds(350))
             }
-            if frame == 15 {
-            }
             guard frame >= 10 else { continue }
             for audioIndex in 0..<2 {
                 let sample = frame * 1_600 + audioIndex * 800
@@ -976,6 +976,24 @@ final class PersistenceAndStoreTests: XCTestCase {
             "The finalized MP4 contains an audio track, but its decoded samples are silent."
         )
     }
+}
+
+private func requireAACEncoder(in directory: URL) throws {
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    let probe = try AVAssetWriter(
+        outputURL: directory.appendingPathComponent("encoder-probe.mp4"),
+        fileType: .mp4
+    )
+    let supported = probe.canApply(outputSettings: [
+        AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+        AVSampleRateKey: 48_000,
+        AVNumberOfChannelsKey: 2,
+        AVEncoderBitRateKey: 128_000,
+    ], forMediaType: .audio)
+    try XCTSkipUnless(
+        supported,
+        "The host cannot access the macOS AAC encoder. Run script/test_unit.sh outside the execution sandbox to validate media encoding."
+    )
 }
 
 private func makeAudioSampleBuffer(
