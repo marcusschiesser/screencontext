@@ -49,8 +49,7 @@ final class RecordingResultPanelController {
             locale: result.locale
         )
 
-        Task { @MainActor [weak self, result] in
-            await Task.yield()
+        WindowPresentation.afterMenuDismissal { [weak self, result] in
             guard self?.presentedResultID == result.id else { return }
             self?.presentContent(result)
         }
@@ -96,8 +95,7 @@ final class RecordingResultPanelController {
         if !window.isVisible {
             window.center()
         }
-        NSApp.activate(ignoringOtherApps: true)
-        window.makeKeyAndOrderFront(nil)
+        WindowPresentation.bringToFront(window)
     }
 
     private func makeHostingView(

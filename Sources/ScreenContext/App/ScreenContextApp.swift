@@ -9,7 +9,8 @@ struct ScreenContextApp: App {
         MenuBarExtra {
             MenuBarContentView(
                 store: appDelegate.store,
-                openRecordings: appDelegate.showRecordings
+                openRecordings: appDelegate.showRecordings,
+                openSettings: appDelegate.openSettings
             )
             .environment(\.locale, appDelegate.store.effectiveLocale)
             .environment(
@@ -27,6 +28,7 @@ struct ScreenContextApp: App {
                 shortcutRecorder: appDelegate.shortcutRecorder,
                 editWebcamLayout: appDelegate.editWebcamLayout
             )
+            .background(WindowAccessor(onWindowAttached: appDelegate.registerSettingsWindow))
         }
         .defaultLaunchBehavior(.suppressed)
     }

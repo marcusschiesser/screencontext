@@ -15,7 +15,7 @@ Use it as your everyday screen recorder, too. Record a screen or window and shar
 ## From recording to context
 
 1. **Choose what to capture.** In Settings, select a screen or window, enable optional audio and webcam inputs, and choose your webcam layout.
-2. **Press ⇧⌘O to start and stop.** Change the shortcut in Settings → General. Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video and captures keyframes at clicks.
+2. **Press ⌃⌘R to start and stop.** Change the shortcut in Settings → General. Walk through a task and explain it as you go. The menu bar shows elapsed time, and brief overlays confirm recording actions. ScreenContext saves the video and captures keyframes at clicks.
 3. **Use the result.** Play back the recording, copy the MP4, or choose a template and click **Copy & Return to [App]** to copy the context and switch back to the app active when recording started. Press **⌘V** there to paste. Regular Copy is also available, including for recordings reopened after restarting ScreenContext.
 
 ## Put your recording to work
