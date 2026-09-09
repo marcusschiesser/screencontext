@@ -1,6 +1,6 @@
 # ScreenContext Support
 
-Record your screen and voice. Use it as context in your AI workflows.
+Use your screen recording as context for your AI agent—or as an everyday screen recording.
 
 ScreenContext is a native Mac app by Marcus Schiesser. Contact [mail@marcusschiesser.de](mailto:mail@marcusschiesser.de) for help.
 
@@ -14,7 +14,7 @@ Use ScreenContext as a normal screen recorder: capture your screen or a window, 
 2. Enable the audio, microphone, and camera inputs you want to include.
 3. Press Control–Command–R to start recording. Grant the requested macOS permissions if needed.
 4. Demonstrate your task, then press the same shortcut to stop.
-5. The latest recording opens automatically. Review the video and copy the recording context into your workflow.
+5. The latest recording opens automatically. Review the video, then use Copy Video or Copy File Path to bring it into your workflow.
 
 ## I cannot find the controls
 
@@ -32,7 +32,11 @@ Check that the desired input is enabled in Settings → Recordings, that the dev
 
 Click Copy File Path under Recording file to copy the local video path. Attach the video if your AI tool cannot access local paths. AI tools and accounts are separate from ScreenContext.
 
-For a recording made during the current app session, Copy & Return to [App] (⌘⇧C) copies the context and switches back to the app that was active when you started recording. Press ⌘V there to paste. Recordings reopened after restarting ScreenContext retain regular Copy.
+For a recording made during the current app session, Copy & Return to [App] (⌘⇧C) copies the file path and switches back to the app that was active when you started recording. Press ⌘V there to paste. Recordings reopened after restarting ScreenContext retain Copy Video and Copy File Path.
+
+## How do I share the video in another app?
+
+Use Copy Video below the player to place the MP4 on the clipboard. For recordings made during the current app session, Copy Video & Return to [App] (⌘⌥⇧C) also switches back to the app that was active at the start. Press ⌘V in an app that accepts pasted files. ScreenContext does not send a message or upload the video automatically.
 
 ## Customize the shortcut and language
 

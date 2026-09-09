@@ -16,7 +16,7 @@ Screen recording access allows the app to capture your selected screen or window
 
 ## Sharing with other tools
 
-Copying context or video places material on the macOS clipboard. Other apps you use may read clipboard contents. Copy & Return copies the recording context and switches back to the app that was active when recording started. You paste the context there yourself. Your chosen apps and services have their own privacy policies and may process material you share with them. Review the context and the destination before sharing.
+Copying context or video places material on the macOS clipboard. Other apps you use may read clipboard contents. Copy & Return copies either the video file or its local file path and switches back to the app that was active when recording started. You paste it there yourself. ScreenContext does not automatically attach or upload the recording to that app. Your chosen apps and services have their own privacy policies and may process material you share with them. Review the context and the destination before sharing.
 
 ## Retention and deletion
 
