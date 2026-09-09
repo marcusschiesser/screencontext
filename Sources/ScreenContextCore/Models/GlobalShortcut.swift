@@ -13,9 +13,9 @@ public struct GlobalShortcut: Codable, Equatable, Sendable {
     }
 
     public static let defaultShortcut = GlobalShortcut(
-        keyCode: UInt16(kVK_ANSI_O),
-        modifiers: UInt32(cmdKey | shiftKey),
-        keyDisplayName: "O"
+        keyCode: UInt16(kVK_ANSI_R),
+        modifiers: UInt32(cmdKey | controlKey),
+        keyDisplayName: "R"
     )
 
     public var isValid: Bool {
