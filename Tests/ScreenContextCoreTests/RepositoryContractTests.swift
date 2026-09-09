@@ -232,7 +232,7 @@ final class RepositoryContractTests: XCTestCase {
         let source = try String(contentsOf: controllerURL, encoding: .utf8)
 
         XCTAssertTrue(source.contains("window.isMovable = true"))
-        XCTAssertTrue(source.contains("window.makeKeyAndOrderFront(nil)"))
+        XCTAssertTrue(source.contains("WindowPresentation.bringToFront(window)"))
         XCTAssertTrue(source.contains("store: store"))
         XCTAssertTrue(source.contains("func present(_ result: RecordingResult)"))
         XCTAssertTrue(source.contains("func presentSelectedRecording()"))
@@ -240,7 +240,7 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(source.contains("contentWidth: CGFloat = 860"))
         XCTAssertTrue(source.contains("locale: result.locale"))
         XCTAssertFalse(source.contains("locale: store.effectiveLocale"))
-        XCTAssertTrue(source.contains("await Task.yield()"))
+        XCTAssertTrue(source.contains("WindowPresentation.afterMenuDismissal"))
         XCTAssertTrue(source.contains("visibleFrame.height"))
         XCTAssertTrue(source.contains("defaultMediaHeight"))
         XCTAssertTrue(source.contains("minimumMediaHeight"))
