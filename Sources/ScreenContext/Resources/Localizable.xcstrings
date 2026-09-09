@@ -1824,95 +1824,6 @@
         "zh-TW": { "stringUnit": { "state": "translated", "value": "正在轉錄錄製內容…" } }
       }
     },
-    "Enable global shortcut ⇧⌘O": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تمكين الاختصار العام ⇧⌘O"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Globales Tastenkürzel ⇧⌘O aktivieren"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Enable global shortcut ⇧⌘O"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Activar atajo global ⇧⌘O"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Activer le raccourci global ⇧⌘O"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abilita scorciatoia globale ⇧⌘O"
-          }
-        },
-        "ja-JP": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "グローバルショートカット⇧⌘Oを有効にする"
-          }
-        },
-        "ko-KR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "전역 단축키 ⇧⌘O 활성화"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ativar atalho global ⇧⌘O"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Включить глобальное сочетание ⇧⌘O"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Genel ⇧⌘O Kısayolunu Etkinleştir"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bật phím tắt toàn cục ⇧⌘O"
-          }
-        },
-        "zh-CN": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "启用全局快捷键 ⇧⌘O"
-          }
-        },
-        "zh-TW": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "啟用全域快速鍵 ⇧⌘O"
-          }
-        }
-      }
-    },
     "English": {
       "extractionState": "manual",
       "localizations": {
@@ -8114,25 +8025,6 @@
         "zh-TW": {"stringUnit": {"state": "translated", "value": "開始錄製"}}
       }
     },
-    "⇧⌘O": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "de": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "en": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "es": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "fr": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "it": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "ja-JP": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "ko-KR": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "pt-BR": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "ru": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "tr": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "vi": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "zh-CN": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}},
-        "zh-TW": {"stringUnit": {"state": "translated", "value": "⇧⌘O"}}
-      }
-    },
     "Recording": {
       "extractionState": "manual",
       "localizations": {
@@ -8150,25 +8042,6 @@
         "vi": {"stringUnit": {"state": "translated", "value": "Ghi hình"}},
         "zh-CN": {"stringUnit": {"state": "translated", "value": "录制"}},
         "zh-TW": {"stringUnit": {"state": "translated", "value": "錄製"}}
-      }
-    },
-    "Press ⇧⌘O to start recording. Press it again to stop.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ar": {"stringUnit": {"state": "translated", "value": "اضغط ⇧⌘O لبدء التسجيل. اضغط مرة أخرى لإيقافه."}},
-        "de": {"stringUnit": {"state": "translated", "value": "Drücke ⇧⌘O, um die Aufnahme zu starten. Drücke erneut, um sie zu stoppen."}},
-        "en": {"stringUnit": {"state": "translated", "value": "Press ⇧⌘O to start recording. Press it again to stop."}},
-        "es": {"stringUnit": {"state": "translated", "value": "Pulsa ⇧⌘O para iniciar la grabación. Vuelve a pulsarlo para detenerla."}},
-        "fr": {"stringUnit": {"state": "translated", "value": "Appuyez sur ⇧⌘O pour démarrer l’enregistrement, puis à nouveau pour l’arrêter."}},
-        "it": {"stringUnit": {"state": "translated", "value": "Premi ⇧⌘O per avviare la registrazione. Premi di nuovo per interromperla."}},
-        "ja-JP": {"stringUnit": {"state": "translated", "value": "⇧⌘Oで録画を開始します。もう一度押すと停止します。"}},
-        "ko-KR": {"stringUnit": {"state": "translated", "value": "⇧⌘O를 눌러 녹화를 시작하세요. 다시 누르면 중지됩니다."}},
-        "pt-BR": {"stringUnit": {"state": "translated", "value": "Pressione ⇧⌘O para iniciar a gravação. Pressione novamente para parar."}},
-        "ru": {"stringUnit": {"state": "translated", "value": "Нажмите ⇧⌘O, чтобы начать запись. Нажмите ещё раз, чтобы остановить."}},
-        "tr": {"stringUnit": {"state": "translated", "value": "Kaydı başlatmak için ⇧⌘O tuşlarına basın. Durdurmak için tekrar basın."}},
-        "vi": {"stringUnit": {"state": "translated", "value": "Nhấn ⇧⌘O để bắt đầu ghi. Nhấn lại để dừng."}},
-        "zh-CN": {"stringUnit": {"state": "translated", "value": "按 ⇧⌘O 开始录制，再按一次停止。"}},
-        "zh-TW": {"stringUnit": {"state": "translated", "value": "按 ⇧⌘O 開始錄製，再按一次停止。"}}
       }
     },
     "Preparing…": {
@@ -8264,6 +8137,158 @@
         "vi": {"stringUnit": {"state": "translated", "value": "Chỉnh sửa bố cục webcam…"}},
         "zh-CN": {"stringUnit": {"state": "translated", "value": "编辑摄像头布局…"}},
         "zh-TW": {"stringUnit": {"state": "translated", "value": "編輯攝影機配置…"}}
+      }
+    },
+    "Press %@ to start recording. Press it again to stop.": {
+      "extractionState": "manual",
+      "localizations": {
+        "ar": {"stringUnit": {"state": "translated", "value": "اضغط %@ لبدء التسجيل. اضغط مرة أخرى لإيقافه."}},
+        "de": {"stringUnit": {"state": "translated", "value": "Drücke %@, um die Aufnahme zu starten. Drücke erneut, um sie zu stoppen."}},
+        "en": {"stringUnit": {"state": "translated", "value": "Press %@ to start recording. Press it again to stop."}},
+        "es": {"stringUnit": {"state": "translated", "value": "Pulsa %@ para iniciar la grabación. Vuelve a pulsarlo para detenerla."}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Appuyez sur %@ pour démarrer l’enregistrement, puis à nouveau pour l’arrêter."}},
+        "it": {"stringUnit": {"state": "translated", "value": "Premi %@ per avviare la registrazione. Premi di nuovo per interromperla."}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "%@で録画を開始します。もう一度押すと停止します。"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "%@를 눌러 녹화를 시작하세요. 다시 누르면 중지됩니다."}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Pressione %@ para iniciar a gravação. Pressione novamente para parar."}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Нажмите %@, чтобы начать запись. Нажмите ещё раз, чтобы остановить."}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kaydı başlatmak için %@ tuşlarına basın. Durdurmak için tekrar basın."}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Nhấn %@ để bắt đầu ghi. Nhấn lại để dừng."}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "按 %@ 开始录制，再按一次停止。"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "按 %@ 開始錄製，再按一次停止。"}}
+      }
+    },
+    "Global shortcut": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Global shortcut"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "الاختصار العام"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Globales Tastenkürzel"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Atajo global"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Raccourci global"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Scorciatoia globale"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "グローバルショートカット"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "전역 단축키"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Atalho global"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Глобальное сочетание клавиш"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Genel kısayol"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Phím tắt toàn cục"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "全局快捷键"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "全域快速鍵"}}
+      }
+    },
+    "Change shortcut": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Change shortcut"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "تغيير الاختصار"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Tastenkürzel ändern"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Cambiar atajo"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Modifier le raccourci"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Modifica scorciatoia"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "ショートカットを変更"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "단축키 변경"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Alterar atalho"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Изменить сочетание клавиш"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Kısayolu değiştir"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Đổi phím tắt"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "更改快捷键"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "更改快速鍵"}}
+      }
+    },
+    "Click to record a new shortcut.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Click to record a new shortcut."}},
+        "ar": {"stringUnit": {"state": "translated", "value": "انقر لتسجيل اختصار جديد."}},
+        "de": {"stringUnit": {"state": "translated", "value": "Klicke, um ein neues Tastenkürzel aufzunehmen."}},
+        "es": {"stringUnit": {"state": "translated", "value": "Haz clic para grabar un nuevo atajo."}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Cliquez pour enregistrer un nouveau raccourci."}},
+        "it": {"stringUnit": {"state": "translated", "value": "Fai clic per registrare una nuova scorciatoia."}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "クリックして新しいショートカットを入力します。"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "클릭하여 새 단축키를 입력하세요."}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Clique para gravar um novo atalho."}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Нажмите, чтобы задать новое сочетание клавиш."}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Yeni bir kısayol kaydetmek için tıklayın."}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Nhấp để ghi phím tắt mới."}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "点击以录入新快捷键。"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "點按以錄入新的快速鍵。"}}
+      }
+    },
+    "Press a key with ⌘, ⌃, or ⌥. Press Esc to cancel.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Press a key with ⌘, ⌃, or ⌥. Press Esc to cancel."}},
+        "ar": {"stringUnit": {"state": "translated", "value": "اضغط على مفتاح مع ⌘ أو ⌃ أو ⌥. اضغط Esc للإلغاء."}},
+        "de": {"stringUnit": {"state": "translated", "value": "Drücke eine Taste mit ⌘, ⌃ oder ⌥. Mit Esc brichst du ab."}},
+        "es": {"stringUnit": {"state": "translated", "value": "Pulsa una tecla con ⌘, ⌃ u ⌥. Pulsa Esc para cancelar."}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Appuyez sur une touche avec ⌘, ⌃ ou ⌥. Appuyez sur Échap pour annuler."}},
+        "it": {"stringUnit": {"state": "translated", "value": "Premi un tasto con ⌘, ⌃ o ⌥. Premi Esc per annullare."}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "⌘、⌃、または⌥と一緒にキーを押してください。Escでキャンセルします。"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "⌘, ⌃ 또는 ⌥와 함께 키를 누르세요. 취소하려면 Esc를 누르세요."}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Pressione uma tecla com ⌘, ⌃ ou ⌥. Pressione Esc para cancelar."}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Нажмите клавишу вместе с ⌘, ⌃ или ⌥. Нажмите Esc для отмены."}},
+        "tr": {"stringUnit": {"state": "translated", "value": "⌘, ⌃ veya ⌥ ile bir tuşa basın. İptal etmek için Esc tuşuna basın."}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Nhấn một phím cùng với ⌘, ⌃ hoặc ⌥. Nhấn Esc để hủy."}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "按住 ⌘、⌃ 或 ⌥ 并按下一个键。按 Esc 取消。"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "按住 ⌘、⌃ 或 ⌥ 並按下一個鍵。按 Esc 取消。"}}
+      }
+    },
+    "This shortcut is unavailable. Choose a different combination.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "This shortcut is unavailable. Choose a different combination."}},
+        "ar": {"stringUnit": {"state": "translated", "value": "هذا الاختصار غير متاح. اختر مجموعة مفاتيح أخرى."}},
+        "de": {"stringUnit": {"state": "translated", "value": "Dieses Tastenkürzel ist nicht verfügbar. Wähle eine andere Kombination."}},
+        "es": {"stringUnit": {"state": "translated", "value": "Este atajo no está disponible. Elige otra combinación."}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Ce raccourci est indisponible. Choisissez une autre combinaison."}},
+        "it": {"stringUnit": {"state": "translated", "value": "Questa scorciatoia non è disponibile. Scegli un’altra combinazione."}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "このショートカットは使用できません。別の組み合わせを選んでください。"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "이 단축키는 사용할 수 없습니다. 다른 조합을 선택하세요."}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Este atalho não está disponível. Escolha outra combinação."}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Это сочетание клавиш недоступно. Выберите другое."}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Bu kısayol kullanılamıyor. Farklı bir kombinasyon seçin."}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Phím tắt này không khả dụng. Hãy chọn tổ hợp khác."}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "此快捷键不可用。请选择其他组合。"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "此快速鍵無法使用。請選擇其他組合。"}}
+      }
+    },
+    "Reset": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Reset"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "إعادة تعيين"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Zurücksetzen"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Restablecer"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Réinitialiser"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Ripristina"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "リセット"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "재설정"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Redefinir"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Сбросить"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "Sıfırla"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Đặt lại"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "重置"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "重設"}}
+      }
+    },
+    "Cancel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {"stringUnit": {"state": "translated", "value": "Cancel"}},
+        "ar": {"stringUnit": {"state": "translated", "value": "إلغاء"}},
+        "de": {"stringUnit": {"state": "translated", "value": "Abbrechen"}},
+        "es": {"stringUnit": {"state": "translated", "value": "Cancelar"}},
+        "fr": {"stringUnit": {"state": "translated", "value": "Annuler"}},
+        "it": {"stringUnit": {"state": "translated", "value": "Annulla"}},
+        "ja-JP": {"stringUnit": {"state": "translated", "value": "キャンセル"}},
+        "ko-KR": {"stringUnit": {"state": "translated", "value": "취소"}},
+        "pt-BR": {"stringUnit": {"state": "translated", "value": "Cancelar"}},
+        "ru": {"stringUnit": {"state": "translated", "value": "Отмена"}},
+        "tr": {"stringUnit": {"state": "translated", "value": "İptal"}},
+        "vi": {"stringUnit": {"state": "translated", "value": "Hủy"}},
+        "zh-CN": {"stringUnit": {"state": "translated", "value": "取消"}},
+        "zh-TW": {"stringUnit": {"state": "translated", "value": "取消"}}
       }
     }
   },

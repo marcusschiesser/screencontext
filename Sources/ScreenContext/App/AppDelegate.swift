@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     )
     let analytics: AnalyticsConsentController
     let store: RecordingSessionStore
+    let shortcutRecorder = ShortcutRecorder()
     private var overlayController: WebcamOverlayPanelController?
     private var feedbackController: RecordingFeedbackPanelController?
     private var recordingResultController: RecordingResultPanelController?
@@ -48,6 +49,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         shortcutController = GlobalShortcutController { [weak self] in
             DispatchQueue.main.async {
                 guard let self, self.store.isInitialized else { return }
+                guard !self.shortcutRecorder.capture(self.store.globalShortcut) else { return }
                 self.store.toggleRecording()
             }
         }
@@ -58,8 +60,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.feedbackController?.synchronize()
             clickMonitor.setActive(store.phase.isRecording)
         }
-        store.shortcutPreferenceChanged = { [weak self] enabled in
-            self?.shortcutController?.setEnabled(enabled)
+        store.shortcutPreferenceChanged = { [weak self] shortcut in
+            self?.shortcutController?.register(shortcut) ?? false
         }
         store.recordingResultAvailable = { [weak recordingResultController] result in
             recordingResultController?.present(result)
@@ -91,6 +93,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         logger.info("ScreenContext terminating")
         clickMonitor.stop()
+        shortcutRecorder.stop()
         store.cancelRecording()
         analytics.flush()
         for observer in workspaceObservers {

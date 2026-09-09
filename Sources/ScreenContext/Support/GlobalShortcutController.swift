@@ -1,9 +1,12 @@
 import Carbon
 import Foundation
+import ScreenContextCore
 
 final class GlobalShortcutController: @unchecked Sendable {
     private var hotKey: EventHotKeyRef?
     private var eventHandler: EventHandlerRef?
+    private var registeredShortcut: GlobalShortcut?
+    private var nextIdentifier: UInt32 = 1
     private let action: @Sendable () -> Void
 
     init(action: @escaping @Sendable () -> Void) {
@@ -34,27 +37,37 @@ final class GlobalShortcutController: @unchecked Sendable {
         if let eventHandler { RemoveEventHandler(eventHandler) }
     }
 
-    func setEnabled(_ enabled: Bool) {
-        unregister()
-        guard enabled else { return }
+    func register(_ shortcut: GlobalShortcut) -> Bool {
+        guard shortcut.isValid else { return false }
+        if registeredShortcut?.keyCode == shortcut.keyCode,
+           registeredShortcut?.modifiers == shortcut.modifiers { return true }
         let identifier = EventHotKeyID(
             signature: OSType(0x4F4C4F4D),
-            id: 1
+            id: nextIdentifier
         )
-        RegisterEventHotKey(
-            UInt32(kVK_ANSI_O),
-            UInt32(cmdKey | shiftKey),
+        var replacement: EventHotKeyRef?
+        let status = RegisterEventHotKey(
+            UInt32(shortcut.keyCode),
+            shortcut.modifiers,
             identifier,
             GetApplicationEventTarget(),
             0,
-            &hotKey
+            &replacement
         )
+        guard status == noErr, let replacement else { return false }
+        // Keep the previous shortcut working if the replacement is unavailable.
+        unregister()
+        hotKey = replacement
+        registeredShortcut = shortcut
+        nextIdentifier &+= 1
+        return true
     }
 
     private func unregister() {
         if let hotKey {
             UnregisterEventHotKey(hotKey)
             self.hotKey = nil
+            registeredShortcut = nil
         }
     }
 }

@@ -5,6 +5,7 @@ import SwiftUI
 struct SettingsView: View {
     @Bindable var store: RecordingSessionStore
     @Bindable var analytics: AnalyticsConsentController
+    let shortcutRecorder: ShortcutRecorder
     let editWebcamLayout: @MainActor () -> Void
     @AppStorage(ScreenContextTemplatePreferenceKey.library)
     private var templateLibraryData = Data()
@@ -16,7 +17,7 @@ struct SettingsView: View {
                     Label("Recording", systemImage: "record.circle")
                 }
 
-            GeneralSettingsView(store: store, analytics: analytics)
+            GeneralSettingsView(store: store, analytics: analytics, shortcutRecorder: shortcutRecorder)
                 .tabItem {
                     Label("General", systemImage: "gearshape")
                 }
@@ -67,6 +68,7 @@ struct SettingsView: View {
 private struct GeneralSettingsView: View {
     @Bindable var store: RecordingSessionStore
     @Bindable var analytics: AnalyticsConsentController
+    let shortcutRecorder: ShortcutRecorder
 
     var body: some View {
         Form {
@@ -82,13 +84,7 @@ private struct GeneralSettingsView: View {
                     .foregroundStyle(.secondary)
             }
 
-            Section {
-                Toggle("Enable global shortcut ⇧⌘O", isOn: $store.globalShortcutEnabled)
-
-                Text("Press ⇧⌘O to start recording. Press it again to stop.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            ShortcutSettingsView(store: store, recorder: shortcutRecorder)
 
             Section {
                 Text("Analytics are disabled in this release.")

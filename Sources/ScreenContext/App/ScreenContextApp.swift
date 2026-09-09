@@ -24,6 +24,7 @@ struct ScreenContextApp: App {
             SettingsView(
                 store: appDelegate.store,
                 analytics: appDelegate.analytics,
+                shortcutRecorder: appDelegate.shortcutRecorder,
                 editWebcamLayout: appDelegate.editWebcamLayout
             )
         }

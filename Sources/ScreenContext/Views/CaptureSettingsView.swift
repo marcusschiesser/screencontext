@@ -9,7 +9,7 @@ struct CaptureSettingsView: View {
     var body: some View {
         Form {
             Section {
-                Text("Press ⇧⌘O to start recording. Press it again to stop.")
+                Text("Press \(store.globalShortcut.displayName) to start recording. Press it again to stop.")
                     .foregroundStyle(.secondary)
                 if store.phase == .preparing {
                     ProgressView("Preparing…")

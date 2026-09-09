@@ -53,6 +53,7 @@ final class RecordingFeedbackPanelController {
         ))
         panel.contentView = NSHostingView(rootView: RecordingFeedbackView(
             phase: store.phase,
+            shortcut: store.globalShortcut,
             message: store.hudMessage,
             locale: store.effectiveLocale,
             isRightToLeft: store.usesRightToLeftLayout
@@ -92,6 +93,7 @@ final class RecordingFeedbackPanelController {
 
 private struct RecordingFeedbackView: View {
     let phase: RecordingPhase
+    let shortcut: GlobalShortcut
     let message: String?
     let locale: Locale
     let isRightToLeft: Bool
@@ -112,7 +114,7 @@ private struct RecordingFeedbackView: View {
                         Text("Finalizing Recording…")
                             .font(.caption).foregroundStyle(.secondary)
                     } else {
-                        Text("Press ⇧⌘O to start recording. Press it again to stop.")
+                        Text("Press \(shortcut.displayName) to start recording. Press it again to stop.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }

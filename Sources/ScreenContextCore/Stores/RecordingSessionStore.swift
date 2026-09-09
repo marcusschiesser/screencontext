@@ -83,13 +83,8 @@ public final class RecordingSessionStore {
             scheduleTranscriptionModelAvailabilityRefresh(for: language)
         }
     }
-    public var globalShortcutEnabled: Bool {
-        didSet {
-            persist()
-            guard !isLoadingPreferences else { return }
-            shortcutPreferenceChanged?(globalShortcutEnabled)
-        }
-    }
+    public private(set) var globalShortcut: GlobalShortcut
+    public private(set) var shortcutRegistrationFailed = false
     @ObservationIgnored private let sourceCatalog: any CaptureSourceCatalog
     @ObservationIgnored private let captureAuthorization: any CaptureAuthorization
     @ObservationIgnored private let preferencesStore: any PreferencesStore
@@ -127,7 +122,7 @@ public final class RecordingSessionStore {
 
     @ObservationIgnored public var recordingResultAvailable: ((RecordingResult) -> Void)?
     @ObservationIgnored public var recordingFailureNoticeAvailable: (() -> Void)?
-    @ObservationIgnored public var shortcutPreferenceChanged: ((Bool) -> Void)?
+    @ObservationIgnored public var shortcutPreferenceChanged: ((GlobalShortcut) -> Bool)?
     @ObservationIgnored public var overlayStateChanged: (() -> Void)?
     @ObservationIgnored public var requestScreenRecordingSettings: (() -> Void)?
 
@@ -178,7 +173,7 @@ public final class RecordingSessionStore {
         webcamDeviceID = defaults.webcamDeviceID
         webcamLayout = defaults.webcamLayout
         language = defaults.language
-        globalShortcutEnabled = defaults.globalShortcutEnabled
+        globalShortcut = defaults.globalShortcut
     }
 
     public var screens: [ScreenSource] {
@@ -240,7 +235,22 @@ public final class RecordingSessionStore {
         isLoadingPreferences = false
         isInitialized = true
         persist()
-        shortcutPreferenceChanged?(globalShortcutEnabled)
+        if !updateGlobalShortcut(globalShortcut), globalShortcut != .defaultShortcut {
+            updateGlobalShortcut(.defaultShortcut)
+        }
+    }
+
+    @discardableResult
+    public func updateGlobalShortcut(_ shortcut: GlobalShortcut) -> Bool {
+        guard shortcut.isValid else { return false }
+        guard shortcutPreferenceChanged?(shortcut) ?? true else {
+            shortcutRegistrationFailed = true
+            return false
+        }
+        shortcutRegistrationFailed = false
+        globalShortcut = shortcut
+        persist()
+        return true
     }
 
     public func selectRecording(_ id: RecordingResult.ID) {
@@ -968,7 +978,7 @@ public final class RecordingSessionStore {
         webcamDeviceID = snapshot.webcamDeviceID
         webcamLayout = snapshot.webcamLayout
         language = snapshot.language
-        globalShortcutEnabled = snapshot.globalShortcutEnabled
+        globalShortcut = snapshot.globalShortcut
     }
 
     private func persist(debounced: Bool = false) {
@@ -986,7 +996,7 @@ public final class RecordingSessionStore {
             webcamDeviceID: webcamDeviceID,
             webcamLayout: webcamLayout,
             language: language,
-            globalShortcutEnabled: globalShortcutEnabled
+            globalShortcut: globalShortcut
         )
         persistenceTask?.cancel()
         persistenceTask = Task { [preferencesStore] in

@@ -15,7 +15,7 @@ struct MenuBarContentView: View {
             }
             .disabled(!store.isInitialized || store.recordingActionIsUnavailable)
         }
-        Text("⇧⌘O")
+        Text(store.globalShortcut.displayName)
 
         Button("Recordings", action: openRecordings)
             .disabled(store.recordingResults.isEmpty)

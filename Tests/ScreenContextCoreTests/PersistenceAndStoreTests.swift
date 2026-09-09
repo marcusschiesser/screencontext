@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import Carbon
 @preconcurrency import CoreMedia
 import CoreVideo
 import Foundation
@@ -166,13 +167,94 @@ final class PersistenceAndStoreTests: XCTestCase {
             webcamDeviceID: "camera",
             webcamLayout: WebcamLayout(mask: .circle, size: .large),
             language: .english,
-            globalShortcutEnabled: false
+            globalShortcut: GlobalShortcut(
+                keyCode: UInt16(kVK_ANSI_R), modifiers: UInt32(cmdKey | shiftKey), keyDisplayName: "R"
+            )
         )
         let data = try JSONEncoder().encode(snapshot)
         let source = try XCTUnwrap(String(data: data, encoding: .utf8))
         XCTAssertFalse(source.localizedCaseInsensitiveContains("rtmp"))
         XCTAssertFalse(source.localizedCaseInsensitiveContains("streamKey"))
         XCTAssertEqual(try JSONDecoder().decode(PreferencesSnapshot.self, from: data), snapshot)
+    }
+
+    func testLegacyShortcutToggleMigratesWithoutLosingOtherPreferences() throws {
+        for wasEnabled in [false, true] {
+            let original = PreferencesSnapshot(capturesMicrophone: false, language: .german)
+            let data = try JSONEncoder().encode(original)
+            var legacy = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+            legacy.removeValue(forKey: "globalShortcut")
+            legacy["globalShortcutEnabled"] = wasEnabled
+            let restored = try JSONDecoder().decode(
+                PreferencesSnapshot.self, from: JSONSerialization.data(withJSONObject: legacy)
+            )
+            XCTAssertEqual(restored.globalShortcut, .defaultShortcut)
+            XCTAssertEqual(restored.language, .german)
+            XCTAssertFalse(restored.capturesMicrophone)
+            let saved = try JSONEncoder().encode(restored)
+            XCTAssertFalse(String(decoding: saved, as: UTF8.self).contains("globalShortcutEnabled"))
+        }
+    }
+
+    func testInvalidSavedShortcutFallsBackToDefault() throws {
+        let snapshot = PreferencesSnapshot(globalShortcut: GlobalShortcut(
+            keyCode: UInt16(kVK_ANSI_R), modifiers: 0, keyDisplayName: "R"
+        ))
+        let restored = try JSONDecoder().decode(
+            PreferencesSnapshot.self, from: JSONEncoder().encode(snapshot)
+        )
+        XCTAssertEqual(restored.globalShortcut, .defaultShortcut)
+    }
+
+    @MainActor
+    func testUnavailableShortcutPreservesPreviousPreference() async {
+        let store = makeStore(pipeline: TestRecordingPipeline(outputURL: temporaryRecordingURL()))
+        await store.initialize()
+        let shortcut = GlobalShortcut(
+            keyCode: UInt16(kVK_ANSI_R), modifiers: UInt32(cmdKey | shiftKey), keyDisplayName: "R"
+        )
+        store.shortcutPreferenceChanged = { _ in false }
+        XCTAssertFalse(store.updateGlobalShortcut(shortcut))
+        XCTAssertEqual(store.globalShortcut, .defaultShortcut)
+        XCTAssertTrue(store.shortcutRegistrationFailed)
+
+        store.shortcutPreferenceChanged = { _ in true }
+        XCTAssertTrue(store.updateGlobalShortcut(shortcut))
+        XCTAssertEqual(store.globalShortcut, shortcut)
+        XCTAssertFalse(store.shortcutRegistrationFailed)
+    }
+
+    @MainActor
+    func testCustomShortcutIsSavedAndRegisteredAfterRelaunch() async {
+        let preferences = InMemoryPreferences(snapshot: PreferencesSnapshot(
+            capturesSystemAudio: false, capturesMicrophone: false
+        ))
+        func newStore() -> RecordingSessionStore {
+            RecordingSessionStore(
+                sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
+                captureAuthorization: PermittedCaptureAuthorization(),
+                preferencesStore: preferences,
+                recordingPipeline: TestRecordingPipeline(outputURL: temporaryRecordingURL())
+            )
+        }
+        let store = newStore()
+        await store.initialize()
+        let shortcut = GlobalShortcut(
+            keyCode: UInt16(kVK_ANSI_R), modifiers: UInt32(controlKey | optionKey), keyDisplayName: "R"
+        )
+        XCTAssertTrue(store.updateGlobalShortcut(shortcut))
+        for _ in 0..<100 {
+            if await preferences.load().globalShortcut == shortcut { break }
+            await Task.yield()
+        }
+        let saved = await preferences.load()
+        XCTAssertEqual(saved.globalShortcut, shortcut)
+        let relaunched = newStore()
+        var registered: GlobalShortcut?
+        relaunched.shortcutPreferenceChanged = { registered = $0; return true }
+        await relaunched.initialize()
+        XCTAssertEqual(relaunched.globalShortcut, shortcut)
+        XCTAssertEqual(registered, shortcut)
     }
 
     func testWindowIdentifierIsRemovedBeforePersistence() {
@@ -928,14 +1010,19 @@ final class PersistenceAndStoreTests: XCTestCase {
         )
         await store.initialize()
         var shortcutUpdates = 0
-        store.shortcutPreferenceChanged = { _ in shortcutUpdates += 1 }
+        store.shortcutPreferenceChanged = { _ in
+            shortcutUpdates += 1
+            return true
+        }
 
         for step in 0..<40 {
             store.updateWebcamPosition(NormalizedWebcamPosition(x: Double(step) / 40, y: 0.5))
         }
         try? await Task.sleep(for: .milliseconds(250))
         XCTAssertEqual(shortcutUpdates, 0)
-        store.globalShortcutEnabled.toggle()
+        store.updateGlobalShortcut(GlobalShortcut(
+            keyCode: UInt16(kVK_ANSI_R), modifiers: UInt32(cmdKey | shiftKey), keyDisplayName: "R"
+        ))
         XCTAssertEqual(shortcutUpdates, 1)
     }
 

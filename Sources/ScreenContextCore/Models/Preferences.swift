@@ -38,7 +38,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
     public var webcamDeviceID: String?
     public var webcamLayout: WebcamLayout
     public var language: AppLanguage
-    public var globalShortcutEnabled: Bool
+    public var globalShortcut: GlobalShortcut
 
     public init(
         selectedCaptureSourceID: CaptureSourceID? = nil,
@@ -50,7 +50,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
         webcamDeviceID: String? = nil,
         webcamLayout: WebcamLayout = .defaultLayout,
         language: AppLanguage = .system,
-        globalShortcutEnabled: Bool = true
+        globalShortcut: GlobalShortcut = .defaultShortcut
     ) {
         self.selectedCaptureSourceID = selectedCaptureSourceID
         self.lastCaptureSourceKind = lastCaptureSourceKind
@@ -61,13 +61,41 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
         self.webcamDeviceID = webcamDeviceID
         self.webcamLayout = webcamLayout
         self.language = language
-        self.globalShortcutEnabled = globalShortcutEnabled
+        self.globalShortcut = globalShortcut
     }
 
     public static let defaults = PreferencesSnapshot()
 
+    private enum CodingKeys: String, CodingKey {
+        case selectedCaptureSourceID, lastCaptureSourceKind, capturesSystemAudio, capturesMicrophone
+        case microphoneDeviceID, capturesWebcam, webcamDeviceID, webcamLayout, language, globalShortcut
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        selectedCaptureSourceID = try values.decodeIfPresent(CaptureSourceID.self, forKey: .selectedCaptureSourceID)
+        lastCaptureSourceKind = try values.decodeIfPresent(CaptureSourceKind.self, forKey: .lastCaptureSourceKind)
+        capturesSystemAudio = try values.decodeIfPresent(Bool.self, forKey: .capturesSystemAudio) ?? true
+        capturesMicrophone = try values.decodeIfPresent(Bool.self, forKey: .capturesMicrophone) ?? true
+        microphoneDeviceID = try values.decodeIfPresent(String.self, forKey: .microphoneDeviceID)
+        capturesWebcam = try values.decodeIfPresent(Bool.self, forKey: .capturesWebcam) ?? false
+        webcamDeviceID = try values.decodeIfPresent(String.self, forKey: .webcamDeviceID)
+        webcamLayout = try values.decodeIfPresent(WebcamLayout.self, forKey: .webcamLayout) ?? .defaultLayout
+        language = try values.decodeIfPresent(AppLanguage.self, forKey: .language) ?? .system
+        // Older preferences only stored an enable switch. Always restore an active shortcut.
+        let shortcut = try? values.decode(GlobalShortcut.self, forKey: .globalShortcut)
+        if let shortcut, shortcut.isValid {
+            globalShortcut = shortcut
+        } else {
+            globalShortcut = .defaultShortcut
+        }
+    }
+
     public var sanitizedForPersistence: PreferencesSnapshot {
         var snapshot = self
+        if !snapshot.globalShortcut.isValid {
+            snapshot.globalShortcut = .defaultShortcut
+        }
         if let selectedCaptureSourceID {
             snapshot.lastCaptureSourceKind = selectedCaptureSourceID.kind
         }
