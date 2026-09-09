@@ -143,36 +143,8 @@ final class RepositoryContractTests: XCTestCase {
         XCTAssertTrue(source.contains("This permanently deletes the video and its keyframes."))
         XCTAssertTrue(source.contains("accessibilityLabel: \"Copy transcript\""))
         XCTAssertTrue(source.contains("pasteboard.setString(displayedTranscript, forType: .string)"))
-        XCTAssertTrue(source.contains("recordingContextDestinationButton(.codex)"))
-        XCTAssertTrue(source.contains("recordingContextDestinationButton(.claude)"))
         XCTAssertTrue(settingsSource.contains("List(editableTemplates"))
         XCTAssertTrue(settingsSource.contains("ScreenContextTemplateLibrary.markdownID"))
-        XCTAssertTrue(source.contains("prompt: displayedTranscript"))
-        XCTAssertTrue(source.contains("Image(destination.assetName)"))
-        XCTAssertTrue(source.contains(".controlSize(.small)"))
-        XCTAssertTrue(source.contains("Send context to %@"))
-        XCTAssertTrue(source.contains("urlForApplication(toOpen: schemeURL)"))
-        XCTAssertTrue(source.contains("guard destinationIsAvailable(destination) else"))
-        XCTAssertTrue(source.contains("showOpenFailureAlert(for: destination)"))
-        XCTAssertTrue(source.contains("Open this context in %@"))
-        XCTAssertFalse(source.contains(".disabled(!isAvailable)"))
-        XCTAssertFalse(source.contains("NativeTooltipView"))
-        XCTAssertTrue(source.contains("NSWorkspace.shared.open(url)"))
-
-        let destinationActionsStart = try XCTUnwrap(
-            source.range(of: "private func openRecordingContext")
-        )
-        let destinationActionsEnd = try XCTUnwrap(
-            source.range(of: "private func showCopyToast")
-        )
-        let destinationActions = source[
-            destinationActionsStart.lowerBound..<destinationActionsEnd.lowerBound
-        ]
-        XCTAssertFalse(destinationActions.contains("CGEvent("))
-        XCTAssertFalse(destinationActions.contains("AXUIElement"))
-        XCTAssertFalse(destinationActions.contains("NSAppleScript"))
-        XCTAssertFalse(destinationActions.contains("keyCode"))
-        XCTAssertFalse(destinationActions.contains("NSPasteboard"))
         XCTAssertTrue(source.contains("Video copied"))
         XCTAssertTrue(source.contains("Context copied"))
         XCTAssertTrue(source.contains("notification: .announcementRequested"))
@@ -194,24 +166,6 @@ final class RepositoryContractTests: XCTestCase {
         let transcriptSource = try String(contentsOf: transcriptURL, encoding: .utf8)
         XCTAssertTrue(transcriptSource.contains("NSScrollView()"))
         XCTAssertTrue(transcriptSource.contains("hasVerticalScroller = true"))
-    }
-
-    func testRecordingContextDestinationBrandAssetsAreBundled() {
-        let catalog = repositoryRoot.appendingPathComponent(
-            "Sources/ScreenContext/Resources/Assets.xcassets"
-        )
-
-        for relativePath in [
-            "CodexMark.imageset/codex-mark.svg",
-            "ClaudeMark.imageset/claude-mark.svg",
-        ] {
-            XCTAssertTrue(
-                FileManager.default.fileExists(
-                    atPath: catalog.appendingPathComponent(relativePath).path
-                ),
-                "Missing destination brand asset: \(relativePath)"
-            )
-        }
     }
 
     func testRecordingsLibraryIsAvailableFromMenuBar() throws {

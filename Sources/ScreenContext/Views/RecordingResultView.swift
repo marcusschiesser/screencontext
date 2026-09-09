@@ -8,6 +8,8 @@ struct RecordingResultView: View {
     let fallbackResult: RecordingResult
     let mediaHeight: CGFloat
     let analytics: AnalyticsConsentController
+    let contextReturnController: RecordingContextReturnController
+    let contextReturned: @MainActor (Locale) -> Void
     let dismiss: @MainActor () -> Void
     @Environment(\.colorScheme) private var colorScheme
     @State private var transcriptFormat: TranscriptFormat =
@@ -21,10 +23,12 @@ struct RecordingResultView: View {
     @State private var isConfirmingDeletion = false
     @State private var isDeletingRecording = false
     @State private var destinationAlert: RecordingContextDestinationAlert?
+    @State private var isReturningToApplication = false
 
     var body: some View {
         NavigationSplitView {
             recordingSidebar
+                .disabled(isReturningToApplication)
                 .navigationSplitViewColumnWidth(min: 190, ideal: 220, max: 260)
         } detail: {
             recordingDetail
@@ -150,9 +154,6 @@ struct RecordingResultView: View {
                         Spacer()
 
                         if showsRecordingContextText {
-                            recordingContextDestinationButton(.codex)
-                            recordingContextDestinationButton(.claude)
-
                             Picker("Transcript format", selection: $transcriptFormat) {
                                 ForEach(editableScreenContextTemplates) { template in
                                     Text(verbatim: templateDisplayName(template)) // localization: allow-verbatim user template name
@@ -186,6 +187,28 @@ struct RecordingResultView: View {
                                 copyTranscriptToPasteboard()
                             }
                             .padding(8)
+                        }
+                        if let application = contextReturnController.destination(for: result.id) {
+                            HStack {
+                                Button {
+                                    copyAndReturn(to: application)
+                                } label: {
+                                    Label(copyAndReturnTitle(for: application), systemImage: "arrow.uturn.backward")
+                                        .lineLimit(1)
+                                        .truncationMode(.middle)
+                                }
+                                .disabled(isReturningToApplication)
+                                .accessibilityLabel(copyAndReturnTitle(for: application))
+                                .keyboardShortcut("c", modifiers: [.command, .shift])
+                                .help("Copy context and switch back to the original app. Press ⌘V there to paste.")
+
+                                Spacer(minLength: 8)
+
+                                Text("Paste with ⌘V")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .fixedSize()
+                            }
                         }
                     } else {
                         unavailableTranscriptView
@@ -404,95 +427,55 @@ struct RecordingResultView: View {
         showCopyToast(String(localized: "Video copied", locale: locale))
     }
 
-    private func copyTranscriptToPasteboard() {
+    @discardableResult
+    private func copyTranscriptToPasteboard(showConfirmation: Bool = true) -> Bool {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-        guard pasteboard.setString(displayedTranscript, forType: .string) else { return }
+        guard pasteboard.setString(displayedTranscript, forType: .string) else {
+            destinationAlert = RecordingContextDestinationAlert(
+                title: String(localized: "Couldn’t Copy Context", locale: locale),
+                message: String(localized: "Try copying the context again.", locale: locale)
+            )
+            return false
+        }
 
         analytics.capture(.transcriptCopied)
         if let selectedTemplateForAnalytics {
             analytics.templates.used(selectedTemplateForAnalytics)
         }
-        showCopyToast(String(localized: "Context copied", locale: locale))
-    }
-
-    private func openRecordingContext(in destination: RecordingContextDestination) {
-        guard destinationIsAvailable(destination) else {
-            showOpenFailureAlert(for: destination)
-            return
+        if showConfirmation {
+            showCopyToast(String(localized: "Context copied", locale: locale))
         }
-
-        do {
-            let url = try RecordingContextDeepLinkBuilder.url(
-                for: destination,
-                prompt: displayedTranscript
-            )
-            guard NSWorkspace.shared.open(url) else {
-                showOpenFailureAlert(for: destination)
-                return
-            }
-        } catch is RecordingContextPromptLengthError {
-            destinationAlert = RecordingContextDestinationAlert(
-                title: String(localized: "Context Too Long", locale: locale),
-                message: String(
-                    localized: "Claude supports contexts up to 14,000 characters. Shorten this context and try again.",
-                    locale: locale
-                )
-            )
-        } catch {
-            showOpenFailureAlert(for: destination)
-        }
+        return true
     }
 
-    private func showOpenFailureAlert(for destination: RecordingContextDestination) {
-        destinationAlert = RecordingContextDestinationAlert(
-            title: localizedDestinationString("Couldn’t Open %@", destination: destination),
-            message: localizedDestinationString(
-                "Make sure %@ is installed and try again.",
-                destination: destination
-            )
-        )
-    }
-
-    private func recordingContextDestinationButton(
-        _ destination: RecordingContextDestination
-    ) -> some View {
-        Button {
-            openRecordingContext(in: destination)
-        } label: {
-            Image(destination.assetName)
-                .resizable()
-                .scaledToFit()
-                .foregroundStyle(.primary)
-                .frame(width: 16, height: 16)
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.small)
-        .accessibilityLabel(
-            localizedDestinationString("Send context to %@", destination: destination)
-        )
-        .help(
-            localizedDestinationString(
-                "Open this context in %@",
-                destination: destination
-            )
-        )
-    }
-
-    private func destinationIsAvailable(_ destination: RecordingContextDestination) -> Bool {
-        guard let schemeURL = URL(string: "\(destination.scheme)://") else { return false }
-        return NSWorkspace.shared.urlForApplication(toOpen: schemeURL) != nil
-    }
-
-    private func localizedDestinationString(
-        _ key: String.LocalizationValue,
-        destination: RecordingContextDestination
-    ) -> String {
+    private func copyAndReturnTitle(for application: NSRunningApplication) -> String {
         String(
-            format: String(localized: key, locale: locale),
+            format: String(localized: "Copy & Return to %@", locale: locale),
             locale: locale,
-            destination.displayName
+            application.localizedName ?? application.bundleIdentifier ?? ""
         )
+    }
+
+    private func copyAndReturn(to application: NSRunningApplication) {
+        guard !isReturningToApplication,
+              copyTranscriptToPasteboard(showConfirmation: false) else { return }
+        isReturningToApplication = true
+        Task { @MainActor in
+            let didActivate = await contextReturnController.activate(application)
+            isReturningToApplication = false
+            if didActivate {
+                contextReturned(locale)
+            } else {
+                destinationAlert = RecordingContextDestinationAlert(
+                    title: String(localized: "Context copied", locale: locale),
+                    message: String(
+                        localized: "Couldn’t return to the original app. Switch to your destination and press ⌘V to paste.",
+                        locale: locale
+                    )
+                )
+            }
+        }
     }
 
     private func showCopyToast(_ message: String) {
@@ -541,22 +524,6 @@ private struct RecordingContextDestinationAlert: Identifiable {
     let id = UUID()
     let title: String
     let message: String
-}
-
-private extension RecordingContextDestination {
-    var displayName: String {
-        switch self {
-        case .codex: "Codex"
-        case .claude: "Claude"
-        }
-    }
-
-    var assetName: String {
-        switch self {
-        case .codex: "CodexMark"
-        case .claude: "ClaudeMark"
-        }
-    }
 }
 
 private struct RecordingSidebarRow: View {
