@@ -10,7 +10,7 @@ ScreenContext captures a screen recording and sends it as context to your AI age
 
 ## From your screen to your agent
 
-1. **Choose your inputs.** Open Settings → Recordings. Select a screen or window, then choose whether to include system audio, microphone audio, and a webcam overlay.
+1. **Choose your inputs.** Open Settings → Recordings. Select a screen or window, then choose whether to include system audio, microphone audio, and a webcam overlay. Enable **Blur Background** under Webcam to blur the background in both the live preview and recording. You can also toggle blur from the webcam layout editor.
 2. **Capture the context.** With your agent's app active, press **⌃⌘R** to start. Record a product walkthrough, reproduce a bug, or capture a workflow. Press the shortcut again to stop.
 3. **Bring the recording back.** The recording opens automatically for review. Click **Copy & Return to [App]**, or press **⌘⇧C**, to copy its reference and switch back to your agent's app. Press **⌘V** there to paste.
 4. **Give the agent a task.** Add your request alongside the recording: “Fix the bug I demonstrated,” “Create a Linear issue,” or “Turn this walkthrough into a product presentation video.”

@@ -30,6 +30,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
     public var microphoneDeviceID: String?
     public var capturesWebcam: Bool
     public var webcamDeviceID: String?
+    public var blursWebcamBackground: Bool
     public var webcamLayout: WebcamLayout
     public var language: AppLanguage
     public var globalShortcut: GlobalShortcut
@@ -43,6 +44,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
         capturesWebcam: Bool = false,
         webcamDeviceID: String? = nil,
         webcamLayout: WebcamLayout = .defaultLayout,
+        blursWebcamBackground: Bool = false,
         language: AppLanguage = .system,
         globalShortcut: GlobalShortcut = .defaultShortcut
     ) {
@@ -54,6 +56,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
         self.capturesWebcam = capturesWebcam
         self.webcamDeviceID = webcamDeviceID
         self.webcamLayout = webcamLayout
+        self.blursWebcamBackground = blursWebcamBackground
         self.language = language
         self.globalShortcut = globalShortcut
     }
@@ -63,6 +66,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
     private enum CodingKeys: String, CodingKey {
         case selectedCaptureSourceID, lastCaptureSourceKind, capturesSystemAudio, capturesMicrophone
         case microphoneDeviceID, capturesWebcam, webcamDeviceID, webcamLayout, language, globalShortcut
+        case blursWebcamBackground
     }
 
     public init(from decoder: any Decoder) throws {
@@ -74,6 +78,7 @@ public struct PreferencesSnapshot: Codable, Equatable, Sendable {
         microphoneDeviceID = try values.decodeIfPresent(String.self, forKey: .microphoneDeviceID)
         capturesWebcam = try values.decodeIfPresent(Bool.self, forKey: .capturesWebcam) ?? false
         webcamDeviceID = try values.decodeIfPresent(String.self, forKey: .webcamDeviceID)
+        blursWebcamBackground = try values.decodeIfPresent(Bool.self, forKey: .blursWebcamBackground) ?? false
         webcamLayout = try values.decodeIfPresent(WebcamLayout.self, forKey: .webcamLayout) ?? .defaultLayout
         language = try values.decodeIfPresent(AppLanguage.self, forKey: .language) ?? .system
         // Older preferences only stored an enable switch. Always restore an active shortcut.

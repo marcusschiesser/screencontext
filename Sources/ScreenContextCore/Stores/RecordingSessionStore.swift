@@ -59,6 +59,12 @@ public final class RecordingSessionStore {
             overlayStateChanged?()
         }
     }
+    public var blursWebcamBackground: Bool {
+        didSet {
+            persist()
+            overlayStateChanged?()
+        }
+    }
     public var webcamLayout: WebcamLayout {
         didSet {
             persist(debounced: true)
@@ -143,6 +149,7 @@ public final class RecordingSessionStore {
         capturesWebcam = defaults.capturesWebcam
         webcamDeviceID = defaults.webcamDeviceID
         webcamLayout = defaults.webcamLayout
+        blursWebcamBackground = defaults.blursWebcamBackground
         language = defaults.language
         globalShortcut = defaults.globalShortcut
     }
@@ -531,7 +538,8 @@ public final class RecordingSessionStore {
                 microphoneDeviceID: microphoneDeviceID,
                 capturesWebcam: capturesWebcam,
                 webcamDeviceID: webcamDeviceID,
-                webcamLayout: webcamLayout
+                webcamLayout: webcamLayout,
+                blursWebcamBackground: blursWebcamBackground
             )
             let events = try await recordingPipeline.start(configuration: configuration)
             pipelineIsRecording = true
@@ -771,6 +779,7 @@ public final class RecordingSessionStore {
         capturesWebcam = snapshot.capturesWebcam
         webcamDeviceID = snapshot.webcamDeviceID
         webcamLayout = snapshot.webcamLayout
+        blursWebcamBackground = snapshot.blursWebcamBackground
         language = snapshot.language
         globalShortcut = snapshot.globalShortcut
     }
@@ -789,6 +798,7 @@ public final class RecordingSessionStore {
             capturesWebcam: capturesWebcam,
             webcamDeviceID: webcamDeviceID,
             webcamLayout: webcamLayout,
+            blursWebcamBackground: blursWebcamBackground,
             language: language,
             globalShortcut: globalShortcut
         )

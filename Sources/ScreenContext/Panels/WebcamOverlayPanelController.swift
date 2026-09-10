@@ -1,11 +1,10 @@
 @preconcurrency import AppKit
-@preconcurrency import AVFoundation
 import ScreenContextCore
 import SwiftUI
 
 @MainActor
 final class WebcamOverlayPanelController {
-    private static let shapePickerSize = CGSize(width: 224, height: 36)
+    private static let shapePickerSize = CGSize(width: 268, height: 36)
     private static let shapePickerSpacing: CGFloat = 3
 
     private let store: RecordingSessionStore
@@ -15,6 +14,14 @@ final class WebcamOverlayPanelController {
     private let previewSession = WebcamPreviewSession()
     private var geometryTask: Task<Void, Never>?
     private var isPresented = false
+    private var previewTask: Task<Void, Never>?
+    private var previewGeneration = UUID()
+    private var previewConfiguration: PreviewConfiguration?
+
+    private struct PreviewConfiguration: Equatable {
+        let cameraID: String?
+        let blursBackground: Bool
+    }
 
     init(store: RecordingSessionStore, finishEditing: @escaping @MainActor () -> Void) {
         self.store = store
@@ -52,6 +59,13 @@ final class WebcamOverlayPanelController {
                 .fullScreenAuxiliary,
                 .stationary,
             ]
+        }
+        previewTask = Task { @MainActor [weak self, frames = previewSession.frames] in
+            for await frame in frames {
+                guard let self else { return }
+                guard isPresented, frame.generation == previewGeneration else { continue }
+                contentView.displayPreview(frame.image)
+            }
         }
         panel.acceptsMouseMovedEvents = true
         panel.isFloatingPanel = true
@@ -96,11 +110,24 @@ final class WebcamOverlayPanelController {
             stopGeometryTracking()
             panel.orderOut(nil)
             shapePanel.orderOut(nil)
-            previewSession.stopAndWait()
+            stopPreview()
             return
         }
 
-        previewSession.start(cameraID: store.webcamDeviceID)
+        let configuration = PreviewConfiguration(
+            cameraID: store.webcamDeviceID,
+            blursBackground: store.blursWebcamBackground
+        )
+        if previewConfiguration != configuration {
+            previewConfiguration = configuration
+            previewGeneration = UUID()
+            contentView.displayPreview(nil)
+            previewSession.start(
+                cameraID: configuration.cameraID,
+                blursBackground: configuration.blursBackground,
+                generation: previewGeneration
+            )
+        }
         if case .window = source {
             startGeometryTracking()
         } else {
@@ -114,7 +141,14 @@ final class WebcamOverlayPanelController {
         contentView.setHovered(false)
         panel.orderOut(nil)
         shapePanel.orderOut(nil)
+        stopPreview()
+    }
+
+    private func stopPreview() {
+        previewGeneration = UUID()
+        previewConfiguration = nil
         previewSession.stopAndWait()
+        contentView.displayPreview(nil)
     }
 
     private func synchronizeGeometry() {
@@ -154,8 +188,7 @@ final class WebcamOverlayPanelController {
                 canvasSize: canvasSize,
                 cameraSize: CGSize(width: 1280, height: 720),
                 mask: store.webcamLayout.mask
-            ),
-            captureSession: previewSession.session
+            )
         )
         contentView.setPreviewAccessibilityLabel(
             String(
@@ -254,6 +287,13 @@ private struct WebcamShapePicker: View {
             .labelsHidden()
             .help("Choose webcam shape")
             .accessibilityLabel("Webcam shape")
+            Toggle(isOn: $store.blursWebcamBackground) {
+                Label("Blur Background", systemImage: "person.crop.rectangle")
+            }
+            .toggleStyle(.button)
+            .labelStyle(.iconOnly)
+            .help("Blur Background")
+            .accessibilityLabel("Blur Background")
             Button("Done", action: finishEditing)
         }
         .controlSize(.small)
@@ -425,14 +465,12 @@ private final class WebcamOverlayContentView: NSView {
         cornerRadius: CGFloat,
         mask: WebcamMask,
         size: WebcamSize,
-        maximumSize: WebcamSize,
-        captureSession: AVCaptureSession
+        maximumSize: WebcamSize
     ) {
         self.canvasFrame = canvasFrame
         self.maximumSize = maximumSize
         currentSize = WebcamSize(percentage: min(size.percentage, maximumSize.percentage))
         previewView.frame = bounds
-        previewView.previewLayer.session = captureSession
         previewView.layer?.cornerRadius = cornerRadius
         previewView.layer?.masksToBounds = true
         previewView.layer?.shadowOpacity = 0
@@ -440,6 +478,13 @@ private final class WebcamOverlayContentView: NSView {
         previewView.needsDisplay = true
         updateBorderAppearance()
         window?.invalidateCursorRects(for: self)
+    }
+
+    func displayPreview(_ image: CGImage?) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        previewView.layer?.contents = image
+        CATransaction.commit()
     }
 
     func setHovered(_ hovered: Bool) {
@@ -641,13 +686,11 @@ private enum ResizeHandle: CaseIterable {
 }
 
 private final class CameraLayerView: NSView {
-    let previewLayer = AVCaptureVideoPreviewLayer()
-
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
         wantsLayer = true
-        previewLayer.videoGravity = .resizeAspectFill
-        layer?.addSublayer(previewLayer)
+        layer?.contentsGravity = .resizeAspectFill
+        layer?.backgroundColor = NSColor.black.cgColor
     }
 
     required init?(coder: NSCoder) {
@@ -656,54 +699,5 @@ private final class CameraLayerView: NSView {
 
     override func hitTest(_ point: NSPoint) -> NSView? {
         nil
-    }
-
-    override func layout() {
-        super.layout()
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        previewLayer.frame = bounds
-        CATransaction.commit()
-    }
-}
-
-private final class WebcamPreviewSession: @unchecked Sendable {
-    let session = AVCaptureSession()
-    private let queue = DispatchQueue(label: "de.marcusschiesser.screencontext.webcam-preview", qos: .userInitiated)
-    private var activeCameraID: String?
-
-    func start(cameraID: String?) {
-        queue.async { [weak self] in
-            guard let self else { return }
-            if activeCameraID != cameraID || session.inputs.isEmpty {
-                configure(cameraID: cameraID)
-            }
-            if !session.isRunning {
-                session.startRunning()
-            }
-        }
-    }
-
-    func stopAndWait() {
-        queue.sync {
-            if session.isRunning {
-                session.stopRunning()
-            }
-        }
-    }
-
-    private func configure(cameraID: String?) {
-        session.beginConfiguration()
-        session.sessionPreset = .hd1280x720
-        session.inputs.forEach(session.removeInput)
-        defer { session.commitConfiguration() }
-        guard let camera = cameraID.flatMap(AVCaptureDevice.init(uniqueID:))
-                ?? AVCaptureDevice.default(for: .video),
-              let input = try? AVCaptureDeviceInput(device: camera),
-              session.canAddInput(input) else {
-            return
-        }
-        session.addInput(input)
-        activeCameraID = camera.uniqueID
     }
 }
