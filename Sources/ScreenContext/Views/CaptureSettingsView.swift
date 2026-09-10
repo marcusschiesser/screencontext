@@ -86,6 +86,7 @@ struct CaptureSettingsView: View {
                     )) {
                         ForEach(store.cameras) { Text($0.name).tag(Optional($0.id)) }
                     }
+                    Toggle("Blur Background", isOn: $store.blursWebcamBackground)
                     Button("Edit Webcam Layout…", action: editWebcamLayout)
                         .disabled(store.selectedCaptureSource == nil)
                 }

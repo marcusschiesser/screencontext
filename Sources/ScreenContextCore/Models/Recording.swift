@@ -7,6 +7,7 @@ public struct RecordingConfiguration: Equatable, Sendable {
     public let microphoneDeviceID: String?
     public let capturesWebcam: Bool
     public let webcamDeviceID: String?
+    public let blursWebcamBackground: Bool
     public let webcamLayout: WebcamLayout
     public init(
         source: CaptureSource,
@@ -15,7 +16,8 @@ public struct RecordingConfiguration: Equatable, Sendable {
         microphoneDeviceID: String?,
         capturesWebcam: Bool,
         webcamDeviceID: String?,
-        webcamLayout: WebcamLayout
+        webcamLayout: WebcamLayout,
+        blursWebcamBackground: Bool = false
     ) {
         self.source = source
         self.capturesSystemAudio = capturesSystemAudio
@@ -24,6 +26,7 @@ public struct RecordingConfiguration: Equatable, Sendable {
         self.capturesWebcam = capturesWebcam
         self.webcamDeviceID = webcamDeviceID
         self.webcamLayout = webcamLayout
+        self.blursWebcamBackground = blursWebcamBackground
     }
 }
 

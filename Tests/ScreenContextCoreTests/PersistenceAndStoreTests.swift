@@ -258,6 +258,47 @@ final class PersistenceAndStoreTests: XCTestCase {
         store.cancelRecording()
     }
 
+    @MainActor
+    func testWebcamBlurNotifiesPreviewPersistsAndReachesRecordingConfiguration() async {
+        let preferences = InMemoryPreferences(snapshot: PreferencesSnapshot(
+            capturesSystemAudio: false, capturesMicrophone: false
+        ))
+        let pipeline = TestRecordingPipeline(outputURL: temporaryRecordingURL())
+        let store = RecordingSessionStore(
+            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
+            captureAuthorization: PermittedCaptureAuthorization(),
+            preferencesStore: preferences,
+            recordingPipeline: pipeline
+        )
+        await store.initialize()
+        var previewUpdates = 0
+        store.overlayStateChanged = { previewUpdates += 1 }
+        store.blursWebcamBackground = true
+        XCTAssertGreaterThan(previewUpdates, 0)
+        for _ in 0..<100 {
+            if await preferences.load().blursWebcamBackground { break }
+            try? await Task.sleep(for: .milliseconds(10))
+        }
+        let persisted = await preferences.load()
+        XCTAssertTrue(persisted.blursWebcamBackground)
+
+        store.startRecording()
+        let didStart = await waitUntilOnMainActor { store.phase.isRecording }
+        XCTAssertTrue(didStart)
+        let configuration = await pipeline.configurationValue()
+        XCTAssertEqual(configuration?.blursWebcamBackground, true)
+        store.cancelRecording()
+
+        let restored = RecordingSessionStore(
+            sourceCatalog: TestSourceCatalog(screens: [makeScreen(id: 1, isPrimary: true)]),
+            captureAuthorization: PermittedCaptureAuthorization(),
+            preferencesStore: preferences,
+            recordingPipeline: TestRecordingPipeline(outputURL: temporaryRecordingURL())
+        )
+        await restored.initialize()
+        XCTAssertTrue(restored.blursWebcamBackground)
+    }
+
     func testWebcamSizeDecodesLegacyIntegerRepresentation() throws {
         let data = Data(#"{"mask":"rounded","size":32,"position":{"x":0.5,"y":0.5}}"#.utf8)
         let layout = try JSONDecoder().decode(WebcamLayout.self, from: data)

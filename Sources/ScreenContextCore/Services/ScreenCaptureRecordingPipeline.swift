@@ -94,7 +94,9 @@ public actor ScreenCaptureRecordingPipeline: RecordingPipeline {
             }
 
             if configuration.capturesWebcam {
-                let webcamCapture = WebcamCaptureSource { sampleBuffer in
+                let webcamCapture = WebcamCaptureSource(
+                    blursBackground: configuration.blursWebcamBackground
+                ) { sampleBuffer in
                     sampleForwarder.yieldWebcam(sampleBuffer)
                 }
                 try await webcamCapture.start(
@@ -439,8 +441,12 @@ private final class WebcamCaptureSource: NSObject, AVCaptureVideoDataOutputSampl
     )
     private let onSample: @Sendable (CMSampleBuffer) -> Void
     private var videoOutput: AVCaptureVideoDataOutput?
+    private let blursBackground: Bool
+    // Accessed exclusively on sampleQueue.
+    private let backgroundBlur = WebcamBackgroundBlurProcessor()
 
-    init(onSample: @escaping @Sendable (CMSampleBuffer) -> Void) {
+    init(blursBackground: Bool, onSample: @escaping @Sendable (CMSampleBuffer) -> Void) {
+        self.blursBackground = blursBackground
         self.onSample = onSample
     }
 
@@ -505,9 +511,16 @@ private final class WebcamCaptureSource: NSObject, AVCaptureVideoDataOutputSampl
 
     func captureOutput(
         _ output: AVCaptureOutput,
-        didOutput sampleBuffer: CMSampleBuffer,
+        didOutput inputSample: CMSampleBuffer,
         from connection: AVCaptureConnection
     ) {
+        let sampleBuffer: CMSampleBuffer
+        if blursBackground {
+            guard let processed = autoreleasepool(invoking: { backgroundBlur.process(sampleBuffer: inputSample) }) else { return }
+            sampleBuffer = processed
+        } else {
+            sampleBuffer = inputSample
+        }
         guard let synchronizationClock = session.synchronizationClock else {
             onSample(sampleBuffer)
             return
