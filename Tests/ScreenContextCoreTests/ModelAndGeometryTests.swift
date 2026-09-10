@@ -82,10 +82,12 @@ final class ModelAndGeometryTests: XCTestCase {
             CGSize(width: 1920, height: 1080),
             CGSize(width: 2560, height: 1440),
             CGSize(width: 1512, height: 982),
+            CGSize(width: 1080, height: 1920),
+            CGSize(width: 3440, height: 1440),
         ]
         for canvas in canvases {
             for mask in WebcamMask.allCases {
-                for size in [WebcamSize.small, .medium, .large, .extraLarge] {
+                for size in [WebcamSize.small, .medium, .large, .extraLarge, WebcamSize(percentage: 500)] {
                     let layout = WebcamLayout(
                         mask: mask,
                         size: size,
@@ -141,9 +143,46 @@ final class ModelAndGeometryTests: XCTestCase {
         )
 
         XCTAssertEqual(WebcamSize(percentage: -10), .small)
-        XCTAssertEqual(WebcamSize(percentage: 90), .extraLarge)
+        XCTAssertEqual(WebcamSize(percentage: 90).percentage, 90)
         XCTAssertGreaterThan(custom.frame.width, minimum.frame.width)
         XCTAssertLessThan(custom.frame.width, maximum.frame.width)
+    }
+
+    func testWebcamCanGrowToCanvasBordersForEveryMask() throws {
+        for canvas in [CGSize(width: 1920, height: 1080), CGSize(width: 1080, height: 1920)] {
+            for camera in [CGSize(width: 1280, height: 720), CGSize(width: 720, height: 1280)] {
+                for mask in WebcamMask.allCases {
+                    let size = WebcamLayoutEngine.maximumSize(
+                        canvasSize: canvas,
+                        cameraSize: camera,
+                        mask: mask
+                    )
+                    XCTAssertGreaterThan(size.percentage, 50)
+                    let layout = WebcamLayout(mask: mask, size: size)
+                    let placement = WebcamLayoutEngine.placement(
+                        canvasSize: canvas,
+                        cameraSize: camera,
+                        layout: layout
+                    )
+                    XCTAssertEqual(
+                        max(placement.frame.width / canvas.width, placement.frame.height / canvas.height),
+                        1,
+                        accuracy: 0.001
+                    )
+                    let oversized = WebcamLayoutEngine.placement(
+                        canvasSize: canvas,
+                        cameraSize: camera,
+                        layout: WebcamLayout(mask: mask, size: WebcamSize(percentage: size.percentage * 2))
+                    )
+                    XCTAssertEqual(placement, oversized)
+                    let restored = try JSONDecoder().decode(
+                        WebcamLayout.self,
+                        from: JSONEncoder().encode(layout)
+                    )
+                    XCTAssertEqual(restored, layout)
+                }
+            }
+        }
     }
 
     func testNormalizedPlacementIsIndependentOfDisplayOriginAndScale() {
