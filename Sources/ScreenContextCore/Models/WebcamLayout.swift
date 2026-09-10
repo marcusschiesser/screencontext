@@ -12,16 +12,12 @@ public enum WebcamMask: String, Codable, CaseIterable, Hashable, Identifiable, S
 
 public struct WebcamSize: Codable, Equatable, Sendable {
     public static let minimumPercentage = 15.0
-    public static let maximumPercentage = 50.0
 
     public let percentage: Double
 
     public init(percentage: Double) {
         let finitePercentage = percentage.isFinite ? percentage : 25
-        self.percentage = min(
-            max(finitePercentage, Self.minimumPercentage),
-            Self.maximumPercentage
-        )
+        self.percentage = max(finitePercentage, Self.minimumPercentage)
     }
 
     public var fraction: CGFloat { CGFloat(percentage / 100) }
@@ -84,6 +80,25 @@ public struct WebcamPlacement: Equatable, Sendable {
 }
 
 public enum WebcamLayoutEngine {
+    /// The largest size that preserves the mask's aspect ratio inside the canvas.
+    public static func maximumSize(
+        canvasSize: CGSize,
+        cameraSize: CGSize,
+        mask: WebcamMask
+    ) -> WebcamSize {
+        guard canvasSize.width > 0, canvasSize.height > 0 else { return .small }
+        let camera = cameraSize.width > 0 && cameraSize.height > 0
+            ? cameraSize
+            : CGSize(width: 16, height: 9)
+        let longestSide = max(camera.width, camera.height)
+        let isSquare = mask == .circle || mask == .square
+        let width = isSquare ? min(camera.width, camera.height) : camera.width
+        let height = isSquare ? width : camera.height
+        let scale = min(canvasSize.width / width, canvasSize.height / height)
+        let referenceDimension = sqrt(canvasSize.width * canvasSize.height)
+        return WebcamSize(percentage: Double(longestSide * scale / referenceDimension * 100))
+    }
+
     public static func placement(
         canvasSize: CGSize,
         cameraSize: CGSize,
@@ -97,7 +112,8 @@ public enum WebcamLayoutEngine {
             ? cameraSize
             : CGSize(width: 16, height: 9)
         let referenceDimension = sqrt(canvasSize.width * canvasSize.height)
-        let maximumDimension = referenceDimension * layout.size.fraction
+        let fittingSize = maximumSize(canvasSize: canvasSize, cameraSize: cameraSize, mask: layout.mask)
+        let maximumDimension = referenceDimension * min(layout.size.fraction, fittingSize.fraction)
         let scale = min(
             maximumDimension / safeCameraSize.width,
             maximumDimension / safeCameraSize.height

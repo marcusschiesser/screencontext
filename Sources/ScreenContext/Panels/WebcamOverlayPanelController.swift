@@ -150,6 +150,11 @@ final class WebcamOverlayPanelController {
             cornerRadius: placement.cornerRadius,
             mask: store.webcamLayout.mask,
             size: store.webcamLayout.size,
+            maximumSize: WebcamLayoutEngine.maximumSize(
+                canvasSize: canvasSize,
+                cameraSize: CGSize(width: 1280, height: 720),
+                mask: store.webcamLayout.mask
+            ),
             captureSession: previewSession.session
         )
         contentView.setPreviewAccessibilityLabel(
@@ -305,6 +310,7 @@ private final class WebcamOverlayContentView: NSView {
     private var resizeStartFrame = CGRect.zero
     private var resizeStartSize = WebcamSize.medium
     private var currentSize = WebcamSize.medium
+    private var maximumSize = WebcamSize.extraLarge
     private var canvasFrame = CGRect.zero
     private var isHovered = false
     private var pointerTrackingArea: NSTrackingArea?
@@ -419,10 +425,12 @@ private final class WebcamOverlayContentView: NSView {
         cornerRadius: CGFloat,
         mask: WebcamMask,
         size: WebcamSize,
+        maximumSize: WebcamSize,
         captureSession: AVCaptureSession
     ) {
         self.canvasFrame = canvasFrame
-        currentSize = size
+        self.maximumSize = maximumSize
+        currentSize = WebcamSize(percentage: min(size.percentage, maximumSize.percentage))
         previewView.frame = bounds
         previewView.previewLayer.session = captureSession
         previewView.layer?.cornerRadius = cornerRadius
@@ -516,7 +524,10 @@ private final class WebcamOverlayContentView: NSView {
             requestedScale = horizontalScale ?? verticalScale ?? 1
         }
         let requestedSize = WebcamSize(
-            percentage: resizeStartSize.percentage * Double(max(requestedScale, 0))
+            percentage: min(
+                resizeStartSize.percentage * Double(max(requestedScale, 0)),
+                maximumSize.percentage
+            )
         )
         let scale = CGFloat(requestedSize.percentage / resizeStartSize.percentage)
         let newSize = CGSize(
