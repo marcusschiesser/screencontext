@@ -5,11 +5,11 @@ description: "Design, build, or substantially change any ScreenContext product s
 
 # ScreenContext design guidance
 
-ScreenContext records a selected screen or window, optional audio and webcam video, then turns that evidence into paste-ready context for an AI.
+ScreenContext records a selected screen or window with optional audio and webcam video. Users can copy the local recording path for an AI agent or copy the video file for sharing. It also works as an everyday screen recorder.
 
-The product name is **ScreenContext**, written as one word with a capital S and C in every locale. Its public promise is **“Show your AI what you mean.”** Use the tagline in the README and promotional material; keep it out of compact controls and settings.
+The product name is **ScreenContext**, written as one word with a capital S and C in every locale. Its App Store and marketing tagline is **“Screen context for AI agents.”** Preserve that wording in promotional material; keep it out of compact controls and settings. Use **“Now on the App Store”** for the launch call to action.
 
-ScreenContext is an open-source macOS utility licensed under Apache-2.0. Describe what the app currently does. Do not imply an App Store release, enterprise edition, cloud service, or partnership exists before it ships.
+ScreenContext is free for Mac, available on the App Store, and open source on GitHub under Apache-2.0. Describe what the app currently does. Recordings stay local; copying does not upload or automatically attach them to another app. Do not imply that ScreenContext edits videos, makes website changes, or creates issues itself; an agent can use the recording to perform those tasks. Do not imply an enterprise edition, cloud service, or partnership exists.
 
 The established application is the visual reference. Preserve its compact layout, soft native materials, restrained accent color, and direct workflow. A product rename is not permission to restyle the interface.
 
@@ -72,7 +72,7 @@ The blue, cyan, coral, and orange brand colors belong primarily to the app icon 
 
 Use material only for objects that genuinely float over other applications or media.
 
-- The recording context area may use a quiet material card because it contains scrollable output.
+- The Recording file area may use a quiet material card because it contains a scrollable local path.
 - The video preview may retain a thin adaptive border and restrained shadow so it separates from the window.
 - Native windows, sidebars, lists, forms, menus, and dialogs keep their system surfaces.
 - Avoid nesting cards or giving peer sections competing colored outlines.
@@ -105,12 +105,13 @@ Start with the dimensions already encoded in the accepted views.
 
 ## Recording controls
 
-- Shift–Command–O toggles recording from any app.
+- Control–Command–R toggles recording from any app by default. Users can customize the global shortcut in Settings → Recordings.
 - The menu bar shows a recording indicator and monospaced elapsed time.
 - A nonactivating material overlay confirms start and stop; preparation and finalization stay visible while pending.
 - Recording actions remain available in the menu bar menu for keyboard and pointer access.
-- Capture sources and audio/webcam inputs live in Settings → Recording.
+- Capture sources and audio/webcam inputs live in Settings → Recordings.
 - The latest recording opens automatically after finalization.
+- To return to an agent or another destination after recording, start with that app active. Copy & Return remembers the app that was active when recording started.
 
 ## Webcam layout
 
@@ -123,17 +124,17 @@ Keep the accepted native sidebar and narrow detail layout.
 - Overall content width is approximately 860 points.
 - The detail column is approximately 620 points.
 - Present the video first at its established 572-point width.
-- Place the recording-context card below the video rather than beside it.
-- Keep Copy video as a small labeled-for-accessibility overlay button on the video.
-- Show only the recording heading and local video path in the context area.
-- Keep context copying as the small overlay action in the text area.
-- Long context scrolls inside its own view.
+- Place the Recording file card below the video and its copy actions.
+- Keep the native Copy Video button below the player. When a destination is available, place Copy Video & Return to [App] alongside it (Command–Option–Shift–C).
+- Show the Recording file heading and local video path in the file area. Long paths scroll inside their own view.
+- Keep Copy File Path below the path. When a destination is available, place Copy & Return to [App] alongside it (Command–Shift–C).
+- Return actions copy the selected content and reactivate the destination app; users press Command–V there to paste. The destination is remembered for recordings made during the current app session. Older recordings retain the standalone copy actions.
 - Keep the header concise: the recording date and time.
 - Keep Delete separated from Done and from copy actions.
 - Use a native confirmation dialog.
 - Keep sidebar rows lightweight. The accepted compact accent tile may remain; do not expand rows into cards.
 
-Do not widen the window to create side-by-side “evidence” panels. Do not add blue and orange panel borders, persistent filenames in panel headers, or two competing labeled copy buttons.
+Do not widen the window to create side-by-side “evidence” panels. Avoid blue and orange panel borders or persistent filenames in panel headers. Preserve the distinction between copying the video file and copying its path, with each action beside its corresponding return action.
 
 ## Settings
 
@@ -178,7 +179,9 @@ When refining the icon:
 Write for a capable person who may not know recording terminology.
 
 - Prefer short action verbs: Choose, Record, Stop, Copy, Retry, Restore, Delete.
-- Use “recording context” for the paste-ready output area.
+- Use “Recording file” for the local path area, “Copy File Path” for its standalone action, and “Copy Video” for copying the file itself.
+- Use “Copy & Return to [App]” for copying the path and returning, and “Copy Video & Return to [App]” for copying the file and returning. Substitute the actual destination app name.
+- In explanatory copy, “screen context” means a recording used by an AI agent. The copied reference is a local MP4 path, not a generated transcript or summary. Agents need access to that file and the ability to process video; otherwise users must attach the recording manually.
 - Use “screen or window” when both are supported.
 - Keep runtime names and filenames truthful.
 - Use ScreenContext in menus, window titles, permission explanations, accessibility labels, translations, and new recording filenames.
@@ -212,10 +215,9 @@ The rejected redesign made the app worse by over-interpreting the capture-to-con
 
 - Do not assign blue and orange to entire workflow halves.
 - Do not widen the recordings window from 860 to 1120 points.
-- Do not place video and recording context side by side.
+- Do not place video and the Recording file area side by side.
 - Do not wrap both result areas in branded outlined cards.
 - Do not enlarge Settings or introduce extra visual grouping.
-- Do not replace capsule placeholder tokens with standard bordered buttons.
 - Do not redesign the app icon away from its glossy clipboard/play language. The ScreenContext screen frame replaces broadcast arcs without changing the material style.
 
 A new proposal should first demonstrate a concrete usability problem in the accepted design. Solve that problem with the smallest possible change and verify the change in the actual app before expanding it.
@@ -229,7 +231,7 @@ Review significant UI changes in light and dark appearance and with these states
 3. Active recording beyond one hour.
 4. A nonfatal recording warning.
 5. WYSIWYG webcam placement near each capture edge.
-6. Completed recording with video and context.
+6. Completed recording with video, local file path, and both copy-action rows; check return actions with and without an available destination.
 7. Several recording-history rows.
 8. German, Russian, CJK, and Arabic localization stress.
 

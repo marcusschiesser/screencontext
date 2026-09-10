@@ -1,0 +1,74 @@
+1
+00:00:00,000 --> 00:00:03,533
+I built a little app for sending
+screencasts to my agents.
+
+2
+00:00:03,533 --> 00:00:05,433
+It’s called ScreenContext.
+
+3
+00:00:05,433 --> 00:00:07,533
+Just start it from your agent
+
+4
+00:00:07,533 --> 00:00:08,867
+and record the changes.
+
+5
+00:00:08,867 --> 00:00:11,137
+This heading should be shorter.
+
+6
+00:00:11,137 --> 00:00:13,767
+And this button here
+is very hard to see.
+
+7
+00:00:13,767 --> 00:00:14,067
+Stop recording.
+
+8
+00:00:14,067 --> 00:00:15,500
+Click Copy & Return.
+
+9
+00:00:15,500 --> 00:00:15,950
+Click Copy & Return.
+
+10
+00:00:15,950 --> 00:00:16,800
+Paste it into your agent,
+
+11
+00:00:16,800 --> 00:00:17,450
+Paste it into your agent,
+
+12
+00:00:17,450 --> 00:00:19,167
+and tell it what to do.
+
+13
+00:00:19,167 --> 00:00:21,800
+Make the changes
+that are described.
+
+14
+00:00:22,700 --> 00:00:24,100
+Here’s the result:
+
+15
+00:00:24,100 --> 00:00:25,250
+a shorter heading
+
+16
+00:00:25,250 --> 00:00:27,200
+and a button that stands out.
+
+17
+00:00:27,200 --> 00:00:28,850
+That’s ScreenContext.
+
+18
+00:00:28,850 --> 00:00:30,233
+Now on the App Store.

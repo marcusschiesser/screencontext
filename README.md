@@ -4,7 +4,7 @@
 
 ScreenContext captures a screen recording and sends it as context to your AI agent. The agent can use that context to make a product video, fix a bug, or create a ticket.
 
-[![ScreenContext — Use your screen recording in your AI agent](docs/media/screencontext-readme-hero.png)](https://apps.apple.com/app/id6809044710)
+[![ScreenContext — Use your screen recording in your AI agent](marketing/readme/screencontext-readme-hero.png)](https://apps.apple.com/app/id6809044710)
 
 [Mac App Store](https://apps.apple.com/app/id6809044710) · Free · macOS 15+
 
@@ -60,6 +60,10 @@ Run the checks:
 The audio-output test requires access to the macOS AAC encoder. Restricted execution environments report a capability skip; run the scripts outside that restriction to validate actual media encoding.
 
 The app uses Swift, SwiftUI, ScreenCaptureKit, and native macOS media APIs. See [design.md](design.md) for interface guidance.
+
+## Contributing
+
+Bug reports, ideas, and feature requests are welcome. Pull requests are limited to bug fixes. See [how to contribute](contribution.md).
 
 ## License
 
