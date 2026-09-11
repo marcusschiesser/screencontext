@@ -8,6 +8,8 @@ ScreenContext captures a screen recording and sends it as context to your AI age
 
 [Mac App Store](https://apps.apple.com/app/id6809044710) · Free · macOS 15+
 
+**[Watch the 34-second demo](marketing/2026-09-launch/screencontext-launch.mp4)** — Record a request for a shorter website heading and a more visible button, pass it to an AI agent, and see the result.
+
 ## From your screen to your agent
 
 1. **Choose your inputs.** Open Settings → Recordings. Select a screen or window, then choose whether to include system audio, microphone audio, and a webcam overlay. Enable **Blur Background** under Webcam to blur the background in both the live preview and recording. You can also toggle blur from the webcam layout editor.
