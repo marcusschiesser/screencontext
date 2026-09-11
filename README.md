@@ -8,7 +8,9 @@ ScreenContext captures a screen recording and sends it as context to your AI age
 
 [Mac App Store](https://apps.apple.com/app/id6809044710) · Free · macOS 15+
 
-**[Watch the 34-second demo](marketing/2026-09-launch/screencontext-launch.mp4)** — Record a request for a shorter website heading and a more visible button, pass it to an AI agent, and see the result.
+**[Watch the 34-second demo on X](https://x.com/MarcusSchiesser/status/2097966755108864429)** · [Download the MP4](https://raw.githubusercontent.com/marcusschiesser/screencontext/main/marketing/2026-09-launch/screencontext-launch.mp4)
+
+Record a request for a shorter website heading and a more visible button, pass it to an AI agent, and see the result.
 
 ## From your screen to your agent
 
